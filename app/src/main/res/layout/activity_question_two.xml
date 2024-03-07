@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/qusetionbackground"
+    tools:context=".QuestionTwo">
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="132dp"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:text="  How committed to a "
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="healthy diet"
+        android:textColor="#7FB1B4"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textView9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="34dp"
+        android:layout_marginRight="34dp"
+        android:fontFamily="sans-serif-thin"
+        android:text=" are you?"
+        android:textColor="@color/black"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <LinearLayout
+        android:layout_width="352dp"
+        android:layout_height="412dp"
+        android:layout_marginTop="44dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <Button
+            android:id="@+id/button1"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/good"
+            android:fontFamily="sans-serif-thin"
+            android:padding="16dp"
+            android:text="I am a healthy person"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button2"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ok"
+            android:fontFamily="sans-serif-thin"
+            android:padding="16dp"
+            android:text="A little bit committed"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:backgroundTint="#F9F5F2" />
+
+        <Button
+            android:id="@+id/button3"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/notok"
+            android:fontFamily="sans-serif-thin"
+            android:padding="16dp"
+            android:text="never committed"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/Next"
+            android:layout_width="248dp"
+            android:layout_height="55dp"
+            android:layout_margin="50dp"
+            android:text="Next"
+            android:textStyle="bold"
+            app:backgroundTint="#7FB1B4"/>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
