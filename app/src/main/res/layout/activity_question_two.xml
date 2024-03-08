@@ -16,6 +16,7 @@
         android:gravity="center"
         android:text="  How committed to a "
         android:textSize="34sp"
+        android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

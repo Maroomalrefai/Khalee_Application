@@ -13,7 +13,7 @@ public class Question extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
-        next = findViewById(R.id.button5);
+        next = findViewById(R.id.Next);
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
