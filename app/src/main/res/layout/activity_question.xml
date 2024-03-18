@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Question">
+    tools:context=".Question"
+    android:background="#FFF9EA">
 
 
     <TextView
         android:id="@+id/Birth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-thin"
         android:gravity="center"
         android:text="Birth of Date?"
@@ -31,138 +32,130 @@
         android:ems="10"
         android:hint="dd/mm/yy"
         android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/textView7"
+        app:layout_constraintBottom_toTopOf="@+id/qustionparta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Birth" />
 
+
     <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
+        android:id="@+id/qustionparta"
+        android:layout_width="305dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="72dp"
         android:fontFamily="sans-serif-thin"
         android:gravity="center"
-        android:text="Do you suffer from a "
+        android:text="Do you suffer from a type of "
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView8"
+        app:layout_constraintBottom_toTopOf="@+id/qustionpartb"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.171"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/qustionpartb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="29dp"
-        android:layout_marginLeft="29dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
+        android:layout_marginStart="34dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="240dp"
+        android:layout_marginBottom="4dp"
         android:fontFamily="sans-serif-thin"
-        android:text="type of"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/textView9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="148dp"
-        android:layout_marginRight="148dp"
-        android:layout_marginBottom="24dp"
-        android:fontFamily="sans-serif-thin"
-        android:text=" food allergy?"
-        android:textColor="#7FB1B4"
+        android:text="food allergy?"
+        android:textColor="#FFCC00"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/qustionparta" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="349dp"
-        android:layout_height="429dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="81dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/qustionparta"
+
         app:layout_constraintVertical_bias="0.202">
 
-        <Button
-            android:id="@+id/button1"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="fill_parent"
+        <CheckBox
+            android:id="@+id/treenut"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/good"
-            android:fontFamily="sans-serif-thin"
+            android:checked="false"
             android:padding="16dp"
-            android:text="No l don’t."
+            android:text="Tree nut."
             android:textColor="@color/black"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            app:buttonTint="#FDB441" />
 
-        <Button
-            android:id="@+id/button2"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="fill_parent"
+        <CheckBox
+            android:id="@+id/gluten"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ok"
-            android:fontFamily="sans-serif-thin"
+            android:checked="false"
             android:padding="16dp"
-            android:text=" Gluten Intolerance."
+            android:text="Gluten."
             android:textColor="@color/black"
             android:textSize="24sp"
-            android:textStyle="bold"
-            app:backgroundTint="#F9F5F2" />
+            app:buttonTint="#FDB441" />
 
-        <Button
-            android:id="@+id/button3"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="fill_parent"
+        <CheckBox
+            android:id="@+id/lactose"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/notok"
-            android:fontFamily="sans-serif-thin"
+            android:checked="false"
             android:padding="16dp"
-            android:text="Lactose intolerance."
+            android:text="Lactose."
             android:textColor="@color/black"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            app:buttonTint="#FDB441" />
 
-        <Button
-            android:id="@+id/buttonfour"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="fill_parent"
+        <CheckBox
+            android:id="@+id/peannut"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/notok"
-            android:fontFamily="sans-serif-thin"
+            android:checked="false"
             android:padding="16dp"
-            android:text="Peanut allegry."
+            android:text="peanut."
             android:textColor="@color/black"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            app:buttonTint="#FDB441" />
 
-        <Button
-            android:id="@+id/Next"
-            android:layout_width="248dp"
-            android:layout_height="55dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="20dp"
-            android:text="Next"
-            android:textStyle="bold"
-            app:backgroundTint="#7FB1B4" />
+        <CheckBox
+            android:id="@+id/egg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:padding="16dp"
+            android:text="Eggs."
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:buttonTint="#FDB441" />
+
     </LinearLayout>
 
+    <Button
+        android:id="@+id/Next"
+        android:layout_width="248dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="12dp"
+        android:text="Next"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:backgroundTint="#FDB441"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

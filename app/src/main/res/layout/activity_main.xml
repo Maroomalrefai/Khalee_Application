@@ -26,7 +26,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-thin"
         android:gravity="center"
-        android:text="Shop smart, with our smart system for ingredients detection."
+        android:text="Scan ingredients to check for non-compliant products"
         android:textColor="#7FB0B3"
         android:textSize="24sp"
         android:textStyle="bold"
