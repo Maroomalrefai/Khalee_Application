@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "476204452705",
+    "project_id": "salladb-e47fb",
+    "storage_bucket": "salladb-e47fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476204452705:android:c06c9a8aefbfd2e8189320",
+        "android_client_info": {
+          "package_name": "com.example.sallaapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2z2DD_NJhKCN3I8sKIFDXgVccJaMQdh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
