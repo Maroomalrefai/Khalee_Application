@@ -42,6 +42,7 @@
             android:fontFamily="sans-serif-black"
             android:hint="Email"
             android:textColorHint="#7DADB0"
+            app:hintTextColor="#7DB39C"
             android:textStyle="bold" />
 
 
@@ -60,7 +61,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
             android:hint="Password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            app:hintTextColor="#7DB39C" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
