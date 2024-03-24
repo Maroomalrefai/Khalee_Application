@@ -10,6 +10,8 @@
     <include
         android:id="@+id/include"
         layout="@layout/apppar"
+        android:layout_width="412dp"
+        android:layout_height="44dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,7 +21,7 @@
         android:layout_width="362dp"
         android:layout_height="168dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="30dp"
         android:backgroundTint="#FAF0C7"
@@ -34,25 +36,15 @@
         app:layout_constraintTop_toBottomOf="@+id/include">
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:fontFamily="sans-serif"
-            android:text="Communities"
-            android:textColor="#507464"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-
     </androidx.cardview.widget.CardView>
+
     <TextView
         android:layout_width="78dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="303dp"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/overlock"
         android:text="History"
         android:textColor="#507464"
         android:textSize="24sp"
@@ -91,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:layout_marginLeft="150dp"
-            android:fontFamily="sans-serif"
+            android:fontFamily="@font/overlock"
             android:textSize="18sp"
             android:textColor="#507464"
             android:text="Scan your first product"
@@ -104,30 +96,18 @@
         android:layout_width="362dp"
         android:layout_height="150dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="44dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="30dp"
         android:backgroundTint="#FAF0C7"
         android:clickable="true"
         android:focusable="true"
         app:cardCornerRadius="10dp"
         app:cardElevation="50dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/history">
 
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Recommended"
-            android:fontFamily="sans-serif"
-            android:textSize="24sp"
-            android:layout_marginLeft="0dp"
-            android:textColor="#507464"
-            android:textStyle="bold" />
 
     </androidx.cardview.widget.CardView>
 
@@ -142,6 +122,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recommended"
         app:srcCompat="@drawable/baseline_camera_alt_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="6dp"
+        android:fontFamily="@font/overlock"
+        android:text="Communities"
+        android:textColor="#507464"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/joinCommunities"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/overlock"
+        android:text="Recommended"
+        android:textColor="#507464"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recommended"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/history" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
