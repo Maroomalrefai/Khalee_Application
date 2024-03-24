@@ -6,4 +6,5 @@
     </style>
 
     <style name="Theme.SallaApplication" parent="Base.Theme.SallaApplication" />
+
 </resources>
