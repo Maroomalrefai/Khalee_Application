@@ -88,8 +88,7 @@
             android:fontFamily="sans-serif-black"
             android:hint="Password"
             android:inputType="textPassword"
-            app:hintTextColor="#7DB39C"
-            android:textColorHint="#7DB39C"
+            app:hintTextColor="#7DADB0"
             />
 
 
