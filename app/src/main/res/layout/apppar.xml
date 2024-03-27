@@ -4,6 +4,5 @@
     android:id="@+id/bar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="#FCB341"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
-</androidx.constraintlayout.widget.ConstraintLayout>
+    android:background="#4F7D94"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"></androidx.constraintlayout.widget.ConstraintLayout>
