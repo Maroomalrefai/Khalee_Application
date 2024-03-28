@@ -7,7 +7,9 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.adapter.CommunitiesAdapter;
 import com.adapter.RecentsAdapter;
+import com.model.CommunitiesData;
 import com.model.RecentData;
 
 import java.util.ArrayList;
@@ -16,6 +18,8 @@ import java.util.List;
 public class Home extends AppCompatActivity {
     RecyclerView recentRecycler;
     RecentsAdapter recentsAdapter;
+    RecyclerView communitiesRecycler;
+    CommunitiesAdapter communitiesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,14 @@ public class Home extends AppCompatActivity {
 
         setRecentRecycler(recentDataList);
 
+        List<CommunitiesData> communitiesDatalist=new ArrayList<>();
+        communitiesDatalist.add(new CommunitiesData("Tree Nut Community",R.drawable.logo));
+        communitiesDatalist.add(new CommunitiesData("Egg Community",R.drawable.logo));
+        communitiesDatalist.add(new CommunitiesData("Lactose Community",R.drawable.logo));
+        communitiesDatalist.add(new CommunitiesData("Gluten Community",R.drawable.logo));
+        communitiesDatalist.add(new CommunitiesData("Seasem Community",R.drawable.logo));
+        setCommunitiesRecycler(communitiesDatalist);
+
     }
 
     private void setRecentRecycler(List<RecentData> recentsDataList) {
@@ -38,5 +50,13 @@ public class Home extends AppCompatActivity {
         recentRecycler.setLayoutManager(layoutManager);
         recentsAdapter = new RecentsAdapter(this, recentsDataList);
         recentRecycler.setAdapter(recentsAdapter);
+    }
+
+    private void setCommunitiesRecycler(List<CommunitiesData> communitiesDatalist) {
+        communitiesRecycler = findViewById(R.id.communitiesRecyclerView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, communitiesRecycler.HORIZONTAL, false);
+        communitiesRecycler.setLayoutManager(layoutManager);
+        communitiesAdapter=new CommunitiesAdapter(this,communitiesDatalist);
+        communitiesRecycler.setAdapter(communitiesAdapter);
     }
 }
