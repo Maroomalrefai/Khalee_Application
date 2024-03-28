@@ -1,248 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF9EA">
+    tools:context=".Home2"
 
-    <include
-<<<<<<<<< Temporary merge branch 1
-        layout="@layout/apppar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    >
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="30dp"
-        android:layout_marginTop="70dp"
-        app:layout_constraintTop_toBottomOf="@+id/apppar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/joinCommunities"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#FAF0C7"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
-
-            <ImageView
-                android:id="@+id/comImage"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                app:srcCompat="@drawable/logo" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Communities"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textStyle="bold" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:backgroundTint="#FAF0C7"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
-
-            <ImageView
-                android:id="@+id/hisImage"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                app:srcCompat="@drawable/logo" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="History"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textStyle="bold" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/recommended"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:backgroundTint="#FAF0C7"
-            android:clickable="true"
-            android:focusable="true"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp">
-
-            <ImageView
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/logo" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Recommended"
-                android:textAlignment="center"
-                android:textColor="@android:color/black"
-                android:textStyle="bold" />
-
-        </androidx.cardview.widget.CardView>
-
-    </LinearLayout>
-=========
-        android:id="@+id/include"
-        layout="@layout/apppar"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="175dp"
+        android:layout_marginBottom="38dp"
+        android:background="@drawable/upperbar"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/joinCommunities"
-        android:layout_width="362dp"
-        android:layout_height="168dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="#FAF0C7"
-        android:clickable="true"
-        android:focusable="true"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/history"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include">
-
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:fontFamily="sans-serif"
-            android:text="Communities"
-            android:textColor="#507464"
+            android:id="@+id/textView2"
+            android:layout_width="97dp"
+            android:layout_height="39dp"
+            android:layout_marginStart="39dp"
+            android:layout_marginLeft="39dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="257dp"
+            android:layout_marginRight="257dp"
+            android:fontFamily="@font/overlock"
+            android:text="Find your"
+            android:textColor="@color/white"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            app:layout_constraintBottom_toTopOf="@+id/textView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-    </androidx.cardview.widget.CardView>
-    <TextView
-        android:layout_width="78dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="303dp"
-        android:fontFamily="sans-serif"
-        android:text="History"
-        android:textColor="#507464"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/history"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/joinCommunities" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/history"
-        android:layout_width="362dp"
-        android:layout_height="168dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="20dp"
-        android:backgroundTint="#FAF0C7"
-        android:clickable="true"
-        android:focusable="true"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/joinCommunities">
-
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="135dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="61dp"
+            android:layout_marginLeft="61dp"
+            android:layout_marginEnd="197dp"
+            android:layout_marginRight="197dp"
+            android:fontFamily="@font/overlock"
+            android:text="Next product:"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <ImageView
-            android:id="@+id/hisChar"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            app:srcCompat="@drawable/charectertwo" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:layout_marginLeft="150dp"
-            android:fontFamily="sans-serif"
-            android:textSize="18sp"
-            android:textColor="#507464"
-            android:text="Scan your first product"
-            android:textStyle="bold"/>
+            android:id="@+id/imageView2"
+            android:layout_width="68dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="301dp"
+            android:layout_marginLeft="301dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.787"
+            app:srcCompat="@drawable/profileicon" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/recommended"
-        android:layout_width="362dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="30dp"
-        android:backgroundTint="#FAF0C7"
-        android:clickable="true"
-        android:focusable="true"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="50dp"
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="29dp"
+        android:layout_marginEnd="237dp"
+        android:layout_marginBottom="2dp"
+        android:fontFamily="@font/overlock"
+        android:text="Clean for you:"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recent_Recycle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/history">
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="1dp"
+        android:fontFamily="@font/overlock"
+        android:text="see all"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/recent_Recycle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Recommended"
-            android:fontFamily="sans-serif"
-            android:textSize="24sp"
-            android:layout_marginLeft="0dp"
-            android:textColor="#507464"
-            android:textStyle="bold" />
-
-    </androidx.cardview.widget.CardView>
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="155dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="128dp"
-        android:layout_marginEnd="128dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recent_Recycle"
+        android:layout_width="390dp"
+        android:layout_height="225dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="350dp"
+        android:background="#E1EDF1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recommended"
-        app:srcCompat="@drawable/baseline_camera_alt_24" />
-
-
->>>>>>>>> Temporary merge branch 2
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 </androidx.constraintlayout.widget.ConstraintLayout>
