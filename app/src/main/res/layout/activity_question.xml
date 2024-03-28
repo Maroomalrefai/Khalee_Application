@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:fillViewport="false"
-    android:background="#FFF9EF"
+    android:background="#FEFEFE"
     >
 
     <LinearLayout
@@ -71,7 +71,7 @@
             android:layout_marginLeft="18dp"
             android:fontFamily="@font/overlock"
             android:text="food allergy?"
-            android:textColor="#FFCC00"
+            android:textColor="#FE8247"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -105,7 +105,7 @@
                 android:text="Tree Nut."
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                app:buttonTint="#FDB441" />
+                app:buttonTint="#4F7D94" />
 
             <CheckBox
                 android:id="@+id/gluten"
@@ -118,7 +118,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                app:buttonTint="#FDB441" />
+                app:buttonTint="#4F7D94" />
 
             <CheckBox
                 android:id="@+id/lactose"
@@ -131,7 +131,7 @@
                 android:text="Lactose."
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                app:buttonTint="#FDB441" />
+                app:buttonTint="#4F7D94" />
 
             <CheckBox
                 android:id="@+id/peannut"
@@ -144,7 +144,7 @@
                 android:text="Peanut."
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                app:buttonTint="#FDB441" />
+                app:buttonTint="#4F7D94" />
             <CheckBox
                 android:id="@+id/seafood"
                 android:layout_width="wrap_content"
@@ -156,7 +156,7 @@
                 android:text="Sea Food."
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                app:buttonTint="#FDB441" />
+                app:buttonTint="#4F7D94" />
             <CheckBox
                 android:id="@+id/seasem"
                 android:layout_width="wrap_content"
@@ -168,7 +168,7 @@
                 android:text="Seasem."
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                app:buttonTint="#FDB441" />
+                app:buttonTint="#4F7D94" />
 
             <CheckBox
                 android:id="@+id/egg"
@@ -181,7 +181,7 @@
                 android:text="Eggs."
                 android:textColor="@color/black"
                 android:textSize="22sp"
-                app:buttonTint="#FDB441" />
+                app:buttonTint="#4F7D94" />
 
         </LinearLayout>
 
@@ -203,7 +203,7 @@
             android:fontFamily="@font/overlock"
             android:gravity="center"
             android:text="Ingredients?"
-            android:textColor="#FFCC00"
+            android:textColor="#FE8247"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintVertical_bias="0.202" />
@@ -211,8 +211,8 @@
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_height="wrap_content"
-            app:boxStrokeColor="#7DB39C"
-            app:hintTextColor="#7DB39C">
+            app:boxStrokeColor="#4F7D94"
+            app:hintTextColor="#4F7D94">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ingrediant"
@@ -247,7 +247,7 @@
             android:text="Yes"
             android:layout_marginLeft="10dp"
             android:textSize="23sp"
-            app:buttonTint="#FDB441" />
+            app:buttonTint="#4F7D94" />
 
 
         <RadioButton
@@ -258,7 +258,7 @@
             android:button="?android:attr/listChoiceIndicatorMultiple"
             android:text="No"
             android:textSize="23sp"
-            app:buttonTint="#FDB441" />
+            app:buttonTint="#4F7D94" />
 
         <TextView
             android:id="@+id/policess"
@@ -280,7 +280,7 @@
             android:text="I agree"
             android:textStyle="bold"
             android:textSize="18sp"
-            app:buttonTint="#FDB441" />
+            app:buttonTint="#4F7D94" />
 
         <Button
             android:id="@+id/Next"
@@ -292,7 +292,7 @@
             android:textSize="24sp"
             android:textStyle="bold"
             app:rippleColor="#FAF0C7"
-            app:backgroundTint="#FDB441"
+            app:backgroundTint="#4F7D94"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
     </LinearLayout>
