@@ -164,7 +164,7 @@
             android:fontFamily="@font/overlock"
             android:gravity="center"
             android:text="Registerd"
-            android:textColor="#FE8247"
+            android:textColor="@color/black"
             android:textSize="20sp" />
     </RadioGroup>
 

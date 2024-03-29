@@ -46,15 +46,14 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 boolean isSelected = ((AppCompatRadioButton)view).isChecked();
-                int id = view.getId();
                 if (view.getId() == R.id.rbLeft) {
                     if (isSelected) {
                         rbLeft.setTextColor(Color.WHITE);
-                        rbRight.setTextColor(Color.RED);
+                        rbRight.setTextColor(Color.BLACK);
                     }
                 } else if (view.getId() == R.id.rbRight) {
                     if (isSelected) {
-                        rbLeft.setTextColor(Color.RED);
+                        rbLeft.setTextColor(Color.BLACK);
                         rbRight.setTextColor(Color.WHITE);
                     }
                 }

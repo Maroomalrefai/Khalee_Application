@@ -1,95 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bac"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/signuppagebg"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="10dp"
-    tools:context=".SignUp"
-    >
+    tools:context=".SignUp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:background="@drawable/upperbar"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/welcome"
+            android:layout_width="321dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="84dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="59dp"
+            android:fontFamily="@font/overlock"
+            android:text="Let's get you Registered!"
+            android:textColor="#FEF3ED"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <TextView
-        android:id="@+id/newAccount"
-        android:layout_width="216dp"
-        android:layout_height="78dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginBottom="18dp"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center"
-        android:text="Create New Account!"
-        android:textColor="#374E44"
-        android:textSize="34sp"
-        android:textStyle="bold" />
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rbLeft"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/radio_button_left_selector"
+            android:button="@color/text"
+            android:checked="true"
+            android:fontFamily="@font/overlock"
+            android:gravity="center"
+            android:text="Login"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/rbRight"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/radio_button_right_selector"
+            android:button="@color/text"
+            android:checked="true"
+            android:fontFamily="@font/overlock"
+            android:gravity="center"
+            android:text="Registerd"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </RadioGroup>
 
     <TextView
         android:id="@+id/loginNow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_width="245dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="200dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Already Registered? Log in here." />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/username"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:fontFamily="sans-serif-black"
-            android:hint="Username"
-            android:inputType="text"
-            android:textColorHint="#7DADB0"
-            app:boxStrokeColor="#7DB39C"
-            app:hintTextColor="#7DB39C"/>
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/email"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:fontFamily="sans-serif-black"
-            android:hint="Email"
-            android:textColorHint="#7DADB0"
-            android:textStyle="bold"
-            app:boxStrokeColor="#7DB39C"
-            app:hintTextColor="#7DB39C"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
+        android:text="Already Registered? Register please."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="352dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/signUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.36"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintVertical_bias="0.352"
         app:passwordToggleEnabled="true">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:fontFamily="sans-serif-black"
-            android:hint="Password"
-            android:inputType="textPassword"
-            app:hintTextColor="#7DADB0"
-            />
 
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -98,18 +119,86 @@
         android:id="@+id/passwordFeedbackTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:visibility="gone" />
+        android:layout_marginStart="183dp"
+        android:layout_marginTop="511dp"
+        android:layout_marginEnd="210dp"
+        android:layout_marginBottom="299dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/signUp"
         android:layout_width="248dp"
         android:layout_height="55dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/overlock"
         android:text="Sign Up"
-        android:textSize="20dp"
-        app:backgroundTint="#FAD18F"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:backgroundTint="#4F7D94"
+        app:layout_constraintBottom_toTopOf="@+id/loginNow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email"
         app:rippleColor="#FAF6F3" />
-</LinearLayout>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/password"
+        android:layout_width="0dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/overlock"
+        android:hint="Email"
+        android:textColorHint="#4F7D94"
+        android:textStyle="bold"
+        app:boxStrokeColor="#7DB39C"
+        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/email"
+        android:layout_width="0dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/overlock"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColorHint="#4F7D94"
+        android:textStyle="bold"
+        app:boxStrokeColor="#7DB39C"
+        app:hintTextColor="#7DB39C"
+        app:layout_constraintBottom_toTopOf="@+id/signUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/username"
+        android:layout_width="0dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/overlock"
+        android:hint="Username"
+        android:inputType="text"
+        android:textColorHint="#4F7D94"
+        android:textStyle="bold"
+        app:boxStrokeColor="#7DB39C"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
