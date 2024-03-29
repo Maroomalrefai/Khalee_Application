@@ -2,8 +2,10 @@ package com.example.sallaapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatRadioButton;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -26,7 +28,7 @@ public class SignUp extends AppCompatActivity {
     Button signUp;
     EditText editTextEmail,editTextPass,editTextUsername;
     FirebaseAuth mAuth;
-
+    AppCompatRadioButton rbLeft, rbRight;
     TextView textView;
     TextInputLayout passwordInputLayout;
     TextView passwordFeedbackTextView;
@@ -35,7 +37,8 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
+        rbLeft= findViewById(R.id.rbLeft);
+        rbRight = findViewById(R.id.rbRight);
         signUp = findViewById(R.id.signUp);
         editTextEmail=findViewById(R.id.email);
         editTextPass=findViewById(R.id.password);
@@ -95,9 +98,21 @@ public class SignUp extends AppCompatActivity {
                 // Unused
             }
         });
-        textView.setOnClickListener(new View.OnClickListener() {
+        rbLeft.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                boolean isSelected = ((AppCompatRadioButton)view).isChecked();
+                if (view.getId() == R.id.rbLeft) {
+                    if (isSelected) {
+                        rbLeft.setTextColor(Color.WHITE);
+                        rbRight.setTextColor(Color.BLACK);
+                    }
+                } else if (view.getId() == R.id.rbRight) {
+                    if (isSelected) {
+                        rbLeft.setTextColor(Color.BLACK);
+                        rbRight.setTextColor(Color.WHITE);
+                    }
+                }
                 Intent intent =new Intent(getApplicationContext(),Login.class);
                 startActivity(intent);
                 finish();
