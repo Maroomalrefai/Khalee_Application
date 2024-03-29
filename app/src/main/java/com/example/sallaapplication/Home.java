@@ -35,6 +35,7 @@ public class Home extends AppCompatActivity {
         setRecentRecycler(recentDataList);
 
         List<CommunitiesData> communitiesDatalist=new ArrayList<>();
+        communitiesDatalist.add(new CommunitiesData("Khalee Community",R.drawable.logo));
         communitiesDatalist.add(new CommunitiesData("Tree Nut Community",R.drawable.logo));
         communitiesDatalist.add(new CommunitiesData("Egg Community",R.drawable.logo));
         communitiesDatalist.add(new CommunitiesData("Lactose Community",R.drawable.logo));

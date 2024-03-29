@@ -81,10 +81,10 @@
             android:layout_marginBottom="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.787"
+            app:layout_constraintVertical_bias="0.788"
             app:srcCompat="@drawable/profileicon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="245dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="4dp"
         android:fontFamily="@font/overlock"
         android:text="Clean for you:"
         android:textSize="24sp"
@@ -109,6 +109,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/overlock"
@@ -124,8 +125,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recent_Recycle"
-        android:layout_width="0dp"
-        android:layout_height="219dp"
+        android:layout_width="407dp"
+        android:layout_height="203dp"
         android:background="#E1EDF1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -138,7 +139,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
         android:fontFamily="@font/overlock"
         android:text="Communities"
         android:textSize="24sp"
@@ -149,26 +149,27 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/communitiesRecyclerView"
-        android:layout_width="442dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_width="407dp"
+        android:layout_height="173dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <Button
         android:id="@+id/history"
-        android:layout_width="349dp"
-        android:layout_height="70dp"
+        android:layout_width="361dp"
+        android:layout_height="55dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="20dp"
         android:text="Scan Your First Product"
         android:textSize="18sp"
         app:backgroundTint="#FE8247 "
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/communitiesRecyclerView" />
 
@@ -176,7 +177,7 @@
         android:id="@+id/textView7"
         android:layout_width="173dp"
         android:layout_height="32dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/overlock"
@@ -185,6 +186,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/history"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/communitiesRecyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/communitiesRecyclerView"
+        app:layout_constraintVertical_bias="0.526" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
