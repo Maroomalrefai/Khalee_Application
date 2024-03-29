@@ -2,8 +2,10 @@ package com.example.sallaapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatRadioButton;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -26,7 +28,7 @@ public class SignUp extends AppCompatActivity {
     Button signUp;
     EditText editTextEmail,editTextPass,editTextUsername;
     FirebaseAuth mAuth;
-
+    AppCompatRadioButton rbLeft, rbRight;
     TextView textView;
     TextInputLayout passwordInputLayout;
     TextView passwordFeedbackTextView;
@@ -35,14 +37,15 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
+        rbLeft= findViewById(R.id.rbLeft);
+        rbRight = findViewById(R.id.rbRight);
         signUp = findViewById(R.id.signUp);
         editTextEmail=findViewById(R.id.email);
         editTextPass=findViewById(R.id.password);
         editTextUsername=findViewById(R.id.username);
         mAuth=FirebaseAuth.getInstance();
         textView=findViewById(R.id.loginNow);
-        passwordInputLayout = findViewById(R.id.passwordInputLayout);
+        passwordInputLayout = findViewById(R.id.passwordTextInputLayout);
         passwordFeedbackTextView = findViewById(R.id.passwordFeedbackTextView);
         int minPassLength=6;
         editTextPass.addTextChangedListener(new TextWatcher() {
@@ -54,12 +57,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String password = s.toString();
-
-                boolean hasUppercase = password.matches(".[A-Z].");
-                boolean hasLowercase = password.matches(".[a-z].");
-                boolean hasDigitOrSymbol = password.matches(".[0-9\\W].");
-
-                if (hasUppercase && hasLowercase && hasDigitOrSymbol && password.length() >=minPassLength) {
+                if (password.length() >=minPassLength) {
                     // Password meets all requirements
                     passwordInputLayout.setError(null);
                     passwordFeedbackTextView.setVisibility(View.GONE);
@@ -67,22 +65,11 @@ public class SignUp extends AppCompatActivity {
                     // Password does not meet all requirements
                     StringBuilder feedback = new StringBuilder();
 
-                    if (!hasUppercase) {
-                        feedback.append("At least one uppercase letter\n");
-                    }
-
-                    if (!hasLowercase) {
-                        feedback.append("At least one lowercase letter\n");
-                    }
-
-                    if (!hasDigitOrSymbol) {
-                        feedback.append("At least one number or symbol\n");
-                    }
 
                     if (password.length() < minPassLength) {
                         feedback.append("Minimum " + minPassLength + " characters\n");
-                    }
 
+                    }
                     passwordInputLayout.setErrorEnabled(true);
                     passwordInputLayout.setError("Password does not meet requirements");
                     passwordFeedbackTextView.setText(feedback.toString().trim());
@@ -95,9 +82,21 @@ public class SignUp extends AppCompatActivity {
                 // Unused
             }
         });
-        textView.setOnClickListener(new View.OnClickListener() {
+        rbLeft.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+                boolean isSelected = ((AppCompatRadioButton)view).isChecked();
+                if (view.getId() == R.id.rbLeft) {
+                    if (isSelected) {
+                        rbLeft.setTextColor(Color.WHITE);
+                        rbRight.setTextColor(Color.BLACK);
+                    }
+                } else if (view.getId() == R.id.rbRight) {
+                    if (isSelected) {
+                        rbLeft.setTextColor(Color.BLACK);
+                        rbRight.setTextColor(Color.WHITE);
+                    }
+                }
                 Intent intent =new Intent(getApplicationContext(),Login.class);
                 startActivity(intent);
                 finish();
