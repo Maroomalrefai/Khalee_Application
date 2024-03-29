@@ -15,6 +15,12 @@
         android:theme="@style/Theme.SallaApplication"
         tools:targetApi="31">
         <activity
+            android:name=".ProfileChange"
+            android:exported="false" />
+        <activity
+            android:name=".test"
+            android:exported="false" />
+        <activity
             android:name=".Home2"
             android:exported="false" />
         <activity
