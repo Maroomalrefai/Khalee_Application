@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Salla Application</string>
+    <string name="see_all">See All</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="clean_for_you">Clean for You:</string>
+    <string name="communities">Communities</string>
+    <string name="history">History</string>
+    <string name="MAROOM">MAROOM ALREFAI</string>
+    <string name="scan_your_first_product">Scan Your First Product</string>
+    <string name="profile_icon">profile icon</string>
 </resources>
