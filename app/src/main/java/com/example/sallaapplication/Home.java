@@ -2,7 +2,11 @@ package com.example.sallaapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +30,15 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        ImageView scan=findViewById(R.id.hi);
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Home.this, ImageToText.class);
+                startActivity(i);
+            }
+        });
+
         List<RecentData> recentDataList =new ArrayList<>();
         recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.milk));
         recentDataList.add(new RecentData("Cheese","Alyaom","5 JOD",R.drawable.ok));
@@ -35,6 +48,7 @@ public class Home extends AppCompatActivity {
         setRecentRecycler(recentDataList);
 
         List<CommunitiesData> communitiesDatalist=new ArrayList<>();
+        communitiesDatalist.add(new CommunitiesData("Khalee Community",R.drawable.logo));
         communitiesDatalist.add(new CommunitiesData("Tree Nut Community",R.drawable.logo));
         communitiesDatalist.add(new CommunitiesData("Egg Community",R.drawable.logo));
         communitiesDatalist.add(new CommunitiesData("Lactose Community",R.drawable.logo));
