@@ -27,6 +27,9 @@
             android:exported="false" />
 
         <activity
+            android:name=".ImageToText"
+            android:exported="false" />
+        <activity
             android:name=".Home"
             android:exported="false" />
         <activity
