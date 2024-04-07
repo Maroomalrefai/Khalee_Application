@@ -38,6 +38,14 @@ public class Home extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        Button history =findViewById(R.id.history);
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Home.this, ImageToText.class);
+                startActivity(i);
+            }
+        });
 
         List<RecentData> recentDataList =new ArrayList<>();
         recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.milk));

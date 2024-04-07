@@ -42,7 +42,8 @@
                 android:id="@+id/constraintLayout"
                 android:layout_width="0dp"
                 android:layout_height="180dp"
-                android:background="@drawable/upperbar"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/barwithlogo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +63,7 @@
                     android:textSize="24sp"
                     app:layout_constraintBottom_toTopOf="@+id/name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,7 +90,7 @@
                     android:layout_width="68dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="302dp"
-                    android:layout_marginEnd="24dp"
+                    android:layout_marginEnd="15dp"
                     android:layout_marginBottom="2dp"
                     android:contentDescription="@string/profile_icon"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -97,7 +98,7 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.788"
+                    app:layout_constraintVertical_bias="0.881"
                     app:srcCompat="@drawable/profileicon" />
 
 
