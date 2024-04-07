@@ -39,7 +39,7 @@ public class Home extends AppCompatActivity {
             }
         });
         Button history =findViewById(R.id.history);
-        scan.setOnClickListener(new View.OnClickListener() {
+        history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Home.this, ImageToText.class);
