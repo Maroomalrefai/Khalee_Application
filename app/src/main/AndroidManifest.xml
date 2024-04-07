@@ -25,7 +25,9 @@
         <activity
             android:name=".ProfileChange"
             android:exported="false" />
-
+        <activity
+            android:name=".ImageToText"
+            android:exported="false" />
         <activity
             android:name=".Home"
             android:exported="false" />
