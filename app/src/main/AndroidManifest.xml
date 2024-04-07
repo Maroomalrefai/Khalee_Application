@@ -5,9 +5,11 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
     <application
         android:allowBackup="true"
@@ -19,26 +21,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SallaApplication"
         tools:targetApi="31">
-        <activity
-            android:name=".ImageToText"
-            android:exported="false" />
-        <activity
-            android:name=".cameratest"
-            android:exported="false" />
+
         <activity
             android:name=".ProfileChange"
             android:exported="false" />
-        <activity
-            android:name=".test"
-            android:exported="false" />
-        <activity
-            android:name=".Home2"
-            android:exported="false" />
+
         <activity
             android:name=".Home"
-            android:exported="false" />
-        <activity
-            android:name=".QuestionTwo"
             android:exported="false" />
         <activity
             android:name=".Question"
@@ -59,15 +48,9 @@
             </intent-filter>
         </activity>
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="come.example.cmerapermission.fileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="preloaded_fonts"
-                android:resource="@array/preloaded_fonts" />
-        </provider>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
