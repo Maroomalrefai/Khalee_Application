@@ -71,8 +71,9 @@
                 android:fontFamily="@font/overlock"
                 android:hint="text will appear here."
                 android:minHeight="48dp"
+                android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

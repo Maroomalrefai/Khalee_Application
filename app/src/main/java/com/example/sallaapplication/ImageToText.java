@@ -42,6 +42,12 @@ import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+
+
 public class ImageToText extends AppCompatActivity {
     private MaterialButton inputImageBtn;
     private MaterialButton recognizeTextBtn;
@@ -93,6 +99,30 @@ public class ImageToText extends AppCompatActivity {
         });
     }
 
+    private String preprocessText(String text) {
+        // Convert the text to lowercase
+        String lowercaseText = text.toLowerCase();
+
+        // Remove any leading or trailing whitespace
+        String trimmedText = lowercaseText.trim();
+        // Remove punctuation
+       String text2 = trimmedText.replaceAll("[^a-zA-Z\\s]", "");
+        // Tokenization
+        String[] tokens = text2.split("\\s+");
+
+        // Remove stopwords
+        List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with"); // Example list of stopwords
+        List<String> filteredTokens = new ArrayList<>();
+        for (String token : tokens) {
+            if (!stopwords.contains(token)) {
+                filteredTokens.add(token);
+            }
+        }
+        String preprocessed_text = String.join(" ", filteredTokens);
+
+        return preprocessed_text;
+    }
+
     private void recognizeTextFromImage() {
         Log.d(TAG,"recognizeTextFromImage:");
         progressDialog.setMessage("Preparing image");
@@ -107,6 +137,7 @@ public class ImageToText extends AppCompatActivity {
                         public void onSuccess(Text text) {
                             progressDialog.dismiss();
                             String recognizedText=text.getText();
+                            recognizedText= preprocessText(recognizedText);
                             Log.d(TAG, "onSuccess: recognizedText"+recognizedText);
                             recognizedTextEt.setText(recognizedText);
                         }
@@ -232,45 +263,45 @@ public class ImageToText extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
-            case CAMERA_REQUEST_CODE: {
-                if (grantResults.length > 0) {
-                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-
-                    if(cameraAccepted && storageAccepted){
+//        switch (requestCode){
+//            case CAMERA_REQUEST_CODE: {
+//                if (grantResults.length > 0) {
+//                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//                    boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+//
+//                    if(cameraAccepted && storageAccepted){
                         pickImageCamera();}
-
-                    else {
-                        Toast.makeText(this, "Camera and Storage permission are requires", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else {
-                    Toast.makeText(this,"Cancelled",Toast.LENGTH_SHORT).show();
-                }
-            }
-            break;
-            case STORAGE_REQUEST_CODE:{
-//                check if some action from permission dialog performed or not Allow/Deny
-                if(grantResults.length>0)
-                {
-//                    check if storage permissions granted, contains boolean results either ture or flase
-                    boolean storageAccepted=grantResults[0]==PackageManager.PERMISSION_GRANTED;
-//                   check if storage permission is grantd or not
-                    if(storageAccepted){
-//                        storage permission granted, we can launch gallery intent
-                        pickImageGallery();
-                    }
-                    else {
-//                        storage permission denied , can't launch gallery intent
-                        Toast.makeText(this, "Storage permission is required", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-
-            }
-            break;
-
-        }
-    }
+//
+//                    else {
+//                        Toast.makeText(this, "Camera and Storage permission are requires", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//                else {
+//                    Toast.makeText(this,"Cancelled",Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//            break;
+//            case STORAGE_REQUEST_CODE:{
+////                check if some action from permission dialog performed or not Allow/Deny
+//                if(grantResults.length>0)
+//                {
+////                    check if storage permissions granted, contains boolean results either ture or flase
+//                    boolean storageAccepted=grantResults[0]==PackageManager.PERMISSION_GRANTED;
+////                   check if storage permission is grantd or not
+//                    if(storageAccepted){
+////                        storage permission granted, we can launch gallery intent
+//                        pickImageGallery();
+//                    }
+//                    else {
+////                        storage permission denied , can't launch gallery intent
+//                        Toast.makeText(this, "Storage permission is required", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                }
+//
+//            }
+//            break;
+//
+//        }
+//    }
 }
