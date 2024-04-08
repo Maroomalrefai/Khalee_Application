@@ -263,45 +263,45 @@ public class ImageToText extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        switch (requestCode){
-//            case CAMERA_REQUEST_CODE: {
-//                if (grantResults.length > 0) {
-//                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-//                    boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-//
-//                    if(cameraAccepted && storageAccepted){
+        switch (requestCode){
+            case CAMERA_REQUEST_CODE: {
+                if (grantResults.length > 0) {
+                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if(cameraAccepted && storageAccepted){
                         pickImageCamera();}
-//
-//                    else {
-//                        Toast.makeText(this, "Camera and Storage permission are requires", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//                else {
-//                    Toast.makeText(this,"Cancelled",Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//            break;
-//            case STORAGE_REQUEST_CODE:{
-////                check if some action from permission dialog performed or not Allow/Deny
-//                if(grantResults.length>0)
-//                {
-////                    check if storage permissions granted, contains boolean results either ture or flase
-//                    boolean storageAccepted=grantResults[0]==PackageManager.PERMISSION_GRANTED;
-////                   check if storage permission is grantd or not
-//                    if(storageAccepted){
-////                        storage permission granted, we can launch gallery intent
-//                        pickImageGallery();
-//                    }
-//                    else {
-////                        storage permission denied , can't launch gallery intent
-//                        Toast.makeText(this, "Storage permission is required", Toast.LENGTH_SHORT).show();
-//
-//                    }
-//                }
-//
-//            }
-//            break;
-//
-//        }
-//    }
+
+                    else {
+                        Toast.makeText(this, "Camera and Storage permission are requires", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(this,"Cancelled",Toast.LENGTH_SHORT).show();
+                }
+            }
+            break;
+            case STORAGE_REQUEST_CODE:{
+//                check if some action from permission dialog performed or not Allow/Deny
+                if(grantResults.length>0)
+                {
+//                    check if storage permissions granted, contains boolean results either ture or flase
+                    boolean storageAccepted=grantResults[0]==PackageManager.PERMISSION_GRANTED;
+//                   check if storage permission is grantd or not
+                    if(storageAccepted){
+//                        storage permission granted, we can launch gallery intent
+                        pickImageGallery();
+                    }
+                    else {
+//                        storage permission denied , can't launch gallery intent
+                        Toast.makeText(this, "Storage permission is required", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+            }
+            break;
+
+        }
+    }
 }
