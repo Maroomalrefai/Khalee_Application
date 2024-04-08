@@ -145,15 +145,16 @@ public class ImageToText extends AppCompatActivity {
                         requestCameraPermission();
                     }
                 }
-//             else if (id == 2) {
-//                 Log.d(TAG, "onMenuItemClick:Gallery Clicked ");
-//                 if(checkStoragePermission()){
-//                     pickImageGallery();
-//                 }
-//                 else{
-//                     requestStoragePermission();
-//                 }
-//             }
+                else if (id == 2) {
+                    Log.d(TAG, "onMenuItemClick:Gallery Clicked ");
+//                    Gallary is clicked, check if storage permission is granted or not
+                    if(checkStoragePermission()){
+                        pickImageGallery();
+                    }
+                    else{
+                        requestStoragePermission();
+                    }
+                }
                 return true;
             }
         });
@@ -209,13 +210,16 @@ public class ImageToText extends AppCompatActivity {
                 }
             }
     );
-    //private boolean checkStoragePermission(){
-//    boolean result= ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
-//    return result;
-//}
-//private void requestStoragePermission(){
-//    ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
-//}
+    private boolean checkStoragePermission(){
+//        check if storage permissions are allowed or not
+//        return true if allowed , false if not allowed
+        boolean result= ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+    private void requestStoragePermission(){
+//        request storage permission (for gallery image pick)
+        ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
+    }
     private boolean checkCameraPermission(){
         boolean cameraResult = ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)==(PackageManager.PERMISSION_GRANTED);
         boolean storageResult = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
@@ -232,9 +236,9 @@ public class ImageToText extends AppCompatActivity {
             case CAMERA_REQUEST_CODE: {
                 if (grantResults.length > 0) {
                     boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-//                    boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
 
-                    if(cameraAccepted){
+                    if(cameraAccepted && storageAccepted){
                         pickImageCamera();}
 
                     else {
@@ -246,21 +250,27 @@ public class ImageToText extends AppCompatActivity {
                 }
             }
             break;
-//            case STORAGE_REQUEST_CODE:{
-//                if(grantResults.length>0)
-//                {
-//                    boolean storageAccepted=grantResults[0]==PackageManager.PERMISSION_GRANTED;
-//                    if(storageAccepted){
-//                        pickImageGallery();
-//                    }
-//                    else {
-//                        Toast.makeText(this, "Storage permission is required", Toast.LENGTH_SHORT).show();
-//
-//                    }
-//                }
-//
-//            }
-//            break;
+            case STORAGE_REQUEST_CODE:{
+//                check if some action from permission dialog performed or not Allow/Deny
+                if(grantResults.length>0)
+                {
+//                    check if storage permissions granted, contains boolean results either ture or flase
+                    boolean storageAccepted=grantResults[0]==PackageManager.PERMISSION_GRANTED;
+//                   check if storage permission is grantd or not
+                    if(storageAccepted){
+//                        storage permission granted, we can launch gallery intent
+                        pickImageGallery();
+                    }
+                    else {
+//                        storage permission denied , can't launch gallery intent
+                        Toast.makeText(this, "Storage permission is required", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+            }
+            break;
+
         }
     }
 }
