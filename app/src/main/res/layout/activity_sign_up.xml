@@ -5,6 +5,7 @@
     android:id="@+id/bac"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F0F4F8"
     tools:context=".SignUp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -47,7 +48,6 @@
         android:layout_height="72dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
