@@ -142,7 +142,6 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:layout_width="350dp"
-            android:textCursorDrawable="@drawable/cursor_color"
             android:layout_height="60dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="30dp"
