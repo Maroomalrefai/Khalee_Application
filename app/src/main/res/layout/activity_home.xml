@@ -145,7 +145,7 @@
                 android:layout_height="200dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="32dp"
-                android:background="@color/light_blue"
+                android:background="#E1EDF1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -219,7 +219,7 @@
                     android:layout_marginBottom="37dp"
                     android:text="@string/scan_your_first_product"
                     android:textSize="16sp"
-                    app:backgroundTint="@color/orange"
+                    app:backgroundTint="#FE8247 "
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
@@ -237,13 +237,12 @@
         android:id="@+id/hi"
         android:layout_width="100dp"
         android:layout_height="100dp"
-
         android:layout_marginStart="290dp"
         android:textSize="16sp"
-        app:backgroundTint="@color/header"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/cameraicon" />
+        app:srcCompat="@drawable/cameraicon"
+        android:outlineAmbientShadowColor="@color/black"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

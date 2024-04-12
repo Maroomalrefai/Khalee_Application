@@ -75,6 +75,19 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/saveImageBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="240dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/orange"
+                android:fontFamily="@font/overlock"
+                android:text="save image"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:cornerRadius="20dp" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

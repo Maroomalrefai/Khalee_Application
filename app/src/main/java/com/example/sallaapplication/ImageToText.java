@@ -1,15 +1,11 @@
 package com.example.sallaapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -35,18 +31,21 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-
 
 public class ImageToText extends AppCompatActivity {
     private MaterialButton inputImageBtn;
@@ -61,6 +60,8 @@ public class ImageToText extends AppCompatActivity {
     private String [] storagePermission;
     private ProgressDialog progressDialog;
     private TextRecognizer textRecognizer;
+    Button savedImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,12 +70,12 @@ public class ImageToText extends AppCompatActivity {
         recognizeTextBtn=findViewById(R.id.recognizedTextBtn);
         imageIv=findViewById(R.id.imageIv);
         recognizedTextEt=findViewById(R.id.recognizedTextEt);
-
+        savedImage = findViewById(R.id.saveImageBtn);
         cameraPermission= new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission= new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
         progressDialog= new ProgressDialog(this);
-        progressDialog.setTitle("Pleas wait");
+        progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
         textRecognizer=TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
@@ -97,6 +98,12 @@ public class ImageToText extends AppCompatActivity {
 
             }
         });
+        savedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData();
+            }
+        });
     }
 
     private String preprocessText(String text) {
@@ -106,7 +113,7 @@ public class ImageToText extends AppCompatActivity {
         // Remove any leading or trailing whitespace
         String trimmedText = lowercaseText.trim();
         // Remove punctuation
-       String text2 = trimmedText.replaceAll("[^a-zA-Z\\s]", "");
+        String text2 = trimmedText.replaceAll("[^a-zA-Z\\s]", "");
         // Tokenization
         String[] tokens = text2.split("\\s+");
 
@@ -178,7 +185,7 @@ public class ImageToText extends AppCompatActivity {
                 }
                 else if (id == 2) {
                     Log.d(TAG, "onMenuItemClick:Gallery Clicked ");
-//                    Gallary is clicked, check if storage permission is granted or not
+//                    Gallery is clicked, check if storage permission is granted or not
                     if(checkStoragePermission()){
                         pickImageGallery();
                     }
@@ -190,12 +197,14 @@ public class ImageToText extends AppCompatActivity {
             }
         });
     }
+
     private void pickImageGallery(){
         Log.d(TAG, "pickImageGallery: ");
         Intent intent=new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         galleryActivityResultLancher.launch(intent);
     }
+
     private ActivityResultLauncher<Intent> galleryActivityResultLancher=registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -214,6 +223,7 @@ public class ImageToText extends AppCompatActivity {
                 }
             }
     );
+
     private void pickImageCamera (){
         Log.d(TAG, "pickImageCamera: ");
         ContentValues values = new ContentValues();
@@ -225,6 +235,7 @@ public class ImageToText extends AppCompatActivity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
         cameraActivityResultLauncher.launch(intent);
     }
+
     private ActivityResultLauncher<Intent> cameraActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -241,21 +252,25 @@ public class ImageToText extends AppCompatActivity {
                 }
             }
     );
+
     private boolean checkStoragePermission(){
 //        check if storage permissions are allowed or not
 //        return true if allowed , false if not allowed
         boolean result= ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
         return result;
     }
+
     private void requestStoragePermission(){
 //        request storage permission (for gallery image pick)
         ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
     }
+
     private boolean checkCameraPermission(){
         boolean cameraResult = ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)==(PackageManager.PERMISSION_GRANTED);
         boolean storageResult = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
         return cameraResult && storageResult;
     }
+
     private void requestCameraPermission(){
         ActivityCompat.requestPermissions(this,cameraPermission,CAMERA_REQUEST_CODE);
     }
@@ -270,8 +285,8 @@ public class ImageToText extends AppCompatActivity {
                     boolean storageAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
 
                     if(cameraAccepted && storageAccepted){
-                        pickImageCamera();}
-
+                        pickImageCamera();
+                    }
                     else {
                         Toast.makeText(this, "Camera and Storage permission are requires", Toast.LENGTH_SHORT).show();
                     }
@@ -295,13 +310,58 @@ public class ImageToText extends AppCompatActivity {
                     else {
 //                        storage permission denied , can't launch gallery intent
                         Toast.makeText(this, "Storage permission is required", Toast.LENGTH_SHORT).show();
-
                     }
                 }
-
             }
             break;
+        }
+    }
 
+    private void saveData() {
+        if (imageUri != null) {
+            // Show progress dialog
+            progressDialog.setTitle("Uploading Image");
+            progressDialog.show();
+
+            // Get reference to Firebase Storage
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+
+            // Create a reference to 'images/<FILENAME>'
+            StorageReference imageRef = storageRef.child("images/" + System.currentTimeMillis() + ".jpg");
+
+            // Upload file to Firebase Storage
+            imageRef.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        // Get the download URL of the uploaded image
+                        Task<Uri> downloadUrl = imageRef.getDownloadUrl();
+                        downloadUrl.addOnSuccessListener(uri -> {
+                            // Image uploaded successfully, get the download URL
+                            String imageUrl = uri.toString();
+
+                            // Now, you can save the imageURL to your history database
+                            // For demonstration purposes, let's assume you have a HistoryData class
+                            // where you store image URLs and recognized text.
+                            // You can replace this with your actual database code.
+                            HistoryData historyData = new HistoryData(imageUrl, recognizedTextEt.getText().toString());
+                            // Save historyData to your database (e.g., Firebase Realtime Database or Firestore)
+                            // For example:
+                            // FirebaseDatabase.getInstance().getReference("history").push().setValue(historyData);
+
+                            // Dismiss the progress dialog
+                            progressDialog.dismiss();
+
+                            // Show a success message
+                            Toast.makeText(ImageToText.this, "Image saved to history", Toast.LENGTH_SHORT).show();
+                        });
+                    })
+                    .addOnFailureListener(e -> {
+                        // Handle errors
+                        progressDialog.dismiss();
+                        Toast.makeText(ImageToText.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            // If imageUri is null, show a message
+            Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
         }
     }
 }
