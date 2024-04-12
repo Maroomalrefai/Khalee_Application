@@ -110,7 +110,7 @@
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:textColor="#4F7D94"
-            android:textColorHint="#4F7D94"
+            android:textColorHint="@color/blue"
             android:textStyle="bold">
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -150,8 +150,8 @@
             android:fontFamily="@font/tiltneon"
             android:hint="Password"
             android:inputType="textPassword"
-            android:textColor="#4F7D94"
-            android:textColorHint="#4F7D94"
+            android:textColor="@color/blue"
+            android:textColorHint="@color/blue"
             android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,7 +162,7 @@
         android:layout_marginBottom="12dp"
         android:fontFamily="@font/overlock"
         android:text="Forget password?"
-        android:textColor="#FE8247"
+        android:textColor="@color/orange"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/login"
@@ -180,7 +180,7 @@
         android:textColor="#ffffff"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:backgroundTint="#4F7D94"
+        app:backgroundTint="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
