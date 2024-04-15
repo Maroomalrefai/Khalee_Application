@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -24,7 +25,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,6 +46,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,6 +70,10 @@ public class ImageToText extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private TextRecognizer textRecognizer;
     Button savedImage;
+    JSONObject allergenData;
+    List<String> filteredTokens;
+    String recognizedText;
+    String allergy = "Peanut";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +86,14 @@ public class ImageToText extends AppCompatActivity {
         savedImage = findViewById(R.id.saveImageBtn);
         cameraPermission= new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission= new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
         progressDialog= new ProgressDialog(this);
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
         textRecognizer=TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        filteredTokens = new ArrayList<>();
 
+// Load allergen data from assets
+        loadAllergenData();
         inputImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,6 +109,8 @@ public class ImageToText extends AppCompatActivity {
                 }
                 else{
                     recognizeTextFromImage();
+                    // Perform search
+                    performSearch(allergy);
                 }
 
             }
@@ -106,28 +123,26 @@ public class ImageToText extends AppCompatActivity {
         });
     }
 
-    private String preprocessText(String text) {
+    private void preprocessText(String text) {
         // Convert the text to lowercase
         String lowercaseText = text.toLowerCase();
 
         // Remove any leading or trailing whitespace
         String trimmedText = lowercaseText.trim();
+
         // Remove punctuation
-        String text2 = trimmedText.replaceAll("[^a-zA-Z\\s]", "");
-        // Tokenization
-        String[] tokens = text2.split("\\s+");
+        String textWithoutPunctuation = trimmedText.replaceAll("[^a-zA-Z\\s,]", "");
+
+        // Tokenization based on both whitespace and commas
+        String[] tokens = textWithoutPunctuation.split("[\\s,]+");
 
         // Remove stopwords
-        List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with"); // Example list of stopwords
-        List<String> filteredTokens = new ArrayList<>();
+        List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with");
         for (String token : tokens) {
             if (!stopwords.contains(token)) {
                 filteredTokens.add(token);
             }
         }
-        String preprocessed_text = String.join(" ", filteredTokens);
-
-        return preprocessed_text;
     }
 
     private void recognizeTextFromImage() {
@@ -143,8 +158,8 @@ public class ImageToText extends AppCompatActivity {
                         @Override
                         public void onSuccess(Text text) {
                             progressDialog.dismiss();
-                            String recognizedText=text.getText();
-                            recognizedText= preprocessText(recognizedText);
+                            recognizedText=text.getText();
+                            preprocessText(recognizedText);
                             Log.d(TAG, "onSuccess: recognizedText"+recognizedText);
                             recognizedTextEt.setText(recognizedText);
                         }
@@ -363,5 +378,70 @@ public class ImageToText extends AppCompatActivity {
             // If imageUri is null, show a message
             Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void loadAllergenData() {
+        // Load JSON data from assets
+        try {
+            StringBuilder stringBuilder = new StringBuilder();
+            InputStream inputStream=getAssets().open("allergyData.json");
+            int size=inputStream.available();
+            byte[] buffer= new byte[size];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                stringBuilder.append(new String(buffer, 0, bytesRead));
+            }
+            inputStream.close();
+
+            // Parse JSON data
+            allergenData = new JSONObject(stringBuilder.toString());
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    private void performSearch(String allergy) {
+        // Perform search within the specified allergy for each filtered token
+        boolean containsAllergen = searchAllergen(allergy, filteredTokens);
+
+        // Display result to user
+        if (containsAllergen) {
+            showDialog("Ops! This product contains " + allergy + " and  it is not suitable for you.",R.drawable.notok);
+        } else {
+            showDialog("Great! This product is free from " + allergy + ".",R.drawable.ok);
+        }
+    }
+    private boolean searchAllergen(String allergy, List<String> filteredTokens) {
+        // Perform search within the specified allergy for each filtered token
+        for (String token : filteredTokens) {
+            try {
+                JSONArray ingredientsArray = allergenData.getJSONObject("allergens").getJSONArray(allergy);
+                for (int i = 0; i < ingredientsArray.length(); i++) {
+                    String jsonIngredient = ingredientsArray.getString(i).toLowerCase();
+
+                    // Check if the preprocessed ingredient is contained in the preprocessed token
+                    if (jsonIngredient.contains(token)) {
+                        return true; // Allergen found for this token
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        // If no allergen found for any token, return false
+        return false;
+    }
+
+    private void showDialog(String message, int imageResourceId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.custom_dialog, null);
+        builder.setView(dialogView);
+
+        ImageView imageView = dialogView.findViewById(R.id.dialog_image_view);
+        TextView textView = dialogView.findViewById(R.id.dialog_text_view);
+
+        imageView.setImageResource(imageResourceId);
+        textView.setText(message);
+
+        builder.create().show();
     }
 }

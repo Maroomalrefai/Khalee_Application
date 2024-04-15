@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <ImageView
+        android:id="@+id/dialog_image_view"
+        android:layout_width="88dp"
+        android:layout_height="93dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/ok" />
+
+    <TextView
+        android:id="@+id/dialog_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"/>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="30dp"
+    android:layout_gravity="center">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/saveImageBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:text="Save for later!"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="240dp"
+        android:backgroundTint="@color/orange"
+        android:fontFamily="@font/overlock"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="20dp" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:text="Cancle"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="240dp"
+        android:backgroundTint="@color/orange"
+        android:fontFamily="@font/overlock"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        />
+</LinearLayout>
+
+</LinearLayout>
