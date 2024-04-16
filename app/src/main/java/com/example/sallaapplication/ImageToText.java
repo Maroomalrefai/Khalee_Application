@@ -16,6 +16,8 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -34,7 +36,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,7 +47,6 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +71,6 @@ public class ImageToText extends AppCompatActivity {
     private String [] storagePermission;
     private ProgressDialog progressDialog;
     private TextRecognizer textRecognizer;
-    Button savedImage;
     JSONObject allergenData;
     List<String> filteredTokens;
     String recognizedText;
@@ -81,20 +80,19 @@ public class ImageToText extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_to_text);
-        inputImageBtn=findViewById(R.id.inputImageBtn);
-        recognizeTextBtn=findViewById(R.id.recognizedTextBtn);
-        imageIv=findViewById(R.id.imageIv);
-        recognizedTextEt=findViewById(R.id.recognizedTextEt);
-        savedImage = findViewById(R.id.saveImageBtn);
-        cameraPermission= new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        storagePermission= new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        progressDialog= new ProgressDialog(this);
+        inputImageBtn = findViewById(R.id.inputImageBtn);
+        recognizeTextBtn = findViewById(R.id.recognizedTextBtn);
+        imageIv = findViewById(R.id.imageIv);
+        recognizedTextEt = findViewById(R.id.recognizedTextEt);
+        cameraPermission = new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        storagePermission = new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
-        textRecognizer=TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         filteredTokens = new ArrayList<>();
 
-// Load allergen data from assets
+    // Load allergen data from assets
         loadAllergenData();
         inputImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,21 +104,14 @@ public class ImageToText extends AppCompatActivity {
         recognizeTextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (imageUri == null){
-                    Toast.makeText(ImageToText.this,"Pick image first",Toast.LENGTH_SHORT).show();
-                }
-                else{
+                if (imageUri == null) {
+                    Toast.makeText(ImageToText.this, "Pick image first", Toast.LENGTH_SHORT).show();
+                } else {
                     recognizeTextFromImage();
                     // Perform search
                     performSearch(allergy);
                 }
 
-            }
-        });
-        savedImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveData();
             }
         });
     }
@@ -447,14 +438,32 @@ public class ImageToText extends AppCompatActivity {
     private void showDialog(String message, int imageResourceId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.custom_dialog, null);
+        dialogView.setBackground(ContextCompat.getDrawable(this, R.drawable.dialogBox));
         builder.setView(dialogView);
-
         ImageView imageView = dialogView.findViewById(R.id.dialog_image_view);
         TextView textView = dialogView.findViewById(R.id.dialog_text_view);
+        Button savedImage = dialogView.findViewById(R.id.saveImageBtn); // Corrected to dialogView
+        Button closeButton = dialogView.findViewById(R.id.close); // Close button added
 
         imageView.setImageResource(imageResourceId);
         textView.setText(message);
 
-        builder.create().show();
+        AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // Set background to transparent
+        alertDialog.show();
+
+        savedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData();
+            }
+        });
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss(); // Dismiss the dialog when the close button is clicked
+            }
+        });
     }
 }

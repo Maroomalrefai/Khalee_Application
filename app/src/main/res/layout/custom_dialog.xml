@@ -22,42 +22,42 @@
         android:layout_marginBottom="30dp"
         android:textColor="@android:color/black"
         android:textSize="18sp"/>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_marginBottom="30dp"
-    android:layout_gravity="center">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/saveImageBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:text="Save for later!"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="240dp"
-        android:backgroundTint="@color/orange"
-        android:fontFamily="@font/overlock"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:cornerRadius="20dp" />
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:text="Cancle"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="240dp"
-        android:backgroundTint="@color/orange"
-        android:fontFamily="@font/overlock"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:cornerRadius="20dp"
-        />
-</LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveImageBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Save for later!"
+            android:backgroundTint="@color/blue"
+            android:fontFamily="@font/overlock"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="20dp" />
+
+        <!-- Add margin to create space between buttons -->
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Cancel"
+            android:backgroundTint="@color/blue"
+            android:fontFamily="@font/overlock"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="20dp" />
+    </LinearLayout>
+
 
 </LinearLayout>

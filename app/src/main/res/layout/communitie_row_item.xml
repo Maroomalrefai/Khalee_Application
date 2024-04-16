@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350dp"
     android:layout_height="150dp"
-    android:background="@drawable/search">
+    android:background="@drawable/communitybox">
 
     <ImageView
         android:id="@+id/communityImage"
