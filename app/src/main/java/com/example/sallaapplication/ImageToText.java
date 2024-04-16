@@ -36,6 +36,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -335,11 +337,13 @@ public class ImageToText extends AppCompatActivity {
     private void saveData() {
         if (imageUri != null) {
             // Show progress dialog
-            progressDialog.setTitle("Uploading Image");
+            progressDialog.setTitle("save to history");
             progressDialog.show();
 
+            // Get the current user's ID (replace this with your actual way of getting the user ID)
+            String userId = getCurrentUserId();
             // Get reference to Firebase Storage
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("Android Images").child(userId);
 
             // Create a reference to 'images/<FILENAME>'
             StorageReference imageRef = storageRef.child("images/" + System.currentTimeMillis() + ".jpg");
@@ -352,7 +356,6 @@ public class ImageToText extends AppCompatActivity {
                         downloadUrl.addOnSuccessListener(uri -> {
                             // Image uploaded successfully, get the download URL
                             String imageUrl = uri.toString();
-
                             // Now, you can save the imageURL to your history database
                             // For demonstration purposes, let's assume you have a HistoryData class
                             // where you store image URLs and recognized text.
@@ -360,7 +363,7 @@ public class ImageToText extends AppCompatActivity {
                             HistoryData historyData = new HistoryData(imageUrl, recognizedTextEt.getText().toString());
                             // Save historyData to your database (e.g., Firebase Realtime Database or Firestore)
                             // For example:
-                            // FirebaseDatabase.getInstance().getReference("history").push().setValue(historyData);
+                            FirebaseDatabase.getInstance().getReference("history").push().setValue(historyData);
 
                             // Dismiss the progress dialog
                             progressDialog.dismiss();
@@ -377,6 +380,16 @@ public class ImageToText extends AppCompatActivity {
         } else {
             // If imageUri is null, show a message
             Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getCurrentUserId() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            return user.getUid();
+        } else {
+            // Handle the case when the user is not signed in
+            return null;
         }
     }
 
