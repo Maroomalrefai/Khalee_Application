@@ -360,11 +360,11 @@ public class ImageToText extends AppCompatActivity {
                             // For demonstration purposes, let's assume you have a HistoryData class
                             // where you store image URLs and recognized text.
                             // You can replace this with your actual database code.
-                            HistoryData historyData = new HistoryData(imageUrl, recognizedTextEt.getText().toString());
+                            ImageModel historyData = new ImageModel(imageUrl);
                             // Save historyData to your database (e.g., Firebase Realtime Database or Firestore)
                             // For example:
                             FirebaseDatabase.getInstance().getReference("history").push().setValue(historyData);
-
+//
                             // Dismiss the progress dialog
                             progressDialog.dismiss();
 
