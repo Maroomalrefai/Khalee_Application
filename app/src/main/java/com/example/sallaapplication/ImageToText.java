@@ -438,7 +438,7 @@ public class ImageToText extends AppCompatActivity {
     private void showDialog(String message, int imageResourceId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.custom_dialog, null);
-        dialogView.setBackground(ContextCompat.getDrawable(this, R.drawable.dialogBox));
+        dialogView.setBackground(ContextCompat.getDrawable(this, R.drawable.dialogbox));
         builder.setView(dialogView);
         ImageView imageView = dialogView.findViewById(R.id.dialog_image_view);
         TextView textView = dialogView.findViewById(R.id.dialog_text_view);
