@@ -74,7 +74,7 @@ public class ImageToText extends AppCompatActivity {
     JSONObject allergenData;
     List<String> filteredTokens;
     String recognizedText;
-    String allergy = "Peanut";
+    String allergy = "Egg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,15 +108,13 @@ public class ImageToText extends AppCompatActivity {
                     Toast.makeText(ImageToText.this, "Pick image first", Toast.LENGTH_SHORT).show();
                 } else {
                     recognizeTextFromImage();
-                    // Perform search
-                    performSearch(allergy);
                 }
 
             }
         });
     }
 
-    private void preprocessText(String text) {
+    private String preprocessText(String text) {
         // Convert the text to lowercase
         String lowercaseText = text.toLowerCase();
 
@@ -136,6 +134,8 @@ public class ImageToText extends AppCompatActivity {
                 filteredTokens.add(token);
             }
         }
+        // Join tokens back into a string
+        return String.join(" ", filteredTokens);
     }
 
     private void recognizeTextFromImage() {
@@ -152,9 +152,11 @@ public class ImageToText extends AppCompatActivity {
                         public void onSuccess(Text text) {
                             progressDialog.dismiss();
                             recognizedText=text.getText();
-                            preprocessText(recognizedText);
+                            recognizedText=preprocessText(recognizedText);
                             Log.d(TAG, "onSuccess: recognizedText"+recognizedText);
                             recognizedTextEt.setText(recognizedText);
+                            // Call performSearch after text recognition is successful
+                            performSearch(allergy);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
