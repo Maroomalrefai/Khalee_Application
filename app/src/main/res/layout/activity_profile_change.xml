@@ -36,7 +36,7 @@
                 android:layout_marginLeft="-95dp"
                 android:layout_marginBottom="-15dp"
                 android:layout_marginTop="10dp"
-                android:text="Your name"
+                android:text="username"
                 android:textColor="#4F7D94"
                 android:textSize="23dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,15 +86,15 @@
                 style="bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-83dp"
-                android:layout_marginBottom="-15dp"
+                android:layout_marginLeft="-105dp"
                 android:layout_marginTop="10dp"
-                android:text="Your birthday"
+                android:layout_marginBottom="-15dp"
+                android:fontFamily="@font/overlock"
+                android:text="birthday"
                 android:textColor="#4F7D94"
                 android:textSize="23dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Editprofile"
-                android:fontFamily="@font/overlock"/>
+                app:layout_constraintTop_toBottomOf="@+id/Editprofile" />
 
             <EditText
                 android:id="@+id/edate"
@@ -117,7 +117,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="25dp"
                 android:backgroundTint="#F0F5F9"
-                android:text="Edit your allergy information"
+                android:text="Edit allergies information"
                 android:textColor="#4F7D94"
                 android:textSize="22dp"
                 app:layout_constraintBottom_toBottomOf="parent"
