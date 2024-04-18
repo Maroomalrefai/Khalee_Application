@@ -64,13 +64,13 @@ public class Login extends AppCompatActivity {
         });
 
 
-//        textViewResetPass.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-        // for reset password
+        textViewResetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Login.this, ForgetPassword.class);
+                startActivity(i);
+            }
+        });
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +92,7 @@ public class Login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
 //                                progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getApplicationContext(), "Login successfull.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Login successful.", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), Home.class);
                                     startActivity(intent);
                                     finish();
