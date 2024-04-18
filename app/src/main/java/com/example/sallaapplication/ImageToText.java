@@ -215,20 +215,19 @@ public class ImageToText extends AppCompatActivity {
         galleryActivityResultLancher.launch(intent);
     }
 
-    private ActivityResultLauncher<Intent> galleryActivityResultLancher=registerForActivityResult(
+    private ActivityResultLauncher<Intent> galleryActivityResultLancher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode()== Activity.RESULT_OK){
-                        Intent data =result.getData();
-                        imageUri=data.getData();
-                        Log.d(TAG, "onActivityResult:imageUri"+imageUri);
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        imageUri = data.getData();
+                        Log.d(TAG, "onActivityResult: imageUri" + imageUri);
                         imageIv.setImageURI(imageUri);
-                    }
-                    else {
-                        Log.d(TAG, "onActivityResult:cancelled ");
-                        Toast.makeText(ImageToText.this,"Cancelled",Toast.LENGTH_LONG).show();
+                    } else {
+                        Log.d(TAG, "onActivityResult: cancelled ");
+                        Toast.makeText(ImageToText.this, "Cancelled", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -327,65 +326,6 @@ public class ImageToText extends AppCompatActivity {
         }
     }
 
-    private void saveData() {
-        if (imageUri != null) {
-            // Show progress dialog
-            progressDialog.setTitle("save to history");
-            progressDialog.show();
-
-            // Get the current user's ID (replace this with your actual way of getting the user ID)
-            String userId = getCurrentUserId();
-            // Get reference to Firebase Storage
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("Android Images").child(userId);
-
-            // Create a reference to 'images/<FILENAME>'
-            StorageReference imageRef = storageRef.child("images/" + System.currentTimeMillis() + ".jpg");
-
-            // Upload file to Firebase Storage
-            imageRef.putFile(imageUri)
-                    .addOnSuccessListener(taskSnapshot -> {
-                        // Get the download URL of the uploaded image
-                        Task<Uri> downloadUrl = imageRef.getDownloadUrl();
-                        downloadUrl.addOnSuccessListener(uri -> {
-                            // Image uploaded successfully, get the download URL
-                            String imageUrl = uri.toString();
-                            // Now, you can save the imageURL to your history database
-                            // For demonstration purposes, let's assume you have a HistoryData class
-                            // where you store image URLs and recognized text.
-                            // You can replace this with your actual database code.
-                            ImageModel historyData = new ImageModel(imageUrl);
-                            // Save historyData to your database (e.g., Firebase Realtime Database or Firestore)
-                            // For example:
-                            FirebaseDatabase.getInstance().getReference("history").push().setValue(historyData);
-//
-                            // Dismiss the progress dialog
-                            progressDialog.dismiss();
-
-                            // Show a success message
-                            Toast.makeText(ImageToText.this, "Image saved to history", Toast.LENGTH_SHORT).show();
-                        });
-                    })
-                    .addOnFailureListener(e -> {
-                        // Handle errors
-                        progressDialog.dismiss();
-                        Toast.makeText(ImageToText.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    });
-        } else {
-            // If imageUri is null, show a message
-            Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private String getCurrentUserId() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            return user.getUid();
-        } else {
-            // Handle the case when the user is not signed in
-            return null;
-        }
-    }
-
     private void loadAllergenData() {
         // Load JSON data from assets
         try {
@@ -457,10 +397,13 @@ public class ImageToText extends AppCompatActivity {
         savedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveData();
+                // Start uploadActivity with the selected image URI
+                Intent intent = new Intent(ImageToText.this, uploadActivity.class);
+                intent.putExtra("imageUri", imageUri.toString());
+                startActivity(intent);
+                alertDialog.dismiss();
             }
         });
-
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

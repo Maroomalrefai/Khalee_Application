@@ -2,10 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="ImageToText">
-        <State />
-      </entry>
-      <entry key="Login">
+      <entry key="App">
         <State />
       </entry>
     </value>
