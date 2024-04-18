@@ -242,7 +242,7 @@
       "hydrolyzed soy protein",
       "soybean oil"
     ],
-    "Fish": [
+    "Sea Food": [
       "fish",
       "anchovy",
       "bass",
@@ -257,9 +257,7 @@
       "trout",
       "tuna",
       "sardine",
-      "swordfish"
-    ],
-    "Shellfish": [
+      "swordfish",
       "shellfish",
       "crab",
       "lobster",

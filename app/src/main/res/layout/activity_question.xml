@@ -182,6 +182,32 @@
                 android:textColor="@color/black"
                 android:textSize="22sp"
                 app:buttonTint="#4F7D94" />
+            <CheckBox
+                android:id="@+id/soy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mallanna"
+                android:textStyle="bold"
+                android:checked="false"
+                android:padding="16dp"
+                android:text="Soy."
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                app:buttonTint="#4F7D94" />
+
+            <CheckBox
+                android:id="@+id/musterd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/mallanna"
+                android:textStyle="bold"
+                android:checked="false"
+                android:padding="16dp"
+                android:text="Musterd."
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                app:buttonTint="#4F7D94" />
+
 
         </LinearLayout>
 
@@ -239,26 +265,34 @@
             android:textStyle="bold"
             app:layout_constraintVertical_bias="0.202" />
 
-        <RadioButton
-            android:id="@+id/radioButtonOptionYes"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:button="?android:attr/listChoiceIndicatorMultiple"
-            android:text="Yes"
-            android:layout_marginLeft="10dp"
-            android:textSize="23sp"
-            app:buttonTint="#4F7D94" />
-
-
-        <RadioButton
-            android:id="@+id/radioButtonOptionNo"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/radioGroupOptions"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:button="?android:attr/listChoiceIndicatorMultiple"
-            android:text="No"
-            android:textSize="23sp"
-            app:buttonTint="#4F7D94" />
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radioButtonOptionYes"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:button="?android:attr/listChoiceIndicatorMultiple"
+                android:text="Yes"
+                android:layout_marginLeft="10dp"
+                android:textSize="23sp"
+                app:buttonTint="#4F7D94" />
+
+            <RadioButton
+                android:id="@+id/radioButtonOptionNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:button="?android:attr/listChoiceIndicatorMultiple"
+                android:text="No"
+                android:textSize="23sp"
+                app:buttonTint="#4F7D94" />
+
+        </RadioGroup>
+
 
         <TextView
             android:id="@+id/policess"
@@ -283,7 +317,7 @@
             app:buttonTint="#4F7D94" />
 
         <Button
-            android:id="@+id/Next"
+            android:id="@+id/save"
             android:layout_width="248dp"
             android:layout_height="55dp"
             android:layout_marginTop="12dp"
@@ -293,6 +327,7 @@
             android:textStyle="bold"
             app:rippleColor="#FAF0C7"
             app:backgroundTint="#4F7D94"
+            android:enabled="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
     </LinearLayout>

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.AbstractQueue;
+
 public class MainActivity extends AppCompatActivity {
     Button start;
 
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, Login.class);
+                Intent i = new Intent(MainActivity.this, Question.class);
                 startActivity(i);
             }
         });
