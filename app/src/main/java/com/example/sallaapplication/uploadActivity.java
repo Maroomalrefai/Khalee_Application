@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.model.HistoryData;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -77,7 +78,8 @@ public class uploadActivity extends AppCompatActivity {
             return null;
         }
     }
-    public void saveData(){
+
+    public void saveData() {
 
         String userId = getCurrentUserId();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Android Images").child(userId)
@@ -105,7 +107,40 @@ public class uploadActivity extends AppCompatActivity {
         });
     }
 
-    public void uploadData(){
+    public void uploadData() {
+        String userId = getCurrentUserId(); // Get the current user's ID
+        if (userId != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+                    .child("Android Images")
+                    .child(userId) // Store under the user's ID
+                    .child(uri.getLastPathSegment());
+
+            progressBar.setVisibility(View.VISIBLE); // Show ProgressBar
+
+            storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                    uriTask.addOnSuccessListener(uri -> {
+                        imageURL = uri.toString();
+                        uploadData(userId); // Pass the userId to the uploadData method
+                        progressBar.setVisibility(View.GONE); // Hide ProgressBar
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    progressBar.setVisibility(View.GONE); // Hide ProgressBar
+                    Toast.makeText(uploadActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // Handle the case when the user ID is not available
+            Toast.makeText(uploadActivity.this, "User ID not available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void uploadData(String userId) {
         String title = uploadTopic.getText().toString();
         String desc = uploadDesc.getText().toString();
         String lang = uploadLang.getText().toString();
@@ -114,11 +149,14 @@ public class uploadActivity extends AppCompatActivity {
 
         String currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
 
-        FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentDate)
-                .setValue(dataClass).addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseDatabase.getInstance().getReference("Android Tutorials")
+                .child(userId) // Store under the user's ID
+                .push() // Use push() to generate a unique key
+                .setValue(dataClass)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()){
+                        if (task.isSuccessful()) {
                             Toast.makeText(uploadActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                             finish();
                         }

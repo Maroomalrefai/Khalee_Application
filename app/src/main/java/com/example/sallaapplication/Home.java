@@ -38,12 +38,12 @@ public class Home extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        Button history =findViewById(R.id.history);
-        history.setOnClickListener(new View.OnClickListener() {
+        Button historyButton = findViewById(R.id.history);
+        historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Home.this, ImageToText.class);
-                startActivity(i);
+                Intent intent = new Intent(Home.this, History.class);
+                startActivity(intent);
             }
         });
 
