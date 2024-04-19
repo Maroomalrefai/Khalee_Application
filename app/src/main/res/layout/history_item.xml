@@ -39,7 +39,7 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="30dp"
-            android:id="@+id/recPriority"
+            android:id="@+id/recLang"
             android:text="priority"
             android:layout_toEndOf="@id/recTitle"
             android:layout_marginTop="20dp"
@@ -62,5 +62,4 @@
             android:layout_marginBottom="12dp"/>
 
     </RelativeLayout>
-
 </androidx.cardview.widget.CardView>
