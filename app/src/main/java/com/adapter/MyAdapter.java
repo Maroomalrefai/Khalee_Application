@@ -11,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.sallaapplication.R;
 import com.model.HistoryData;
 
@@ -31,22 +29,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.history_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        HistoryData data = dataList.get(position);
+
+        holder.recTitle.setText(data.getDataTitle());
+        holder.recDesc.setText(data.getDataDesc());
+        holder.recLang.setText(data.getDataLang());
+
+        // Load image using Glide library
         Glide.with(context)
-                .load(dataList.get(position).getDataImage())
-                .apply(new RequestOptions()
-                        .placeholder(R.drawable.bright) // Placeholder image while loading
-                        .error(R.drawable.cameraiconbright) // Error image if loading fails
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)) // Cache both original and transformed sizes
+                .load(data.getDataImage())
+                .placeholder(R.drawable.bright) // Placeholder image while loading
+                .error(R.drawable.cameraiconbright) // Error image if loading fails
                 .into(holder.recImage);
-        holder.recTitle.setText(dataList.get(position).getDataTitle());
-        holder.recDesc.setText(dataList.get(position).getDataDesc());
-        holder.recLang.setText(dataList.get(position).getDataLang());
     }
 
     @Override

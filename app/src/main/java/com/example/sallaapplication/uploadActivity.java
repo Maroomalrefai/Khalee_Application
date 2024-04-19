@@ -1,16 +1,8 @@
 package com.example.sallaapplication;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.model.HistoryData;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -80,41 +73,43 @@ public class uploadActivity extends AppCompatActivity {
     public void saveData(){
 
         String userId = getCurrentUserId();
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Android Images").child(userId)
-                .child(uri.getLastPathSegment());
+        if (userId != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Android Tutorials").child(userId).child("images")
+                    .child(uri.getLastPathSegment());
 
 
-        progressBar.setVisibility(View.VISIBLE); // Show ProgressBar
+            progressBar.setVisibility(View.VISIBLE); // Show ProgressBar
 
-        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                uriTask.addOnSuccessListener(uri -> {
-                    imageURL = uri.toString();
-                    uploadData();
+            storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                    uriTask.addOnSuccessListener(uri -> {
+                        imageURL = uri.toString();
+                        uploadData(userId);
+                        progressBar.setVisibility(View.GONE); // Hide ProgressBar
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
                     progressBar.setVisibility(View.GONE); // Hide ProgressBar
-                });
+                    Toast.makeText(uploadActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else{
+                Toast.makeText(uploadActivity.this, "User ID not available", Toast.LENGTH_SHORT).show();
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressBar.setVisibility(View.GONE); // Hide ProgressBar
-                Toast.makeText(uploadActivity.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
-    public void uploadData(){
+    public void uploadData(String userId){
         String title = uploadTopic.getText().toString();
         String desc = uploadDesc.getText().toString();
         String lang = uploadLang.getText().toString();
 
         HistoryData dataClass = new HistoryData(title, desc, lang, imageURL);
 
-        String currentDate = DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-
-        FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentDate)
+        FirebaseDatabase.getInstance().getReference("Android Tutorials").child(userId).child("images").child(uri.getLastPathSegment())
                 .setValue(dataClass).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {

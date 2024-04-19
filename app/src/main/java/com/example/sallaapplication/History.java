@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.adapter.MyAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +31,7 @@ public class History extends AppCompatActivity {
     DatabaseReference databaseReference;
     ValueEventListener eventListener;
     ProgressBar progressBar;
+    MyAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,47 +44,31 @@ public class History extends AppCompatActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
         progressBar.setVisibility(View.VISIBLE);
 
-        String userId = getCurrentUserId();
-        if (userId != null) {
-            databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(userId);
-            dataList = new ArrayList<>();
-            MyAdapter adapter = new MyAdapter(History.this, dataList);
-            recyclerView.setAdapter(adapter);
-
-            eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    dataList.clear();
-                    for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
-                        HistoryData dataClass = itemSnapshot.getValue(HistoryData.class);
-                        dataList.add(dataClass);
-                    }
-                    adapter.notifyDataSetChanged();
-                    progressBar.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    progressBar.setVisibility(View.GONE);
-                    // Handle onCancelled
-                }
-            });
-        } else {
-            // Handle the case when the user is not signed in
-            // For example, display a message or redirect the user to the login screen
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("User is not signed in.")
-                    .setPositiveButton("OK", (dialog, which) -> finish())
-                    .show();
-        }
-    }
-
-    private String getCurrentUserId() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            return user.getUid();
-        } else {
-            return null;
-        }
+
+        String userId = user.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(userId).child("images");
+        dataList = new ArrayList<>();
+        adapter = new MyAdapter(History.this, dataList);
+        recyclerView.setAdapter(adapter);
+        progressBar.setVisibility(View.VISIBLE);
+        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataList.clear();
+                for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
+                    HistoryData dataClass = itemSnapshot.getValue(HistoryData.class);
+                    dataList.add(dataClass);
+                }
+                adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressBar.setVisibility(View.GONE);
+                // Handle onCancelled
+                Toast.makeText(History.this, "Failed to retrieve data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
