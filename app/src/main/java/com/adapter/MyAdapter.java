@@ -17,6 +17,7 @@ import com.example.sallaapplication.R;
 import com.example.sallaapplication.detailActivity;
 import com.model.HistoryData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -47,17 +48,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, detailActivity.class);
-                intent.putExtra("Image",dataList.get(holder.getAdapterPosition()).getDataImage());
-                intent.putExtra("Description",dataList.get(holder.getAdapterPosition()).getDataDesc());
-                intent.putExtra("Title",dataList.get(holder.getAdapterPosition()).getDataTitle());
+                intent.putExtra("Image", data.getDataImage());
+                intent.putExtra("Description", data.getDataDesc());
+                intent.putExtra("Title", data.getDataTitle());
 
                 context.startActivity(intent);
 
             }
         });
-
-
-
 
         // Load image using Glide library
         Glide.with(context)
@@ -72,12 +70,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return dataList.size();
     }
 
+    public void searchDataList(ArrayList<HistoryData> searchList) {
+        dataList = searchList;
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView recImage;
         TextView recTitle;
         TextView recDesc;
         TextView recLang;
         CardView recCard;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             recImage = itemView.findViewById(R.id.recImage);
@@ -85,7 +89,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             recDesc = itemView.findViewById(R.id.recDesc);
             recLang = itemView.findViewById(R.id.recLang);
             recCard = itemView.findViewById(R.id.recCard);
-
         }
     }
 }

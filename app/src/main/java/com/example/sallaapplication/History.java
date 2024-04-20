@@ -3,6 +3,7 @@ package com.example.sallaapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,6 +34,8 @@ public class History extends AppCompatActivity {
     ProgressBar progressBar;
     MyAdapter adapter;
 
+    SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,8 @@ public class History extends AppCompatActivity {
         progressBar = findViewById(R.id.proBar);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(History.this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
+        searchView =  findViewById(R.id.search);
+        searchView.clearFocus();
         progressBar.setVisibility(View.VISIBLE);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -70,5 +75,26 @@ public class History extends AppCompatActivity {
                 Toast.makeText(History.this, "Failed to retrieve data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchList(newText);
+                return true;
+            }
+        });
+    }
+    public void searchList (String text){
+        ArrayList<HistoryData> searchList = new ArrayList<>();
+        for(HistoryData dataClass: dataList){
+            if (dataClass.getDataTitle().toLowerCase().contains(text.toLowerCase())){
+                searchList.add(dataClass);
+            }
+        }
+        adapter.searchDataList(searchList);
     }
 }

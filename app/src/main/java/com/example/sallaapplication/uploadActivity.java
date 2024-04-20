@@ -109,7 +109,7 @@ public class uploadActivity extends AppCompatActivity {
 
         HistoryData dataClass = new HistoryData(title, desc, lang, imageURL);
 
-        FirebaseDatabase.getInstance().getReference("Android Tutorials").child("images").child(userId).child(uri.getLastPathSegment())
+        FirebaseDatabase.getInstance().getReference("Android Tutorials").child("images").child(userId).child(title)
                 .setValue(dataClass).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
