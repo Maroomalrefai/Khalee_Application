@@ -1,6 +1,7 @@
 package com.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,10 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sallaapplication.R;
+import com.example.sallaapplication.detailActivity;
 import com.model.HistoryData;
 
 import java.util.List;
@@ -40,6 +43,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.recTitle.setText(data.getDataTitle());
         holder.recDesc.setText(data.getDataDesc());
         holder.recLang.setText(data.getDataLang());
+        holder.recCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, detailActivity.class);
+                intent.putExtra("Image",dataList.get(holder.getAdapterPosition()).getDataImage());
+                intent.putExtra("Description",dataList.get(holder.getAdapterPosition()).getDataDesc());
+                intent.putExtra("Title",dataList.get(holder.getAdapterPosition()).getDataTitle());
+
+                context.startActivity(intent);
+
+            }
+        });
+
+
+
 
         // Load image using Glide library
         Glide.with(context)
@@ -59,13 +77,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         TextView recTitle;
         TextView recDesc;
         TextView recLang;
-
+        CardView recCard;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             recImage = itemView.findViewById(R.id.recImage);
             recTitle = itemView.findViewById(R.id.recTitle);
             recDesc = itemView.findViewById(R.id.recDesc);
             recLang = itemView.findViewById(R.id.recLang);
+            recCard = itemView.findViewById(R.id.recCard);
+
         }
     }
 }

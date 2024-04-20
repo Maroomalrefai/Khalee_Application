@@ -74,7 +74,7 @@ public class uploadActivity extends AppCompatActivity {
 
         String userId = getCurrentUserId();
         if (userId != null) {
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Android Tutorials").child(userId).child("images")
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Android Tutorials").child("images").child(userId)
                     .child(uri.getLastPathSegment());
 
 
@@ -109,7 +109,7 @@ public class uploadActivity extends AppCompatActivity {
 
         HistoryData dataClass = new HistoryData(title, desc, lang, imageURL);
 
-        FirebaseDatabase.getInstance().getReference("Android Tutorials").child(userId).child("images").child(uri.getLastPathSegment())
+        FirebaseDatabase.getInstance().getReference("Android Tutorials").child("images").child(userId).child(uri.getLastPathSegment())
                 .setValue(dataClass).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
