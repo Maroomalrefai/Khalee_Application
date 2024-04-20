@@ -90,28 +90,28 @@ public class ImageToText extends AppCompatActivity {
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
-        filteredTokens = new ArrayList<>();
-
-    // Load allergen data from assets
-        loadAllergenData();
-        inputImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showInputImageDialog();
-            }
-
-        });
-        recognizeTextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (imageUri == null) {
-                    Toast.makeText(ImageToText.this, "Pick image first", Toast.LENGTH_SHORT).show();
-                } else {
-                    recognizeTextFromImage();
-                }
-
-            }
-        });
+//        filteredTokens = new ArrayList<>();
+//
+//    // Load allergen data from assets
+//        loadAllergenData();
+//        inputImageBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                showInputImageDialog();
+//            }
+//
+//        });
+//        recognizeTextBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (imageUri == null) {
+//                    Toast.makeText(ImageToText.this, "Pick image first", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    recognizeTextFromImage();
+//                }
+//
+//            }
+//        });
     }
 
     private String preprocessText(String text) {
@@ -350,11 +350,11 @@ public class ImageToText extends AppCompatActivity {
         boolean containsAllergen = searchAllergen(allergy, filteredTokens);
 
         // Display result to user
-        if (containsAllergen) {
-            showDialog("Ops! This product contains " + allergy + " and  it is not suitable for you.",R.drawable.notok);
-        } else {
-            showDialog("Great! This product is free from " + allergy + ".",R.drawable.ok);
-        }
+//        if (containsAllergen) {
+//            showDialog("Ops! This product contains " + allergy + " and  it is not suitable for you.",R.drawable.notok);
+//        } else {
+//            showDialog("Great! This product is free from " + allergy + ".",R.drawable.ok);
+//        }
     }
     private boolean searchAllergen(String allergy, List<String> filteredTokens) {
         // Perform search within the specified allergy for each filtered token
@@ -377,38 +377,38 @@ public class ImageToText extends AppCompatActivity {
         return false;
     }
 
-    private void showDialog(String message, int imageResourceId) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = getLayoutInflater().inflate(R.layout.custom_dialog, null);
-        dialogView.setBackground(ContextCompat.getDrawable(this, R.drawable.dialogbox));
-        builder.setView(dialogView);
-        ImageView imageView = dialogView.findViewById(R.id.dialog_image_view);
-        TextView textView = dialogView.findViewById(R.id.dialog_text_view);
-        Button savedImage = dialogView.findViewById(R.id.saveImageBtn); // Corrected to dialogView
-        Button closeButton = dialogView.findViewById(R.id.close); // Close button added
-
-        imageView.setImageResource(imageResourceId);
-        textView.setText(message);
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // Set background to transparent
-        alertDialog.show();
-
-        savedImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Start uploadActivity with the selected image URI
-                Intent intent = new Intent(ImageToText.this, uploadActivity.class);
-                intent.putExtra("imageUri", imageUri.toString());
-                startActivity(intent);
-                alertDialog.dismiss();
-            }
-        });
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss(); // Dismiss the dialog when the close button is clicked
-            }
-        });
-    }
+//    private void showDialog(String message, int imageResourceId) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        View dialogView = getLayoutInflater().inflate(R.layout.custom_dialog, null);
+//        dialogView.setBackground(ContextCompat.getDrawable(this, R.drawable.dialogbox));
+//        builder.setView(dialogView);
+//        ImageView imageView = dialogView.findViewById(R.id.dialog_image_view);
+//        TextView textView = dialogView.findViewById(R.id.dialog_text_view);
+//        Button savedImage = dialogView.findViewById(R.id.saveImageBtn); // Corrected to dialogView
+//        Button closeButton = dialogView.findViewById(R.id.close); // Close button added
+//
+//        imageView.setImageResource(imageResourceId);
+//        textView.setText(message);
+//
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT)); // Set background to transparent
+//        alertDialog.show();
+//
+//        savedImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Start uploadActivity with the selected image URI
+//                Intent intent = new Intent(ImageToText.this, uploadActivity.class);
+//                intent.putExtra("imageUri", imageUri.toString());
+//                startActivity(intent);
+//                alertDialog.dismiss();
+//            }
+//        });
+//        closeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                alertDialog.dismiss(); // Dismiss the dialog when the close button is clicked
+//            }
+//        });
+//    }
 }
