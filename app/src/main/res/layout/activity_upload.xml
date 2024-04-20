@@ -30,7 +30,9 @@
                     android:text="Product information"
                     android:textSize="30sp"
                     android:textAlignment="center"
-                    android:textColor="@color/blue"/>
+                    android:textColor="@color/blue"
+                    android:fontFamily="@font/tiltneon"
+                    android:textStyle="bold"/>
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -53,7 +55,9 @@
                     android:padding="16dp"
                     android:hint="Enter Product name"
                     android:gravity="start|center_vertical"
-                    android:textColor="@color/blue"/>
+                    android:textColor="@color/blue"
+                    android:fontFamily="@font/tiltneon"
+                    android:textStyle="bold"/>
 
                 <EditText
                     android:layout_width="match_parent"
@@ -64,7 +68,9 @@
                     android:padding="16dp"
                     android:hint="Enter company name"
                     android:gravity="start|center_vertical"
-                    android:textColor="@color/blue"/>
+                    android:textColor="@color/blue"
+                    android:fontFamily="@font/tiltneon"
+                    android:textStyle="bold"/>
 
                 <EditText
                     android:layout_width="match_parent"
@@ -75,7 +81,9 @@
                     android:padding="16dp"
                     android:hint="Description"
                     android:gravity="start|center_vertical"
-                    android:textColor="@color/blue"/>
+                    android:textColor="@color/blue"
+                    android:fontFamily="@font/tiltneon"
+                    android:textStyle="bold"/>
 
                 <Button
                     android:layout_width="match_parent"
@@ -85,11 +93,9 @@
                     android:textSize="18sp"
                     android:layout_marginTop="20dp"
                     app:cornerRadius = "20dp"
-                    android:backgroundTint="@color/orange"/>
-
-
-
-
+                    android:backgroundTint="@color/orange"
+                    android:fontFamily="@font/tiltneon"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

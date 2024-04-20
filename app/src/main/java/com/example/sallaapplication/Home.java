@@ -38,12 +38,20 @@ public class Home extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        Button historyButton = findViewById(R.id.history);
-        historyButton.setOnClickListener(new View.OnClickListener() {
+        Button seeAll =findViewById(R.id.textView5);
+        seeAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Home.this, History.class);
-                startActivity(intent);
+                Intent i = new Intent(Home.this, CommunitesMain.class);
+                startActivity(i);
+            }
+        });
+        Button history =findViewById(R.id.history);
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Home.this, ImageToText.class);
+                startActivity(i);
             }
         });
 
@@ -56,14 +64,10 @@ public class Home extends AppCompatActivity {
         setRecentRecycler(recentDataList);
 
         List<CommunitiesData> communitiesDatalist=new ArrayList<>();
-        communitiesDatalist.add(new CommunitiesData("Khalee Community",R.drawable.logo));
-        communitiesDatalist.add(new CommunitiesData("Tree Nut Community",R.drawable.logo));
-        communitiesDatalist.add(new CommunitiesData("Egg Community",R.drawable.logo));
-        communitiesDatalist.add(new CommunitiesData("Lactose Community",R.drawable.logo));
-        communitiesDatalist.add(new CommunitiesData("Gluten Community",R.drawable.logo));
-        communitiesDatalist.add(new CommunitiesData("Seasem Community",R.drawable.logo));
+        communitiesDatalist.add(new CommunitiesData("General Community",R.drawable.general));
+        communitiesDatalist.add(new CommunitiesData("Tree Nut Community",R.drawable.treenuts));
+        communitiesDatalist.add(new CommunitiesData("Gluten Community",R.drawable.gluten));
         setCommunitiesRecycler(communitiesDatalist);
-
     }
 
     private void setRecentRecycler(List<RecentData> recentsDataList) {

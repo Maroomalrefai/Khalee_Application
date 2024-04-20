@@ -34,7 +34,9 @@
             android:textSize="20sp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
-            android:layout_toEndOf="@id/recImage"/>
+            android:layout_toEndOf="@id/recImage"
+            android:fontFamily="@font/tiltneon"
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="80dp"
@@ -46,7 +48,9 @@
             android:layout_marginStart="90dp"
             android:textAlignment="center"
             android:textColor="@color/orange"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:fontFamily="@font/tiltneon"
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="140dp"
@@ -59,7 +63,9 @@
             android:layout_below="@id/recTitle"
             android:layout_marginStart="20dp"
             android:maxLines="1"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/tiltneon"
+            android:textStyle="bold"/>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
