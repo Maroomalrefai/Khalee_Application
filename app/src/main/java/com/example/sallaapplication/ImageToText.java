@@ -359,10 +359,12 @@ public class ImageToText extends AppCompatActivity {
     private boolean searchAllergen(String allergy, List<String> filteredTokens) {
         // Perform search within the specified allergy for each filtered token
         for (String token : filteredTokens) {
-            try {
+            // skip (oil,flour) conflict words
+            if (token.equalsIgnoreCase("oil")|| (token.equalsIgnoreCase("flour")&&!(allergy.equalsIgnoreCase("Gluten")))) continue;            try {
                 JSONArray ingredientsArray = allergenData.getJSONObject("allergens").getJSONArray(allergy);
                 for (int i = 0; i < ingredientsArray.length(); i++) {
                     String jsonIngredient = ingredientsArray.getString(i).toLowerCase();
+
 
                     // Check if the preprocessed ingredient is contained in the preprocessed token
                     if (jsonIngredient.contains(token)) {
