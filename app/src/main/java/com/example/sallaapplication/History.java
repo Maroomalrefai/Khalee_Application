@@ -63,6 +63,7 @@ public class History extends AppCompatActivity {
                 dataList.clear();
                 for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
                     HistoryData dataClass = itemSnapshot.getValue(HistoryData.class);
+                    dataClass.setKey(itemSnapshot.getKey());
                     dataList.add(dataClass);
                 }
                 adapter.notifyDataSetChanged();

@@ -30,7 +30,7 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        ImageView scan=findViewById(R.id.hi);
+        ImageView scan=findViewById(R.id.recycle_bin);
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -48,10 +48,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, detailActivity.class);
-                intent.putExtra("Image", data.getDataImage());
-                intent.putExtra("Description", data.getDataDesc());
-                intent.putExtra("Title", data.getDataTitle());
-
+                intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getDataImage());
+                intent.putExtra("Description", dataList.get(holder.getAdapterPosition()).getDataDesc());
+                intent.putExtra("Title", dataList.get(holder.getAdapterPosition()).getDataTitle());
+                intent.putExtra("Key", dataList.get(holder.getAdapterPosition()).getKey());
                 context.startActivity(intent);
 
             }
