@@ -159,7 +159,7 @@
         android:layout_width="143dp"
         android:layout_height="29dp"
         android:layout_marginBottom="12dp"
-        android:fontFamily="@font/overlock"
+        android:fontFamily="@font/tiltneon"
         android:text="Forget password?"
         android:textColor="@color/orange"
         android:textSize="18sp"
