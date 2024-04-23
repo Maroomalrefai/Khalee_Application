@@ -22,7 +22,7 @@
         android:layout_height="200dp"
         android:id="@+id/detailImage"
         android:padding="8dp"
-        android:src="@drawable/cameraiconbright"
+        android:src="@drawable/bright"
         android:layout_gravity="center"
         android:scaleType="fitXY"/>
 

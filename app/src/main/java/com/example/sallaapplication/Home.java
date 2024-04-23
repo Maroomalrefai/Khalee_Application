@@ -39,13 +39,13 @@ public class Home extends AppCompatActivity {
             }
         });
         Button seeAll =findViewById(R.id.textView5);
-//        seeAll.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(Home.this, CommunitesMain.class);
-//                startActivity(i);
-//            }
-//        });
+        seeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Home.this, CommunitesMain.class);
+                startActivity(i);
+            }
+        });
         Button history =findViewById(R.id.history);
         history.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +80,7 @@ public class Home extends AppCompatActivity {
 
     private void setCommunitiesRecycler(List<CommunitiesData> communitiesDatalist) {
         communitiesRecycler = findViewById(R.id.communitiesRecyclerView);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, communitiesRecycler.HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         communitiesRecycler.setLayoutManager(layoutManager);
         communitiesAdapter=new CommunitiesAdapter(this,communitiesDatalist);
         communitiesRecycler.setAdapter(communitiesAdapter);

@@ -11,16 +11,16 @@ public class CommunitiesData {
         return communityName;
     }
 
-    public void setCommunityName(String communityName) {
-        this.communityName = communityName;
-    }
+//    public void setCommunityName(String communityName) {
+//        this.communityName = communityName;
+//    }
 
 
     public Integer getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(Integer imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+//    public void setImageUrl(Integer imageUrl) {
+//        this.imageUrl = imageUrl;
+//    }
 }
