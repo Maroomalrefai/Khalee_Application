@@ -49,9 +49,9 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageActivity;
-import com.theartofdev.edmodo.cropper.CropImageView;
+//import com.theartofdev.edmodo.cropper.CropImage;
+//import com.theartofdev.edmodo.cropper.CropImageActivity;
+//import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,7 +78,7 @@ public class ImageToText extends AppCompatActivity {
     private TextRecognizer textRecognizer;
     JSONObject allergenData;
     List<String> filteredTokens;
-    String recognizedText;
+    String recognizedText=null;
     String allergy = "Egg";
 
     @Override
@@ -102,7 +102,12 @@ public class ImageToText extends AppCompatActivity {
         inputImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Reset imageUri and recognizedText when selecting a new image
+                imageUri = null;
+                recognizedText = null;
+                recognizedTextEt.setText("");
                 showInputImageDialog();
+
             }
 
         });
@@ -156,12 +161,17 @@ public class ImageToText extends AppCompatActivity {
                         @Override
                         public void onSuccess(Text text) {
                             progressDialog.dismiss();
-                            recognizedText=text.getText();
-                            recognizedText=preprocessText(recognizedText);
-                            Log.d(TAG, "onSuccess: recognizedText"+recognizedText);
+                            recognizedText = text.getText();
+                            recognizedText = preprocessText(recognizedText);
+                            Log.d(TAG, "onSuccess: recognizedText" + recognizedText);
                             recognizedTextEt.setText(recognizedText);
-                            // Call performSearch after text recognition is successful
-                            performSearch(allergy);
+                            if (!recognizedText.isEmpty()) {
+                                // Call performSearch after text recognition is successful
+                                performSearch(allergy);
+                            } else {
+                                // Display a Toast message to inform the user
+                                showDialog("Please ensure that your image contains your ingredients", R.drawable.emptyimage);
+                            }
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -378,14 +388,19 @@ public class ImageToText extends AppCompatActivity {
         }
     }
     private void performSearch(String allergy) {
+        // Check if recognized text is empty
+        if (recognizedText.isEmpty()) {
+            // If recognized text is empty, do nothing
+            return ;
+        }
         // Perform search within the specified allergy for each filtered token
         boolean containsAllergen = searchAllergen(allergy, filteredTokens);
 
         // Display result to user
         if (containsAllergen) {
-            showDialog("Ops! This product contains " + allergy + " and  it is not suitable for you.",R.drawable.notok);
+            showDialog("Ops! This product contains " + allergy + " and  it is not suitable for you.",R.drawable.notfree);
         } else {
-            showDialog("Great! This product is free from " + allergy + ".",R.drawable.ok);
+            showDialog("Great! This product is free from " + allergy + ".",R.drawable.allergenfree);
         }
     }
     private boolean searchAllergen(String allergy, List<String> filteredTokens) {
@@ -399,7 +414,7 @@ public class ImageToText extends AppCompatActivity {
 
 
                     // Check if the preprocessed ingredient is contained in the preprocessed token
-                    if (jsonIngredient.contains(token)) {
+                    if (jsonIngredient.equals(token)) {
                         return true; // Allergen found for this token
                     }
                 }
@@ -442,6 +457,10 @@ public class ImageToText extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss(); // Dismiss the dialog when the close button is clicked
+                // Reload the activity
+                Intent intent = getIntent();
+                finish(); // Finish the current activity
+                startActivity(intent); // Start the activity again
             }
         });
     }

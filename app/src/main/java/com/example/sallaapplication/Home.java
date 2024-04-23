@@ -57,9 +57,9 @@ public class Home extends AppCompatActivity {
 
         List<RecentData> recentDataList =new ArrayList<>();
         recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.milk));
-        recentDataList.add(new RecentData("Cheese","Alyaom","5 JOD",R.drawable.ok));
-        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.good));
-        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.notok));
+        recentDataList.add(new RecentData("Cheese","Alyaom","5 JOD",R.drawable.emptyimage));
+        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.emptyimage));
+        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.emptyimage));
 
         setRecentRecycler(recentDataList);
 
