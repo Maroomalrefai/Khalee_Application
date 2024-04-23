@@ -50,16 +50,16 @@ public class Home extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Home.this, ImageToText.class);
+                Intent i = new Intent(Home.this, History.class);
                 startActivity(i);
             }
         });
 
         List<RecentData> recentDataList =new ArrayList<>();
         recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.milk));
-        recentDataList.add(new RecentData("Cheese","Alyaom","5 JOD",R.drawable.ok));
-        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.good));
-        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.notok));
+        recentDataList.add(new RecentData("Cheese","Alyaom","5 JOD",R.drawable.emptyimage));
+        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.emptyimage));
+        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.emptyimage));
 
         setRecentRecycler(recentDataList);
 
@@ -80,7 +80,7 @@ public class Home extends AppCompatActivity {
 
     private void setCommunitiesRecycler(List<CommunitiesData> communitiesDatalist) {
         communitiesRecycler = findViewById(R.id.communitiesRecyclerView);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, communitiesRecycler.HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         communitiesRecycler.setLayoutManager(layoutManager);
         communitiesAdapter=new CommunitiesAdapter(this,communitiesDatalist);
         communitiesRecycler.setAdapter(communitiesAdapter);
