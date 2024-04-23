@@ -4,7 +4,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
-import com.adapter.CommunitiesMain;
+
+import com.adapter.CommunitiesAdapter;
+
 import com.model.CommunitiesData;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.List;
 
 public class CommunitesMain extends AppCompatActivity {
     RecyclerView communitiesRecycler;
-    CommunitiesMain communitiesMain;
+    CommunitiesAdapter communitiesMain;
     SearchView searchView;
 
     @Override
@@ -39,7 +41,7 @@ public class CommunitesMain extends AppCompatActivity {
         communitiesRecycler = findViewById(R.id.recyclerViewCommunities);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, communitiesRecycler.VERTICAL, false);
         communitiesRecycler.setLayoutManager(layoutManager);
-        communitiesMain=new CommunitiesMain(this,communitiesDatalist);
+        communitiesMain=new CommunitiesAdapter(this,communitiesDatalist);
         communitiesRecycler.setAdapter(communitiesMain);
     }
 
