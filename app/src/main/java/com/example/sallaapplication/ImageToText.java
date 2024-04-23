@@ -1,5 +1,6 @@
 package com.example.sallaapplication;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -17,6 +18,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,6 +49,9 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageActivity;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -210,7 +215,7 @@ public class ImageToText extends AppCompatActivity {
 
     private void pickImageGallery(){
         Log.d(TAG, "pickImageGallery: ");
-        Intent intent=new Intent(Intent.ACTION_PICK);
+        Intent intent=new Intent(Intent.ACTION_PICK);// pick image from ellery
         intent.setType("image/*");
         galleryActivityResultLancher.launch(intent);
     }
@@ -236,8 +241,8 @@ public class ImageToText extends AppCompatActivity {
     private void pickImageCamera (){
         Log.d(TAG, "pickImageCamera: ");
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE,"Sample Title");
-        values.put(MediaStore.Images.Media.DESCRIPTION,"Sample Description");
+        values.put(MediaStore.Images.Media.TITLE,"Sample Title");//title of the picture
+        values.put(MediaStore.Images.Media.DESCRIPTION,"Sample Description");//description
 
         imageUri= getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -325,6 +330,33 @@ public class ImageToText extends AppCompatActivity {
             break;
         }
     }
+
+//crop Image
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK) {
+//            if (resultCode == STORAGE_REQUEST_CODE) {
+//                CropImage.activity(data.getData())
+//                        .setGuidelines(CropImageView.Guidelines.ON)
+//                        .start(this);
+//            }
+//            if (resultCode == CAMERA_REQUEST_CODE) {
+//                CropImage.activity(imageUri)
+//                        .setGuidelines(CropImageView.Guidelines.ON)
+//                        .start(this);
+//            }
+//        }
+//        if (resultCode==CAMERA_REQUEST_CODE){
+//            CropImage.ActivityResult result=CropImage.getActivityResult(data);
+//            if (resultCode==RESULT_OK){
+//                Uri resultUri =result.getUri();
+//                imageIv.setImageURI(resultUri);
+//                BitmapDrawable bitmapDrawable=(BitmapDrawable)imageIv.getDrawable();
+//                TextRecognizer recognizer = new TextRecognizer.Builder().build();
+//            }
+//        }
+//    }
 
     private void loadAllergenData() {
         // Load JSON data from assets

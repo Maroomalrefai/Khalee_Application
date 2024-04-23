@@ -22,9 +22,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/blue"
-            android:fontFamily="@font/overlock"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:fontFamily="@font/tiltneon"
+            android:textStyle="bold"
+            android:textSize="18sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/recognizedTextBtn"
@@ -35,9 +35,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:backgroundTint="@color/blue"
-            android:fontFamily="@font/overlock"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:fontFamily="@font/tiltneon"
+            android:textStyle="bold"
+            android:textSize="18sp" />
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
@@ -60,20 +60,20 @@
                 android:text="Recognized text"
                 android:layout_marginTop="10dp"
                 android:textColor="#FE8247"
-                android:fontFamily="@font/overlock"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:fontFamily="@font/tiltneon"
+                android:textStyle="bold"
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/recognizedTextEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/overlock"
+                android:fontFamily="@font/tiltneon"
+                android:textStyle="bold"
                 android:hint="text will appear here."
                 android:minHeight="48dp"
                 android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"/>
 
         </LinearLayout>
     </ScrollView>

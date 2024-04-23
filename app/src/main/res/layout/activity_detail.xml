@@ -47,22 +47,4 @@
         android:id="@+id/detailDesc"
         android:textSize="18sp"
         android:textColor="@color/blue"/>
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="40dp"
-        android:backgroundTint="@color/orange"
-        app:tint = "@color/white"
-        android:src="@drawable/delete"
-        android:contentDescription="this is the recycle bin"/>
-</RelativeLayout>
-
 </LinearLayout>

@@ -36,9 +36,9 @@
             android:layout_gravity="center"
             android:text="Save for later!"
             android:backgroundTint="@color/blue"
-            android:fontFamily="@font/overlock"
-            android:textSize="18sp"
+            android:fontFamily="@font/tiltneon"
             android:textStyle="bold"
+            android:textSize="18sp"
             app:cornerRadius="20dp" />
 
         <!-- Add margin to create space between buttons -->
@@ -53,9 +53,9 @@
             android:layout_gravity="center"
             android:text="Cancel"
             android:backgroundTint="@color/blue"
-            android:fontFamily="@font/overlock"
-            android:textSize="18sp"
+            android:fontFamily="@font/tiltneon"
             android:textStyle="bold"
+            android:textSize="18sp"
             app:cornerRadius="20dp" />
     </LinearLayout>
 
