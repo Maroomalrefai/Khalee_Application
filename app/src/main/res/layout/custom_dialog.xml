@@ -8,11 +8,11 @@
 
     <ImageView
         android:id="@+id/dialog_image_view"
-        android:layout_width="88dp"
-        android:layout_height="93dp"
+        android:layout_width="163dp"
+        android:layout_height="124dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="30dp"
-        android:src="@drawable/ok" />
+        android:src="@drawable/emptyimage" />
 
     <TextView
         android:id="@+id/dialog_text_view"
