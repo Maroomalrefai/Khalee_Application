@@ -18,8 +18,10 @@
         app:queryHint="Search..."
         android:focusable="false"
         app:closeIcon="@drawable/arrow_left"
-        app:searchIcon="@drawable/search"
-        android:background="@drawable/blue_border"/>
+        app:searchIcon="@drawable/searchicon"
+        android:background="@drawable/blue_border"
+        android:fontFamily="@font/tiltneon"
+        android:textStyle="bold"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="10dp"
@@ -27,7 +29,9 @@
         android:layout_height="match_parent"
         android:id="@+id/recyclerView"
         android:scrollbars="vertical"
-        android:layout_below="@+id/search"/>
+        android:layout_below="@+id/search"
+        android:fontFamily="@font/tiltneon"
+        android:textStyle="bold"/>
 
     <ProgressBar
         android:id="@+id/proBar"
@@ -41,5 +45,7 @@
         android:layout_marginStart="175dp"
         android:layout_marginTop="216dp"
         android:layout_marginBottom="565dp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:fontFamily="@font/tiltneon"
+        android:textStyle="bold"/>
 </RelativeLayout>

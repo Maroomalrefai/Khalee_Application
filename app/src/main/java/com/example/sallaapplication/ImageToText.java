@@ -1,5 +1,6 @@
 package com.example.sallaapplication;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -17,6 +18,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,6 +49,9 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageActivity;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,7 +78,7 @@ public class ImageToText extends AppCompatActivity {
     private TextRecognizer textRecognizer;
     JSONObject allergenData;
     List<String> filteredTokens;
-    String recognizedText=null;
+    String recognizedText;
     String allergy = "Egg";
 
     @Override
@@ -97,10 +102,6 @@ public class ImageToText extends AppCompatActivity {
         inputImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Reset imageUri and recognizedText when selecting a new image
-                imageUri = null;
-                recognizedText = null;
-                recognizedTextEt.setText("");
                 showInputImageDialog();
             }
 
@@ -108,21 +109,12 @@ public class ImageToText extends AppCompatActivity {
         recognizeTextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Reset recognizedText when recognizing text from a new image
-                recognizedText = null;
-                recognizedTextEt.setText("");
                 if (imageUri == null) {
                     Toast.makeText(ImageToText.this, "Pick image first", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Check if recognizedText is already available
-                    if (recognizedText != null && !recognizedText.isEmpty()) {
-                        // Directly proceed to performSearch
-                        performSearch(allergy);
-                    } else {
-                        // Start recognition process
-                        recognizeTextFromImage();
-                    }
+                    recognizeTextFromImage();
                 }
+
             }
         });
     }
@@ -157,12 +149,8 @@ public class ImageToText extends AppCompatActivity {
         progressDialog.show();
 
         try{
-
-            // Create a new TextRecognizer instance
-            textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
             InputImage inputImage=InputImage.fromFilePath(this,imageUri);
             progressDialog.setMessage("Recognizing text");
-
             Task<Text> textTaskResult=textRecognizer.process(inputImage)
                     .addOnSuccessListener(new OnSuccessListener<Text>() {
                         @Override
@@ -172,14 +160,8 @@ public class ImageToText extends AppCompatActivity {
                             recognizedText=preprocessText(recognizedText);
                             Log.d(TAG, "onSuccess: recognizedText"+recognizedText);
                             recognizedTextEt.setText(recognizedText);
-                            if(!recognizedText.isEmpty()){
                             // Call performSearch after text recognition is successful
-                            performSearch(allergy);}
-                            else {
-                                // Display a Toast message to inform the user
-                               showDialog("Please ensure that your image contains your ingredients",R.drawable.emptyimage);
-                            }
-
+                            performSearch(allergy);
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -188,9 +170,7 @@ public class ImageToText extends AppCompatActivity {
                             progressDialog.dismiss();
                             Log.e(TAG, "onFailure:",e);
                             Toast.makeText(ImageToText.this,"Failed recognizing text due to"+e.getMessage(),Toast.LENGTH_SHORT).show();
-
                         }
-
                     });
         }
         catch (Exception e){
@@ -235,9 +215,7 @@ public class ImageToText extends AppCompatActivity {
 
     private void pickImageGallery(){
         Log.d(TAG, "pickImageGallery: ");
-        // Reset recognizedText when selecting a new image
-        recognizedText = null;
-        Intent intent=new Intent(Intent.ACTION_PICK);
+        Intent intent=new Intent(Intent.ACTION_PICK);// pick image from ellery
         intent.setType("image/*");
         galleryActivityResultLancher.launch(intent);
     }
@@ -262,11 +240,9 @@ public class ImageToText extends AppCompatActivity {
 
     private void pickImageCamera (){
         Log.d(TAG, "pickImageCamera: ");
-        // Reset recognizedText when selecting a new image
-        recognizedText = null;
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE,"Sample Title");
-        values.put(MediaStore.Images.Media.DESCRIPTION,"Sample Description");
+        values.put(MediaStore.Images.Media.TITLE,"Sample Title");//title of the picture
+        values.put(MediaStore.Images.Media.DESCRIPTION,"Sample Description");//description
 
         imageUri= getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -355,6 +331,33 @@ public class ImageToText extends AppCompatActivity {
         }
     }
 
+//crop Image
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK) {
+//            if (resultCode == STORAGE_REQUEST_CODE) {
+//                CropImage.activity(data.getData())
+//                        .setGuidelines(CropImageView.Guidelines.ON)
+//                        .start(this);
+//            }
+//            if (resultCode == CAMERA_REQUEST_CODE) {
+//                CropImage.activity(imageUri)
+//                        .setGuidelines(CropImageView.Guidelines.ON)
+//                        .start(this);
+//            }
+//        }
+//        if (resultCode==CAMERA_REQUEST_CODE){
+//            CropImage.ActivityResult result=CropImage.getActivityResult(data);
+//            if (resultCode==RESULT_OK){
+//                Uri resultUri =result.getUri();
+//                imageIv.setImageURI(resultUri);
+//                BitmapDrawable bitmapDrawable=(BitmapDrawable)imageIv.getDrawable();
+//                TextRecognizer recognizer = new TextRecognizer.Builder().build();
+//            }
+//        }
+//    }
+
     private void loadAllergenData() {
         // Load JSON data from assets
         try {
@@ -375,38 +378,28 @@ public class ImageToText extends AppCompatActivity {
         }
     }
     private void performSearch(String allergy) {
-
-        // Check if recognized text is empty
-        if (recognizedText.isEmpty()) {
-            // If recognized text is empty, do nothing
-            return ;
-        }
-
         // Perform search within the specified allergy for each filtered token
         boolean containsAllergen = searchAllergen(allergy, filteredTokens);
 
-        // Display result to user if the product suitable or not
+        // Display result to user
         if (containsAllergen) {
-            showDialog("Ops! This product contains " + allergy + " and  it is not suitable for you.",R.drawable.notfree);
+            showDialog("Ops! This product contains " + allergy + " and  it is not suitable for you.",R.drawable.notok);
         } else {
-            showDialog("Great! This product is free from " + allergy + ".",R.drawable.allergenfree);
+            showDialog("Great! This product is free from " + allergy + ".",R.drawable.ok);
         }
     }
     private boolean searchAllergen(String allergy, List<String> filteredTokens) {
-
-
         // Perform search within the specified allergy for each filtered token
         for (String token : filteredTokens) {
             // skip (oil,flour) conflict words
             if (token.equalsIgnoreCase("oil")|| (token.equalsIgnoreCase("flour")&&!(allergy.equalsIgnoreCase("Gluten")))) continue;            try {
-               //get the data of allergy
                 JSONArray ingredientsArray = allergenData.getJSONObject("allergens").getJSONArray(allergy);
                 for (int i = 0; i < ingredientsArray.length(); i++) {
                     String jsonIngredient = ingredientsArray.getString(i).toLowerCase();
 
 
                     // Check if the preprocessed ingredient is contained in the preprocessed token
-                    if (jsonIngredient.equals(token)) {
+                    if (jsonIngredient.contains(token)) {
                         return true; // Allergen found for this token
                     }
                 }
@@ -425,9 +418,9 @@ public class ImageToText extends AppCompatActivity {
         builder.setView(dialogView);
         ImageView imageView = dialogView.findViewById(R.id.dialog_image_view);
         TextView textView = dialogView.findViewById(R.id.dialog_text_view);
-        Button savedImage = dialogView.findViewById(R.id.saveImageBtn);
-        Button closeButton = dialogView.findViewById(R.id.close);
-    // set the text & image in the dialog
+        Button savedImage = dialogView.findViewById(R.id.saveImageBtn); // Corrected to dialogView
+        Button closeButton = dialogView.findViewById(R.id.close); // Close button added
+
         imageView.setImageResource(imageResourceId);
         textView.setText(message);
 
@@ -449,14 +442,7 @@ public class ImageToText extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss(); // Dismiss the dialog when the close button is clicked
-
-                // Reload the activity
-                Intent intent = getIntent();
-                finish(); // Finish the current activity
-                startActivity(intent); // Start the activity again
-
             }
         });
     }
-
 }

@@ -6,19 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".ProfileChange"
     android:background="@drawable/wightback">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
+        android:backgroundTint="#F0F5F9"
         app:cardCornerRadius="15dp"
         app:cardElevation="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.733"
-        android:backgroundTint="#F0F5F9">
+        app:layout_constraintVertical_bias="0.74">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,13 +35,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-95dp"
-                android:layout_marginBottom="-15dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="-15dp"
+                android:fontFamily="@font/tiltneon"
                 android:text="username"
                 android:textColor="#4F7D94"
                 android:textSize="23dp"
-                app:layout_constraintStart_toStartOf="parent"
-                android:fontFamily="@font/overlock"/>
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
                 android:id="@+id/line1"
@@ -59,14 +61,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-120dp"
-                android:layout_marginBottom="-15dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="-15dp"
+                android:fontFamily="@font/tiltneon"
                 android:text="email"
                 android:textColor="#4F7D94"
                 android:textSize="23dp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Editprofile"
-                android:fontFamily="@font/overlock"/>
+                app:layout_constraintTop_toBottomOf="@+id/Editprofile" />
 
             <EditText
                 android:id="@+id/line2"
@@ -74,12 +77,13 @@
                 android:layout_height="61dp"
                 android:layout_marginLeft="30dp"
                 android:ems="10"
+                android:fontFamily="@font/tiltneon"
                 android:inputType="textEmailAddress"
                 android:text="Yasmin@gmail.com"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name"
-                android:fontFamily="@font/overlock"/>
+                app:layout_constraintTop_toBottomOf="@+id/name" />
 
             <TextView
                 android:id="@+id/datetext"
@@ -89,10 +93,11 @@
                 android:layout_marginLeft="-105dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="-15dp"
-                android:fontFamily="@font/overlock"
+                android:fontFamily="@font/tiltneon"
                 android:text="birthday"
                 android:textColor="#4F7D94"
                 android:textSize="23dp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/Editprofile" />
 
@@ -102,12 +107,13 @@
                 android:layout_height="61dp"
                 android:layout_marginLeft="30dp"
                 android:ems="10"
+                android:fontFamily="@font/tiltneon"
                 android:inputType="date"
                 android:text="22/10/2002"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/name"
-                android:fontFamily="@font/overlock"/>
+                app:layout_constraintTop_toBottomOf="@+id/name" />
 
             <Button
                 android:id="@+id/editallergy"
@@ -117,24 +123,26 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="25dp"
                 android:backgroundTint="#F0F5F9"
+                android:fontFamily="@font/tiltneon"
                 android:text="Edit allergies information"
                 android:textColor="#4F7D94"
                 android:textSize="22dp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText"
-                app:layout_constraintVertical_bias="0.162"
-                android:fontFamily="@font/overlock"/>
+                app:layout_constraintVertical_bias="0.162" />
 
             <Button
                 android:id="@+id/button2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#4F7D94"
+                android:fontFamily="@font/tiltneon"
                 android:text="Save"
-                android:fontFamily="@font/overlock"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -156,18 +164,20 @@
 
     <Button
         android:id="@+id/button3"
-        android:textSize="19dp"
         android:layout_width="91dp"
         android:layout_height="48dp"
         android:layout_margin="1dp"
+        android:layout_marginTop="-90dp"
         android:layout_marginEnd="34dp"
+        android:fontFamily="@font/tiltneon"
         android:text="Edit"
+        android:textSize="19dp"
+        android:textStyle="bold"
         app:backgroundTint="#4F7F95"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.155"
+        app:layout_constraintHorizontal_bias="0.149"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/imageView3"
-        app:layout_constraintVertical_bias="0.562"
-        android:fontFamily="@font/overlock"/>
+        app:layout_constraintVertical_bias="0.761" />
 </androidx.constraintlayout.widget.ConstraintLayout>
