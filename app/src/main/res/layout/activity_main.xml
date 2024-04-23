@@ -21,9 +21,9 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="375dp"
-        android:layout_height="123dp"
-        android:layout_marginBottom="17dp"
+        android:layout_width="286dp"
+        android:layout_height="117dp"
+        android:layout_marginBottom="8dp"
         android:fontFamily="@font/tiltneon"
         android:gravity="center"
         android:text="Scan ingrdients to check for non-compliant products."
@@ -40,7 +40,7 @@
         android:id="@+id/button"
         android:layout_width="250dp"
         android:layout_height="70dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="210dp"
         android:fontFamily="@font/tiltneon"
         android:text="Get started !"
@@ -50,6 +50,7 @@
         app:backgroundTint="#FE8247"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:rippleColor="@color/light_orange" />

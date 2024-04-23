@@ -39,18 +39,18 @@ public class Home extends AppCompatActivity {
             }
         });
         Button seeAll =findViewById(R.id.textView5);
-        seeAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Home.this, CommunitesMain.class);
-                startActivity(i);
-            }
-        });
+//        seeAll.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(Home.this, CommunitesMain.class);
+//                startActivity(i);
+//            }
+//        });
         Button history =findViewById(R.id.history);
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Home.this, ImageToText.class);
+                Intent i = new Intent(Home.this, History.class);
                 startActivity(i);
             }
         });
