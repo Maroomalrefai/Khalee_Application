@@ -1,6 +1,5 @@
 package com.example.sallaapplication;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
@@ -13,8 +12,6 @@ import java.util.List;
 public class CommunitesMain extends AppCompatActivity {
     RecyclerView communitiesRecycler;
     CommunitiesMain communitiesMain;
-    SearchView searchView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +31,6 @@ public class CommunitesMain extends AppCompatActivity {
         communitiesDatalist.add(new CommunitiesData("",R.drawable.white));
         setCommunitiesRecycler(communitiesDatalist);
     }
-
     private void setCommunitiesRecycler(List<CommunitiesData> communitiesDatalist) {
         communitiesRecycler = findViewById(R.id.recyclerViewCommunities);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, communitiesRecycler.VERTICAL, false);
@@ -42,6 +38,4 @@ public class CommunitesMain extends AppCompatActivity {
         communitiesMain=new CommunitiesMain(this,communitiesDatalist);
         communitiesRecycler.setAdapter(communitiesMain);
     }
-
-
 }
