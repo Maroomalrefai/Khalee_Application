@@ -27,10 +27,10 @@
             android:layout_marginTop="84dp"
             android:layout_marginEnd="32dp"
             android:layout_marginBottom="59dp"
-            android:fontFamily="@font/overlock"
+            android:fontFamily="@font/tiltneon"
             android:text="Let's get you Register!"
             android:textColor="#FEF3ED"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +46,7 @@
         android:id="@+id/radioGroup"
         android:layout_width="0dp"
         android:layout_height="72dp"
+        android:layout_marginTop="-30dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +60,7 @@
             android:background="@drawable/radio_button_left_selector"
             android:button="@color/text"
             android:checked="true"
-            android:fontFamily="@font/overlock"
+            android:fontFamily="@font/tiltneon"
             android:gravity="center"
             android:text="Login"
             android:textColor="@color/black"
@@ -73,7 +74,7 @@
             android:background="@drawable/radio_button_right_selector"
             android:button="@color/text"
             android:checked="true"
-            android:fontFamily="@font/overlock"
+            android:fontFamily="@font/tiltneon"
             android:gravity="center"
             android:text="Registerd"
             android:textColor="@color/black"
@@ -98,22 +99,22 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userTextInput"
         android:layout_width="344dp"
-        android:layout_height="70dp"
-        android:textColorHint="#4F7D94"
-        android:textStyle="bold"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="24dp"
         android:gravity="center"
+        android:textColorHint="#4F7D94"
+        android:textStyle="bold"
         app:boxStrokeColor="#4F7D94"
+        app:boxStrokeWidth="2dp"
+        app:cursorColor="#4F7D94"
         app:hintTextColor="#4F7D94"
-        app:layout_constraintHorizontal_bias="0.647"
         app:layout_constraintBottom_toTopOf="@+id/emailTextInput"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.647"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-        app:boxStrokeWidth="2dp"
-        app:cursorColor="#4F7D94">
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup">
 
 
         <com.google.android.material.textfield.TextInputEditText
@@ -124,14 +125,13 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="8dp"
+            android:fontFamily="@font/tiltneon"
             android:hint="username"
             android:inputType="text"
+            android:textColor="#4F7D94"
             android:textColorHint="#4F7D94"
             android:textStyle="bold"
-            app:boxStrokeColor="#7DB39C"
-            android:fontFamily="@font/tiltneon"
-            android:textColor="#4F7D94"
-            >
+            app:boxStrokeColor="#7DB39C">
 
         </com.google.android.material.textfield.TextInputEditText>
     </com.google.android.material.textfield.TextInputLayout>
@@ -141,7 +141,7 @@
         android:layout_width="344dp"
         android:layout_height="70dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="24dp"
         android:gravity="center"
         android:textColorHint="#4F7D94"
@@ -150,16 +150,15 @@
         app:boxStrokeWidth="2dp"
         app:cursorColor="#4F7D94"
         app:hintTextColor="#4F7D94"
-        app:layout_constraintBottom_toTopOf="@+id/passwordTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.647"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+        app:layout_constraintTop_toBottomOf="@+id/userTextInput">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
             android:layout_width="350dp"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
@@ -175,26 +174,25 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordTextInputLayout"
         android:layout_width="344dp"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="24dp"
         android:gravity="center"
         android:textColorHint="#4F7D94"
+        android:textStyle="bold"
         app:boxStrokeColor="#4F7D94"
+        app:boxStrokeWidth="2dp"
+        app:cursorColor="#4F7D94"
         app:hintTextColor="#4F7D94"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.647"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailTextInput"
-        app:passwordToggleEnabled="true"
-        android:textStyle="bold"
-        app:boxStrokeWidth="2dp"
-        app:cursorColor="#4F7D94" >
+        app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
@@ -204,12 +202,12 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="8dp"
+            android:fontFamily="@font/tiltneon"
             android:hint="Password"
             android:inputType="textPassword"
+            android:textColor="#4F7D94"
             android:textColorHint="#4F7D94"
-            android:textStyle="bold"
-            android:fontFamily="@font/tiltneon"
-            android:textColor="#4F7D94"  />
+            android:textStyle="bold" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -219,13 +217,14 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/overlock"
+        android:layout_marginBottom="214dp"
+        android:fontFamily="@font/tiltneon"
         android:text="Sign Up"
         android:textColor="#ffffff"
         android:textSize="20sp"
         android:textStyle="bold"
         app:backgroundTint="#4F7D94"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout"

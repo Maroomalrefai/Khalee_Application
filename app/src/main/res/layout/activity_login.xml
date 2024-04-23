@@ -10,14 +10,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="180dp"
+        android:layout_width="match_parent"
+        android:layout_height="177dp"
         android:background="@drawable/barwithlogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/welcome"
@@ -30,22 +29,23 @@
             android:fontFamily="@font/tiltneon"
             android:text="Let's get you Login!"
             android:textColor="#FEF3ED"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-           />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="0dp"
-        android:layout_height="72dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="-30dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
@@ -61,7 +61,7 @@
             android:gravity="center"
             android:text="Login"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/rbRight"
@@ -75,33 +75,33 @@
             android:gravity="center"
             android:text="Register"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
     </RadioGroup>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailTextInput"
         android:layout_width="344dp"
         android:layout_height="70dp"
-        android:textColorHint="#4F7D94"
-        android:textStyle="bold"
         android:layout_marginStart="24dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="24dp"
         android:gravity="center"
+        android:textColorHint="#4F7D94"
+        android:textStyle="bold"
         app:boxStrokeColor="#4F7D94"
         app:boxStrokeWidth="2dp"
+        app:cursorColor="#4F7D94"
         app:hintTextColor="#4F7D94"
-        app:layout_constraintHorizontal_bias="0.647"
         app:layout_constraintBottom_toTopOf="@+id/passwordTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.647"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-        app:cursorColor="#4F7D94"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
             android:layout_width="350dp"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
@@ -109,7 +109,7 @@
             android:fontFamily="@font/tiltneon"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:textColor="#4F7D94"
+            android:textColor="@color/blue"
             android:textColorHint="@color/blue"
             android:textStyle="bold">
 
@@ -127,6 +127,8 @@
         android:gravity="center"
         android:textColorHint="#4F7D94"
         app:boxStrokeColor="#4F7D94"
+        app:boxStrokeWidth="2dp"
+        app:cursorColor="#4F7D94"
         app:hintTextColor="#4F7D94"
         app:layout_constraintBottom_toTopOf="@+id/resetPass"
         app:layout_constraintEnd_toEndOf="parent"
@@ -134,15 +136,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailTextInput"
         app:passwordToggleEnabled="true"
-        app:boxStrokeWidth="2dp"
-        app:passwordToggleTint="#4F7D94"
-        app:cursorColor="#4F7D94"
-        >
+        app:passwordToggleTint="#4F7D94">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:layout_width="350dp"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="24dp"
@@ -174,7 +173,7 @@
         android:id="@+id/login"
         android:layout_width="248dp"
         android:layout_height="55dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/tiltneon"
         android:text="Login"
         android:textColor="#ffffff"
@@ -185,7 +184,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/resetPass"
-        app:rippleColor="#FAF6F3" />
+        app:rippleColor="@color/light_blue" />
 
 
     <com.google.android.material.button.MaterialButton
@@ -204,7 +203,7 @@
         app:icon="@drawable/google_white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
 
