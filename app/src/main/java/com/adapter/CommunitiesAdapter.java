@@ -1,6 +1,7 @@
 package com.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallaapplication.R;
+import com.example.sallaapplication.detailActivity;
+import com.example.sallaapplication.detailCommunity;
 import com.model.CommunitiesData;
 
 import java.util.List;
@@ -33,8 +37,15 @@ public class CommunitiesAdapter extends RecyclerView.Adapter<CommunitiesAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CommunitiesViewHolders holder, int position) {
-    holder.communityName.setText(communitiesDatalist.get(position).getCommunityName());
-    holder.communityImage.setImageResource(communitiesDatalist.get(position).getImageUrl());
+        holder.comCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, detailCommunity.class);
+                context.startActivity(intent);
+            }
+        });
+        holder.communityName.setText(communitiesDatalist.get(position).getCommunityName());
+        holder.communityImage.setImageResource(communitiesDatalist.get(position).getImageUrl());
     }
 
     @Override
@@ -45,10 +56,14 @@ public class CommunitiesAdapter extends RecyclerView.Adapter<CommunitiesAdapter.
     public static final class CommunitiesViewHolders extends RecyclerView.ViewHolder{
         ImageView communityImage;
         TextView communityName;
+        CardView comCard;
+
+
         public CommunitiesViewHolders(@NonNull View itemView) {
             super(itemView);
             communityImage=itemView.findViewById(R.id.communityImage);
             communityName=itemView.findViewById(R.id.communityName);
+            comCard = itemView.findViewById(R.id.comCard);
 
         }
     }
