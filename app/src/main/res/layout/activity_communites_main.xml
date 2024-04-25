@@ -72,13 +72,13 @@
         tools:layout_editor_absoluteY="255dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCommunities"
-            android:layout_width="410dp"
-            android:layout_height="256dp"
-            android:layout_gravity="center"
-            android:layout_below="@+id/search"
-            android:scrollbars="vertical"
-            android:layout_marginTop="180dp"/>
+            android:layout_width="409dp"
+            android:layout_height="495dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="291dp"
+            tools:ignore="MissingConstraints"
+            android:id="@+id/Communities"
+            android:layout_marginTop="200dp"
+            android:layout_marginBottom="50dp"/>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
