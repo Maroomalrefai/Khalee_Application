@@ -23,7 +23,7 @@
 
             <Button
                 android:id="@+id/textView5"
-                android:layout_width="103dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="10dp"
@@ -45,7 +45,7 @@
                 android:id="@+id/constraintLayout"
                 android:layout_width="0dp"
                 android:layout_height="180dp"
-                android:background="@drawable/barwithlogo"
+                android:background="@drawable/barpic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -89,10 +89,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/welcome" />
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profileIcon"
-                    android:layout_width="68dp"
-                    android:layout_height="60dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_marginStart="302dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginBottom="2dp"
@@ -102,7 +102,8 @@
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.881"
+                    app:layout_constraintVertical_bias="1.0"
+                    app:shapeAppearanceOverlay="@style/circular"
                     app:srcCompat="@drawable/profileicon" />
 
 
