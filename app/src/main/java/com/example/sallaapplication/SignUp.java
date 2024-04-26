@@ -45,6 +45,8 @@ public class SignUp extends AppCompatActivity {
         editTextPass = findViewById(R.id.password);
         editTextUsername = findViewById(R.id.username);
         mAuth = FirebaseAuth.getInstance();
+
+
 //        textView=findViewById(R.id.loginNow);
         passwordInputLayout = findViewById(R.id.passwordTextInputLayout);
         passwordFeedbackTextView = findViewById(R.id.passwordFeedbackTextView);

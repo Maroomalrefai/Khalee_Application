@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
@@ -35,22 +36,29 @@ public class ProfileChange extends AppCompatActivity {
 
     EditText edate;
     EditText userName;
+
     EditText userEmail;
     ImageView ImgUserPhoto;
     static int PReqCode = 1;
     static int REQUESCODE = 1;
     Uri pickedImgUri;
+    FirebaseAuth mAuth;
+    Button save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_change);
-//        Button button = findViewById(R.id.editallergy);
-//        edate = findViewById(R.id.edate);
+      Button button = findViewById(R.id.editallergy);
+        edate = findViewById(R.id.edate);
         ImgUserPhoto = findViewById(R.id.UserPhoto);
         userName = findViewById(R.id.userName);
         userEmail = findViewById(R.id.userEmail);
-
+        mAuth = FirebaseAuth.getInstance();
+        save = findViewById(R.id.save_button);
+        String name;
+        name = String.valueOf(userName.getText());
+        ImgUserPhoto.setImageURI(pickedImgUri);
         ImgUserPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,103 +72,62 @@ public class ProfileChange extends AppCompatActivity {
 
             }
         });
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               updateUserInfo(name,pickedImgUri,mAuth.getCurrentUser());
+            }
+        });
     }
-//    private void CreateUserAccount(String email, final String name, String password) {
-//
-//
-//        // this method create user account with specific email and password
-//
-//        mAuth.createUserWithEmailAndPassword(email,password)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//
-//                            // user account created successfully
-//                            showMessage("Account created");
-//                            // after we created user account we need to update his profile picture and name
-//                            updateUserInfo( name ,pickedImgUri,mAuth.getCurrentUser());
-//
-//
-//
-//                        }
-//                        else
-//                        {
-//
-//                            // account creation failed
-//                            showMessage("account creation failed" + task.getException().getMessage());
-//                            regBtn.setVisibility(View.VISIBLE);
-//                            loadingProgress.setVisibility(View.INVISIBLE);
-//
-//                        }
-//                    }
-//                });
-//
-//    }
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+    String userId = user.getUid();
 
     // update user photo and name
-//    private void updateUserInfo(final String name, Uri pickedImgUri, final FirebaseUser currentUser) {
-//
-//        // first we need to upload user photo to firebase storage and get url
-//
-//        StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("users_photos");
-//        final StorageReference imageFilePath = mStorage.child(pickedImgUri.getLastPathSegment());
-//        imageFilePath.putFile(pickedImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//
-//                // image uploaded succesfully
-//                // now we can get our image url
-//
-//                imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//
-//                        // uri contain user image url
-//
-//
-//                        UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
-//                                .setDisplayName(name)
-//                                .setPhotoUri(uri)
-//                                .build();
-//
-//
-//                        currentUser.updateProfile(profleUpdate)
-//                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//
-//                                        if (task.isSuccessful()) {
-//                                            // user info updated successfully
-//                                            showMessage("Register Complete");
+    private void updateUserInfo(final String name, Uri pickedImgUri, final FirebaseUser currentUser) {
+
+        // first we need to upload user photo to firebase storage and get url
+
+        StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("Android Tutorials").child(userId).child("profileImage");
+        final StorageReference imageFilePath = mStorage.child(pickedImgUri.getLastPathSegment());
+        imageFilePath.putFile(pickedImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                // image uploaded succesfully
+                // now we can get our image url
+
+                imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+
+                        // uri contain user image url
+                        UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(name)
+                                .setPhotoUri(uri)
+                                .build();
+
+
+                        currentUser.updateProfile(profleUpdate)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                        if (task.isSuccessful()) {
+
+                                            Toast.makeText(ProfileChange.this, "success", Toast.LENGTH_SHORT).show();
 //                                            updateUI();
-//                                        }
-//
-//                                    }
-//                                });
-//
-//                    }
-//                });
-//
-//            }
-//        });
-//    }
-//
-//    private void updateUI() {
-//
-//        Intent homeActivity = new Intent(getApplicationContext(),Home.class);
-//        startActivity(homeActivity);
-//        finish();
-//
-//
-//    }
-//
-//    // simple method to show toast message
-//    private void showMessage(String message) {
-//
-//        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
-//
-//    }
+                                        }
+
+                                    }
+                                });
+
+                    }
+                });
+
+            }
+        });
+    }
 
     private void openGallery() {
         //TODO: open gallery intent and wait for user to pick an image !
@@ -199,7 +166,7 @@ public class ProfileChange extends AppCompatActivity {
         }
     }
 }
-//
+
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
