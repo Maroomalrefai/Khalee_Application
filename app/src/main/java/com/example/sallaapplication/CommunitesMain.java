@@ -1,48 +1,48 @@
 package com.example.sallaapplication;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 
 import com.adapter.CommunitiesAdapter;
-
 import com.model.CommunitiesData;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class CommunitesMain extends AppCompatActivity {
-    RecyclerView communitiesRecycler;
-    CommunitiesAdapter communitiesMain;
-    SearchView searchView;
-
+    RecyclerView recyclerView;
+    CommunitiesAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_communites_main);
+     recyclerView = findViewById(R.id.Communities);
 
-        List<CommunitiesData> communitiesDatalist=new ArrayList<>();
-        communitiesDatalist.add(new CommunitiesData("Khalee Community",R.drawable.generalmain));
-        communitiesDatalist.add(new CommunitiesData("Tree Nut Community",R.drawable.treenutsmain));
-        communitiesDatalist.add(new CommunitiesData("Gluten Community",R.drawable.glutenmain));
-        communitiesDatalist.add(new CommunitiesData("Lactose Community",R.drawable.lactosemain));
-        communitiesDatalist.add(new CommunitiesData("Seafood Community",R.drawable.seafoodmain));
-        communitiesDatalist.add(new CommunitiesData("Sesame Community",R.drawable.sesamemain));
-        communitiesDatalist.add(new CommunitiesData("   Egg Community",R.drawable.eggmain));
-        communitiesDatalist.add(new CommunitiesData("   Soy Community",R.drawable.soymain));
-        communitiesDatalist.add(new CommunitiesData("Mustard  Community",R.drawable.mustardmain));
-        communitiesDatalist.add(new CommunitiesData("Peanut Community",R.drawable.peanutmain));
-        communitiesDatalist.add(new CommunitiesData("",R.drawable.white));
-        setCommunitiesRecycler(communitiesDatalist);
+     List <CommunitiesData> communitiesDataList = new ArrayList<>();
+     communitiesDataList.add(new CommunitiesData("General Community",R.drawable.generalfinal));
+     communitiesDataList.add(new CommunitiesData("Gluten free Community",R.drawable.gluten));
+     communitiesDataList.add(new CommunitiesData("Egg free Community",R.drawable.egg));
+        communitiesDataList.add(new CommunitiesData("Sesame free Community",R.drawable.sesame));
+        communitiesDataList.add(new CommunitiesData("Lactose free Community",R.drawable.lactose));
+        communitiesDataList.add(new CommunitiesData("Tree nuts free Community",R.drawable.treenuts));
+        communitiesDataList.add(new CommunitiesData("Soy free Community",R.drawable.soy));
+        communitiesDataList.add(new CommunitiesData("Peanut free Community",R.drawable.peanut));
+        communitiesDataList.add(new CommunitiesData("Seafood free Community",R.drawable.seafood));
+        communitiesDataList.add(new CommunitiesData("Mustard free Community",R.drawable.mustard));
+        setCommunitiesRecycler(communitiesDataList);
     }
-
     private void setCommunitiesRecycler(List<CommunitiesData> communitiesDatalist) {
-        communitiesRecycler = findViewById(R.id.recyclerViewCommunities);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, communitiesRecycler.VERTICAL, false);
-        communitiesRecycler.setLayoutManager(layoutManager);
-        communitiesMain=new CommunitiesAdapter(this,communitiesDatalist);
-        communitiesRecycler.setAdapter(communitiesMain);
+        recyclerView = findViewById(R.id.Communities);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter=new CommunitiesAdapter(this,communitiesDatalist);
+        recyclerView.setAdapter(adapter);
     }
-
 }
+
+
+
+

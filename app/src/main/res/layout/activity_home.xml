@@ -33,7 +33,6 @@
                 android:text="@string/see_all"
                 android:textColor="@color/black"
                 android:textSize="18sp"
-                android:textStyle="bold"
                 app:backgroundTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/textView6"
                 app:layout_constraintEnd_toEndOf="parent"
