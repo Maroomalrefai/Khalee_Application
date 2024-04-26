@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,7 +21,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -37,7 +40,6 @@ public class ProfileChange extends AppCompatActivity {
 
     EditText edate;
     EditText userName;
-
     EditText userEmail;
     ImageView ImgUserPhoto;
     static int PReqCode = 1;
@@ -46,30 +48,45 @@ public class ProfileChange extends AppCompatActivity {
     FirebaseAuth mAuth;
     Button save;
     ProgressBar progressBar;
-
+    FirebaseUser user ;
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_change);
-//      Button button = findViewById(R.id.editallergy);
+        Button button = findViewById(R.id.editallergy);
         edate = findViewById(R.id.edate);
         ImgUserPhoto = findViewById(R.id.UserPhoto);
         userName = findViewById(R.id.userName);
         userEmail = findViewById(R.id.userEmail);
         mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
         save = findViewById(R.id.save_button);
-        String name;
-        name = String.valueOf(userName.getText());
         ImgUserPhoto.setImageURI(pickedImgUri);
         progressBar = findViewById(R.id.progress_bar);
+        userId = user.getUid();
+        getUserInformation();
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ProfileChange.this,Question.class);
+                startActivity(i);
+            }
+        });
+        edate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
+
 
         ImgUserPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (Build.VERSION.SDK_INT >= 22) {
-
                     checkAndRequestForPermission();
                 } else {
                     openGallery();
@@ -80,58 +97,147 @@ public class ProfileChange extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               updateUserInfo(name,pickedImgUri,mAuth.getCurrentUser());
+                String newName = userName.getText().toString();
+                updateUserImage(pickedImgUri, mAuth.getCurrentUser(), newName);
             }
         });
+
+
     }
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String userId = user.getUid();
+    private void showDatePickerDialog() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-    // update user photo and name
-    private void updateUserInfo(final String name, Uri pickedImgUri, final FirebaseUser currentUser) {
-
-        // first we need to upload user photo to firebase storage and get url
-
-        StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("Android Tutorials").child(userId).child("profileImage");
-        final StorageReference imageFilePath = mStorage.child(pickedImgUri.getLastPathSegment());
-        progressBar.setVisibility(View.VISIBLE);
-        imageFilePath.putFile(pickedImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                // image uploaded succesfully
-                // now we can get our image url
-
-                imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,R.style.dialogTheme,
+                new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onSuccess(Uri uri) {
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        // Update EditText with the selected date
+                        edate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
+                    }
+                },
+                year, month, dayOfMonth);
 
-                        // uri contain user image url
-                        UserProfileChangeRequest profleUpdate = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(name)
-                                .setPhotoUri(uri)
-                                .build();
+        datePickerDialog.show();
+    }
+    private void updateUserInformation() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            // Update user email
+            userEmail.setText(user.getEmail());
 
+            // Update user display name (username)
+            String displayName = user.getDisplayName();
+            if (displayName != null && !displayName.isEmpty()) {
+                userName.setText(displayName);
+            } else {
+                // If display name is not set, display a placeholder
+                userName.setText("No name");
+            }
 
-                        currentUser.updateProfile(profleUpdate)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
+            Uri photoUri = user.getPhotoUrl();
+            if (photoUri != null) {
+                Glide.with(this)
+                        .load(photoUri)
+                        .error(R.drawable.profileicon) // Placeholder image in case of error
+                        .into(ImgUserPhoto);
+            } else {
+                // If profile picture is not set, display a placeholder
+                ImgUserPhoto.setImageResource(R.drawable.cameraiconbright);
+            }
+        }
+    }
 
-                                        if (task.isSuccessful()) {
+    private void updateUserProfile(final FirebaseUser currentUser, @Nullable final Uri newImageUri, final String newName) {
+        UserProfileChangeRequest.Builder profileUpdateBuilder = new UserProfileChangeRequest.Builder()
+                .setDisplayName(newName);
 
-                                            Toast.makeText(ProfileChange.this, "success", Toast.LENGTH_SHORT).show();
-//                                            updateUI();
-                                        }
+        // If a new image URI is provided, set the photo URI in the profile update
+        if (newImageUri != null) {
+            profileUpdateBuilder.setPhotoUri(newImageUri);
+        }
 
-                                    }
-                                });
+        // Build the profile update request
+        UserProfileChangeRequest profileUpdate = profileUpdateBuilder.build();
+
+        // Update the user's profile
+        currentUser.updateProfile(profileUpdate)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // Profile update successful
+                            String message = "Profile updated successfully";
+
+                            // If both name and photo are updated, show a combined success message
+                            if (newImageUri != null) {
+                                message += " with new photo";
+                            }
+
+                            Toast.makeText(ProfileChange.this, message, Toast.LENGTH_SHORT).show();
+
+                            // Update UI to reflect changes
+                            updateUserInformation();
+                        } else {
+                            // Profile update failed
+                            Toast.makeText(ProfileChange.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // Hide progress bar after updating profile
                         progressBar.setVisibility(View.GONE);
                     }
                 });
+    }
 
-            }
-        });
+
+    private void updateUserImage( Uri pickedImgUri, final FirebaseUser currentUser,String newName) {
+
+        if (pickedImgUri != null) {
+            StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("Android Tutorials").child(userId).child("profileImage");
+            final StorageReference imageFilePath = mStorage.child(pickedImgUri.getLastPathSegment());
+            progressBar.setVisibility(View.VISIBLE);
+            imageFilePath.putFile(pickedImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+
+                            UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                                    .setPhotoUri(uri)
+                                    .setDisplayName(newName)
+                                    .build();
+
+                            currentUser.updateProfile(profileUpdate)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(ProfileChange.this, "success", Toast.LENGTH_SHORT).show();
+                                                getUserInformation();
+                                            }
+                                            updateUserProfile(currentUser, uri, newName);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Handle failure in uploading image
+                                            progressBar.setVisibility(View.GONE);
+                                            Toast.makeText(ProfileChange.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    });
+                }
+            });
+        } else {
+            updateUserProfile(currentUser,null, newName);
+        }
     }
 
     private void openGallery() {
@@ -167,43 +273,14 @@ public class ProfileChange extends AppCompatActivity {
         if(resultCode == RESULT_OK && requestCode == REQUESCODE && data !=null){
             pickedImgUri = data.getData();
             ImgUserPhoto.setImageURI(pickedImgUri);
-
         }
     }
-}
+    public void getUserInformation() {
+        progressBar.setVisibility(View.VISIBLE);
+        userEmail.setText(user.getEmail());
+        userName.setText(user.getDisplayName());
+        Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.profileicon) .into(ImgUserPhoto);
+        progressBar.setVisibility(View.GONE);
 
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(ProfileChange.this,Question.class);
-//                startActivity(i);
-//            }
-//        });
-//        edate.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                showDatePickerDialog();
-//            }
-//        });
-//
-//    }
-//    private void showDatePickerDialog() {
-//        Calendar calendar = Calendar.getInstance();
-//        int year = calendar.get(Calendar.YEAR);
-//        int month = calendar.get(Calendar.MONTH);
-//        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-//
-//        DatePickerDialog datePickerDialog = new DatePickerDialog(
-//                this,R.style.dialogTheme,
-//                new DatePickerDialog.OnDateSetListener() {
-//                    @Override
-//                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                        // Update EditText with the selected date
-//                        edate.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
-//                    }
-//                },
-//                year, month, dayOfMonth);
-//
-//        datePickerDialog.show();
-//    }
-//}
+    }
+}
