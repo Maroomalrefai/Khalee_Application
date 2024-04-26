@@ -89,6 +89,7 @@ public class ImageToText extends AppCompatActivity {
         recognizeTextBtn = findViewById(R.id.recognizedTextBtn);
         imageIv = findViewById(R.id.imageIv);
         recognizedTextEt = findViewById(R.id.recognizedTextEt);
+        recognizedTextEt.setEnabled(false);
         cameraPermission = new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
         progressDialog = new ProgressDialog(this);

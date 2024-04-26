@@ -16,17 +16,27 @@ import com.example.sallaapplication.R;
 import com.example.sallaapplication.detailActivity;
 import com.example.sallaapplication.DetailCommunity;
 import com.model.CommunitiesData;
+import com.model.HistoryData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommunitiesAdapter extends RecyclerView.Adapter<CommunitiesAdapter.CommunitiesViewHolders>{
     Context context;
     List<CommunitiesData> communitiesDatalist;
 
+
+
     public CommunitiesAdapter(Context context, List<CommunitiesData> communitiesDataList) {
         this.context = context;
         this.communitiesDatalist = communitiesDataList;
     }
+
+    public void setFilteredList(List<CommunitiesData>filteredList) {
+       this.communitiesDatalist=filteredList;
+       notifyDataSetChanged();
+    }
+
 
     @NonNull
     @Override

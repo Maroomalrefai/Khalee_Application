@@ -13,31 +13,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/inputImageBtn"
-            android:text="Take image"
-            android:layout_marginEnd="5dp"
-            app:cornerRadius="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:backgroundTint="@color/blue"
             android:fontFamily="@font/tiltneon"
+            android:text="Take image"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:textSize="18sp" />
+            app:cornerRadius="20dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/recognizedTextBtn"
-            android:text=" Recognize text"
-            android:layout_marginEnd="5dp"
-            app:cornerRadius="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:backgroundTint="@color/blue"
             android:fontFamily="@font/tiltneon"
+            android:text=" Recognize text"
+            android:textSize="16sp"
             android:textStyle="bold"
-            android:textSize="18sp" />
+            app:cornerRadius="20dp" />
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"

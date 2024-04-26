@@ -8,27 +8,29 @@
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchicon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="390dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="204dp"
         android:background="@drawable/blue_border"
         android:focusable="false"
+        android:fontFamily="@font/tiltneon"
+        android:textStyle="bold"
         app:closeIcon="@drawable/arrow_left"
         app:iconifiedByDefault="false"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
         app:queryHint="Search..."
         app:searchHintIcon="@null"
         app:searchIcon="@drawable/searchicon"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="186dp"
-        tools:ignore="MissingConstraints" />
+        tools:layout_editor_absoluteX="16dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="411dp"
-        android:layout_height="190dp"
-        android:background="@drawable/barwithlogo"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-8dp"
-        tools:ignore="MissingConstraints">
+        android:layout_width="422dp"
+        android:layout_height="194dp"
+        android:background="@drawable/barpic"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-5dp"
+        tools:layout_editor_absoluteY="-19dp">
 
         <TextView
             android:id="@+id/community"
@@ -38,19 +40,19 @@
             android:layout_marginTop="42dp"
             android:layout_marginEnd="182dp"
             android:fontFamily="@font/tiltneon"
-            android:text="Communites"
+            android:text="Communities"
             android:textColor="@color/white"
             android:textSize="28dp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textStyle="bold"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/profileIcon"
-            android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:id="@+id/profileicon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginStart="302dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="2dp"
@@ -60,11 +62,13 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.881"
+            app:layout_constraintVertical_bias="1.0"
+            app:shapeAppearanceOverlay="@style/circular"
             app:srcCompat="@drawable/profileicon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints"
@@ -72,13 +76,13 @@
         tools:layout_editor_absoluteY="255dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCommunities"
-            android:layout_width="410dp"
-            android:layout_height="256dp"
-            android:layout_gravity="center"
-            android:layout_below="@+id/search"
-            android:scrollbars="vertical"
-            android:layout_marginTop="180dp"/>
+            android:id="@+id/Communities"
+            android:layout_width="409dp"
+            android:layout_height="495dp"
+            android:layout_marginTop="245dp"
+            android:layout_marginBottom="180dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="291dp" />
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

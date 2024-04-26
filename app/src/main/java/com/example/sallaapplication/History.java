@@ -33,7 +33,6 @@ public class History extends AppCompatActivity {
     ValueEventListener eventListener;
     ProgressBar progressBar;
     MyAdapter adapter;
-
     SearchView searchView;
 
     @Override

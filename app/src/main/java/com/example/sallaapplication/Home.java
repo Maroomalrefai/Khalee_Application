@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adapter.CommunitiesAdapter;
 import com.adapter.RecentsAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.model.CommunitiesData;
 import com.model.RecentData;
 
@@ -21,9 +25,12 @@ import java.util.List;
 
 public class Home extends AppCompatActivity {
     RecyclerView recentRecycler;
+    TextView Name;
+    ImageView profileIcon;
     RecentsAdapter recentsAdapter;
     RecyclerView communitiesRecycler;
     CommunitiesAdapter communitiesAdapter;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,21 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         ImageView scan=findViewById(R.id.recycle_bin);
+        Name =findViewById(R.id.name);
+        profileIcon = findViewById(R.id.profileIcon);
+
+        if (user != null) {
+            Name.setText(user.getDisplayName());
+        } else {
+            Name.setText("user name");
+        }
+        profileIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Home.this, ProfileChange.class);
+                startActivity(i);
+            }
+        });
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,11 +60,11 @@ public class Home extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        Button seeAll =findViewById(R.id.textView5);
-        seeAll.setOnClickListener(new View.OnClickListener() {
+        ImageView icon = findViewById(R.id.profileIcon);
+        icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Home.this, CommunitesMain.class);
+                Intent i = new Intent(Home.this, ProfileChange.class);
                 startActivity(i);
             }
         });
@@ -51,6 +73,15 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Home.this, History.class);
+                startActivity(i);
+            }
+        });
+
+        Button seeAll = findViewById(R.id.textView5);
+        seeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i =new Intent(Home.this, CommunitiesMain.class);
                 startActivity(i);
             }
         });
@@ -64,9 +95,9 @@ public class Home extends AppCompatActivity {
         setRecentRecycler(recentDataList);
 
         List<CommunitiesData> communitiesDatalist=new ArrayList<>();
-        communitiesDatalist.add(new CommunitiesData("General Community",R.drawable.general));
-        communitiesDatalist.add(new CommunitiesData("Tree Nut Community",R.drawable.treenuts));
-        communitiesDatalist.add(new CommunitiesData("Gluten Community",R.drawable.gluten));
+        communitiesDatalist.add(new CommunitiesData("General Community",R.drawable.generalfinal));
+        communitiesDatalist.add(new CommunitiesData("Tree nuts free Community",R.drawable.treenuts));
+        communitiesDatalist.add(new CommunitiesData("Gluten free Community",R.drawable.gluten));
         setCommunitiesRecycler(communitiesDatalist);
     }
 

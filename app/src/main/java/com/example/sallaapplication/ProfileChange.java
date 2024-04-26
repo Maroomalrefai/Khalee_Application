@@ -1,25 +1,73 @@
 package com.example.sallaapplication;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.Calendar;
 
 public class ProfileChange extends AppCompatActivity {
-EditText edate;
+
+    EditText edate;
+    EditText userName;
+    EditText userEmail;
+    ImageView ImgUserPhoto;
+    static int PReqCode = 1;
+    static int REQUESCODE = 1;
+    Uri pickedImgUri;
+    FirebaseAuth mAuth;
+    Button save;
+    ProgressBar progressBar;
+    FirebaseUser user ;
+    String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_change);
-        Button button=findViewById(R.id.editallergy);
-        edate=findViewById(R.id.edate);
+        Button button = findViewById(R.id.editallergy);
+        edate = findViewById(R.id.edate);
+        ImgUserPhoto = findViewById(R.id.UserPhoto);
+        userName = findViewById(R.id.userName);
+        userEmail = findViewById(R.id.userEmail);
+        userEmail.setEnabled(false);
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        save = findViewById(R.id.save_button);
+        ImgUserPhoto.setImageURI(pickedImgUri);
+        progressBar = findViewById(R.id.progress_bar);
+        userId = user.getUid();
+        getUserInformation();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,6 +81,28 @@ EditText edate;
                 showDatePickerDialog();
             }
         });
+
+
+        ImgUserPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (Build.VERSION.SDK_INT >= 22) {
+                    checkAndRequestForPermission();
+                } else {
+                    openGallery();
+                }
+
+            }
+        });
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newName = userName.getText().toString();
+                updateUserImage(pickedImgUri, mAuth.getCurrentUser(), newName);
+            }
+        });
+
 
     }
     private void showDatePickerDialog() {
@@ -53,5 +123,165 @@ EditText edate;
                 year, month, dayOfMonth);
 
         datePickerDialog.show();
+    }
+    private void updateUserInformation() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            // Update user email
+            userEmail.setText(user.getEmail());
+
+            // Update user display name (username)
+            String displayName = user.getDisplayName();
+            if (displayName != null && !displayName.isEmpty()) {
+                userName.setText(displayName);
+            } else {
+                // If display name is not set, display a placeholder
+                userName.setText("No name");
+            }
+
+            Uri photoUri = user.getPhotoUrl();
+            if (photoUri != null) {
+                Glide.with(this)
+                        .load(photoUri)
+                        .error(R.drawable.profileicon) // Placeholder image in case of error
+                        .into(ImgUserPhoto);
+            } else {
+                // If profile picture is not set, display a placeholder
+                ImgUserPhoto.setImageResource(R.drawable.cameraiconbright);
+            }
+        }
+    }
+
+    private void updateUserProfile(final FirebaseUser currentUser, @Nullable final Uri newImageUri, final String newName) {
+        UserProfileChangeRequest.Builder profileUpdateBuilder = new UserProfileChangeRequest.Builder()
+                .setDisplayName(newName);
+
+        // If a new image URI is provided, set the photo URI in the profile update
+        if (newImageUri != null) {
+            profileUpdateBuilder.setPhotoUri(newImageUri);
+        }
+
+        // Build the profile update request
+        UserProfileChangeRequest profileUpdate = profileUpdateBuilder.build();
+
+        // Update the user's profile
+        currentUser.updateProfile(profileUpdate)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // Profile update successful
+                            String message = "Profile updated successfully";
+
+                            // If both name and photo are updated, show a combined success message
+                            if (newImageUri != null) {
+                                message += " with new photo";
+                            }
+
+                            Toast.makeText(ProfileChange.this, message, Toast.LENGTH_SHORT).show();
+
+                            // Update UI to reflect changes
+                            updateUserInformation();
+                        } else {
+                            // Profile update failed
+                            Toast.makeText(ProfileChange.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                        }
+
+                        // Hide progress bar after updating profile
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+
+    private void updateUserImage( Uri pickedImgUri, final FirebaseUser currentUser,String newName) {
+
+        if (pickedImgUri != null) {
+            StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("Android Tutorials").child(userId).child("profileImage");
+            final StorageReference imageFilePath = mStorage.child(pickedImgUri.getLastPathSegment());
+            progressBar.setVisibility(View.VISIBLE);
+            imageFilePath.putFile(pickedImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                    imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+
+                            UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                                    .setPhotoUri(uri)
+                                    .setDisplayName(newName)
+                                    .build();
+
+                            currentUser.updateProfile(profileUpdate)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(ProfileChange.this, "success", Toast.LENGTH_SHORT).show();
+                                                getUserInformation();
+                                            }
+                                            updateUserProfile(currentUser, uri, newName);
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Handle failure in uploading image
+                                            progressBar.setVisibility(View.GONE);
+                                            Toast.makeText(ProfileChange.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    });
+                }
+            });
+        } else {
+            updateUserProfile(currentUser,null, newName);
+        }
+    }
+
+    private void openGallery() {
+        //TODO: open gallery intent and wait for user to pick an image !
+
+        Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent, REQUESCODE);
+    }
+
+    private void checkAndRequestForPermission() {
+        if (ContextCompat.checkSelfPermission(ProfileChange.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(ProfileChange.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+
+                Toast.makeText(ProfileChange.this, "Please accept for required permission", Toast.LENGTH_SHORT).show();
+
+            } else {
+                ActivityCompat.requestPermissions(ProfileChange.this,
+                        new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE},
+                        PReqCode);
+            }
+
+        } else
+            openGallery();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK && requestCode == REQUESCODE && data !=null){
+            pickedImgUri = data.getData();
+            ImgUserPhoto.setImageURI(pickedImgUri);
+        }
+    }
+    public void getUserInformation() {
+        progressBar.setVisibility(View.VISIBLE);
+        userEmail.setText(user.getEmail());
+        userName.setText(user.getDisplayName());
+        Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.profileicon) .into(ImgUserPhoto);
+        progressBar.setVisibility(View.GONE);
+
     }
 }
