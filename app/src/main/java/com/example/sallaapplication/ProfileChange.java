@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,12 +45,14 @@ public class ProfileChange extends AppCompatActivity {
     Uri pickedImgUri;
     FirebaseAuth mAuth;
     Button save;
+    ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_change);
-      Button button = findViewById(R.id.editallergy);
+//      Button button = findViewById(R.id.editallergy);
         edate = findViewById(R.id.edate);
         ImgUserPhoto = findViewById(R.id.UserPhoto);
         userName = findViewById(R.id.userName);
@@ -59,6 +62,8 @@ public class ProfileChange extends AppCompatActivity {
         String name;
         name = String.valueOf(userName.getText());
         ImgUserPhoto.setImageURI(pickedImgUri);
+        progressBar = findViewById(R.id.progress_bar);
+
         ImgUserPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,7 +85,6 @@ public class ProfileChange extends AppCompatActivity {
         });
     }
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
     String userId = user.getUid();
 
     // update user photo and name
@@ -90,6 +94,7 @@ public class ProfileChange extends AppCompatActivity {
 
         StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("Android Tutorials").child(userId).child("profileImage");
         final StorageReference imageFilePath = mStorage.child(pickedImgUri.getLastPathSegment());
+        progressBar.setVisibility(View.VISIBLE);
         imageFilePath.putFile(pickedImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -121,7 +126,7 @@ public class ProfileChange extends AppCompatActivity {
 
                                     }
                                 });
-
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
 
