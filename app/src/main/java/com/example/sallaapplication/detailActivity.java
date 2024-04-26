@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import com.google.firebase.storage.StorageReference;
         FloatingActionButton deleteButton;
         String key;
         String imageUrl;
+        ProgressBar progBar;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,15 @@ import com.google.firebase.storage.StorageReference;
             detailDesc = findViewById(R.id.detailDesc);
             detailImage = findViewById(R.id.detailImage);
             detailTitle = findViewById(R.id.detailTitle);
+            detailLang = findViewById(R.id.detailLang);
             deleteButton = findViewById(R.id.delete);
+            progBar = findViewById(R.id.progBar);
 
             Bundle bundle = getIntent().getExtras();
             if (bundle != null) {
                 detailDesc.setText(bundle.getString("Description"));
                 detailTitle.setText(bundle.getString("Title"));
+                detailLang.setText(bundle.getString("Company"));
                 key = bundle.getString("Key"); // Assuming "Key" is the key in your database
                 imageUrl = bundle.getString("Image");
                 Glide.with(this).load(bundle.getString("Image")).into(detailImage);
@@ -55,7 +60,7 @@ import com.google.firebase.storage.StorageReference;
                     String userId = user.getUid();
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Android Tutorials")
                             .child(userId).child("images");
-
+                     progBar.setVisibility(View.VISIBLE);
                     StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);
                     storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -66,11 +71,13 @@ import com.google.firebase.storage.StorageReference;
                                     Toast.makeText(detailActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(getApplicationContext(), History.class));
                                     finish();
+                                    progBar.setVisibility(View.GONE);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     Toast.makeText(detailActivity.this, "Failed to delete data from database", Toast.LENGTH_SHORT).show();
+                                    progBar.setVisibility(View.GONE);
                                 }
                             });
                         }
@@ -78,6 +85,7 @@ import com.google.firebase.storage.StorageReference;
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(detailActivity.this, "Failed to delete image from storage", Toast.LENGTH_SHORT).show();
+                            progBar.setVisibility(View.GONE);
                         }
                     });
                 }

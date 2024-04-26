@@ -43,6 +43,7 @@ public class uploadActivity extends AppCompatActivity {
 
         uploadImage = findViewById(R.id.uploadImage);
         uploadDesc = findViewById(R.id.uploadDesc);
+        uploadDesc.setEnabled(false);
         uploadTopic = findViewById(R.id.uploadTopic);
         uploadLang = findViewById(R.id.uploadLang);
         saveButton = findViewById(R.id.saveButton);
@@ -71,6 +72,15 @@ public class uploadActivity extends AppCompatActivity {
         }
     }
     public void saveData(){
+
+        // Get the text from the fields
+        String topic = uploadTopic.getText().toString().trim();
+        String lang = uploadLang.getText().toString().trim();
+        if (topic.isEmpty() || lang.isEmpty()) {
+            // Show a toast message indicating that the fields are required
+            Toast.makeText(uploadActivity.this, "Product and Company names are required", Toast.LENGTH_SHORT).show();
+            return; // Exit the method without proceeding further
+        }
 
         String userId = getCurrentUserId();
         if (userId != null) {

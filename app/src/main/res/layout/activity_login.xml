@@ -162,7 +162,7 @@
         android:fontFamily="@font/tiltneon"
         android:text="Forget password?"
         android:textColor="@color/orange"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/login"
         app:layout_constraintEnd_toEndOf="parent"
