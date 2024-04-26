@@ -60,6 +60,7 @@ public class ProfileChange extends AppCompatActivity {
         ImgUserPhoto = findViewById(R.id.UserPhoto);
         userName = findViewById(R.id.userName);
         userEmail = findViewById(R.id.userEmail);
+        userEmail.setEnabled(false);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         save = findViewById(R.id.save_button);
