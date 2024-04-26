@@ -40,12 +40,12 @@
                 android:fontFamily="@font/tiltneon"
                 android:text="username"
                 android:textColor="#4F7D94"
-                android:textSize="23dp"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
-                android:id="@+id/line1"
+                android:id="@+id/userName"
                 android:layout_width="349dp"
                 android:layout_height="61dp"
                 android:layout_marginLeft="30dp"
@@ -66,13 +66,13 @@
                 android:fontFamily="@font/tiltneon"
                 android:text="email"
                 android:textColor="#4F7D94"
-                android:textSize="23dp"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/Editprofile" />
 
             <EditText
-                android:id="@+id/line2"
+                android:id="@+id/userEmail"
                 android:layout_width="349dp"
                 android:layout_height="61dp"
                 android:layout_marginLeft="30dp"
@@ -96,7 +96,7 @@
                 android:fontFamily="@font/tiltneon"
                 android:text="birthday"
                 android:textColor="#4F7D94"
-                android:textSize="23dp"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/Editprofile" />
@@ -126,7 +126,7 @@
                 android:fontFamily="@font/tiltneon"
                 android:text="Edit allergies information"
                 android:textColor="#4F7D94"
-                android:textSize="22dp"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -148,7 +148,7 @@
     </androidx.cardview.widget.CardView>
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/UserPhoto"
         android:layout_width="160dp"
         android:layout_height="160dp"
         android:layout_marginStart="126dp"
@@ -174,10 +174,10 @@
         android:textSize="19dp"
         android:textStyle="bold"
         app:backgroundTint="#4F7F95"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintBottom_toBottomOf="@+id/UserPhoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.149"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintStart_toStartOf="@+id/UserPhoto"
+        app:layout_constraintTop_toBottomOf="@+id/UserPhoto"
         app:layout_constraintVertical_bias="0.761" />
 </androidx.constraintlayout.widget.ConstraintLayout>

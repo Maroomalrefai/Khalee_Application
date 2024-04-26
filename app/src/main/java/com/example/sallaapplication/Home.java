@@ -21,6 +21,7 @@ import java.util.List;
 
 public class Home extends AppCompatActivity {
     RecyclerView recentRecycler;
+    ImageView profileIcon;
     RecentsAdapter recentsAdapter;
     RecyclerView communitiesRecycler;
     CommunitiesAdapter communitiesAdapter;
@@ -31,6 +32,15 @@ public class Home extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         ImageView scan=findViewById(R.id.recycle_bin);
+
+        profileIcon = findViewById(R.id.profileIcon);
+        profileIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Home.this, ProfileChange.class);
+                startActivity(i);
+            }
+        });
         scan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
