@@ -23,4 +23,7 @@ public class CommunitiesData {
     public void setImageUrl(Integer imageUrl) {
         this.imageUrl = imageUrl;
     }
+public CommunitiesData(){
+
+}
 }

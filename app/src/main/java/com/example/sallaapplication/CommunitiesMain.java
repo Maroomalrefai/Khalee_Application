@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.widget.SearchView;
 import com.adapter.CommunitiesAdapter;
+import com.adapter.MyAdapter;
 import com.model.CommunitiesData;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,8 @@ import java.util.List;
 public class CommunitiesMain extends AppCompatActivity {
     RecyclerView recyclerView;
     CommunitiesAdapter adapter;
-    private SearchView searchView;
-     List<CommunitiesData>communitiesList;
+    SearchView searchView;
+    List<CommunitiesData>communitiesDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,11 @@ public class CommunitiesMain extends AppCompatActivity {
         recyclerView = findViewById(R.id.Communities);
         searchView=findViewById(R.id.searchicon);
         searchView.clearFocus();
+        communitiesDataList = new ArrayList<>();
+        adapter = new CommunitiesAdapter(CommunitiesMain.this, communitiesDataList);
+
+
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -50,7 +56,6 @@ public class CommunitiesMain extends AppCompatActivity {
             }
         });
 
-        List<CommunitiesData> communitiesDataList = new ArrayList<>();
         communitiesDataList.add(new CommunitiesData("   General Community", R.drawable.generalfinal));
         communitiesDataList.add(new CommunitiesData("Gluten free Community", R.drawable.gluten));
         communitiesDataList.add(new CommunitiesData("Egg free Community", R.drawable.egg));
@@ -66,8 +71,8 @@ public class CommunitiesMain extends AppCompatActivity {
     }
 
     private void fileList(String text) {
-        List<CommunitiesData> filteredList= new ArrayList<>();
-        for(CommunitiesData communities :communitiesList){
+        ArrayList<CommunitiesData> filteredList= new ArrayList<>();
+        for(CommunitiesData communities :communitiesDataList){
             if (communities.getCommunityName().toLowerCase().contains(text.toLowerCase())){
                 filteredList.add(communities);
             }

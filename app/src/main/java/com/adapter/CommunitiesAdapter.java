@@ -32,8 +32,8 @@ public class CommunitiesAdapter extends RecyclerView.Adapter<CommunitiesAdapter.
         this.communitiesDatalist = communitiesDataList;
     }
 
-    public void setFilteredList(List<CommunitiesData>filteredList) {
-       this.communitiesDatalist=filteredList;
+    public void setFilteredList(ArrayList<CommunitiesData>filteredList) {
+       communitiesDatalist=filteredList;
        notifyDataSetChanged();
     }
 

@@ -1,36 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchicon"
-        android:layout_width="390dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="204dp"
-        android:background="@drawable/blue_border"
-        android:focusable="false"
-        android:fontFamily="@font/tiltneon"
-        android:textStyle="bold"
-        app:closeIcon="@drawable/arrow_left"
-        app:iconifiedByDefault="false"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        app:queryHint="Search..."
-        app:searchHintIcon="@null"
-        app:searchIcon="@drawable/searchicon"
-        tools:layout_editor_absoluteX="16dp" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="422dp"
-        android:layout_height="194dp"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
         android:background="@drawable/barpic"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-5dp"
-        tools:layout_editor_absoluteY="-19dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/community"
@@ -67,22 +51,25 @@
             app:srcCompat="@drawable/profileicon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ScrollView
-        android:id="@+id/scrollView3"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchicon"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="4dp"
-        tools:layout_editor_absoluteY="255dp">
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="178dp"
+        android:background="@drawable/blue_border"
+        android:fontFamily="@font/tiltneon"
+        android:textStyle="bold"
+        app:closeIcon="@drawable/arrow_left"
+        app:iconifiedByDefault="false"
+        app:queryHint="Search..."
+        app:searchHintIcon="@null"
+        app:searchIcon="@drawable/searchicon" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/Communities"
-            android:layout_width="409dp"
-            android:layout_height="495dp"
-            android:layout_marginTop="245dp"
-            android:layout_marginBottom="180dp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="291dp" />
-    </ScrollView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Communities"
+        android:layout_width="match_parent"
+        android:layout_height="599dp"
+        android:layout_marginTop="230dp"
+        tools:ignore="MissingConstraints" />
+</RelativeLayout>
