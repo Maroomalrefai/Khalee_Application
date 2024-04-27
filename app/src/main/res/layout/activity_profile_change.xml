@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bright"
+    android:layoutDirection="ltr"
     tools:context=".ProfileChange">
 
     <androidx.cardview.widget.CardView

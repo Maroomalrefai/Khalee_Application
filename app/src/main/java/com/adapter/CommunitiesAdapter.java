@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallaapplication.R;
 import com.example.sallaapplication.detailActivity;
-import com.example.sallaapplication.detailCommunity;
+import com.example.sallaapplication.DetailCommunity;
 import com.model.CommunitiesData;
 import com.model.HistoryData;
 
@@ -50,7 +50,7 @@ public class CommunitiesAdapter extends RecyclerView.Adapter<CommunitiesAdapter.
         holder.comCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, detailCommunity.class);
+                Intent intent = new Intent(context,DetailCommunity.class);
                 context.startActivity(intent);
             }
         });
