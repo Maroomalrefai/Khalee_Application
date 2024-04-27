@@ -28,9 +28,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -49,7 +51,7 @@ public class CreatPost extends AppCompatActivity {
     FloatingActionButton attachPhoto;
     EditText postText;
     Button post;
-    TextView userName;
+    TextView userNameTx;
     private static final String TAG = "MAIN_TAG";
     private Uri imageUri = null ;
     private static final int CAMERA_REQUEST_CODE=100;
@@ -57,6 +59,7 @@ public class CreatPost extends AppCompatActivity {
     private String[] cameraPermission;
     private String [] storagePermission;
     FirebaseUser currentUser;
+    FirebaseAuth mAuth;
     ProgressDialog progressDialog;
 
     @Override
@@ -68,9 +71,31 @@ public class CreatPost extends AppCompatActivity {
         postText=findViewById(R.id.postText);
         attachPhoto=findViewById(R.id.addphoto);
         post=findViewById(R.id.postbtn);
+        profileImage=findViewById(R.id.getprofileImage);
+        userNameTx=findViewById(R.id.getprofileName);
         post.setEnabled(false);
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser  = mAuth.getCurrentUser();
+       // currentUser = FirebaseAuth.getInstance().getCurrentUser();
         progressDialog=new ProgressDialog(this);
+        // Set profile image and user name if available
+        if (currentUser != null) {
+            // Set profile image
+            String profileImageUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
+            if (profileImageUrl != null) {
+                // Load profile image using your preferred image loading library, e.g., Picasso, Glide
+                // For example:
+                // Picasso.get().load(profileImageUrl).into(profileImage);
+              Glide.with(this).load(profileImageUrl).into(profileImage);
+            }
+
+            // Set user name
+            String userName = currentUser.getDisplayName();
+            if (userName != null) {
+                // Set user name to the appropriate view, e.g., TextView
+                userNameTx.setText(userName);
+            }
+        }
 
 
         // Add a TextChangedListener to the EditText to check if the text is empty or not
