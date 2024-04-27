@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.sallaapplication.R;
 import com.example.sallaapplication.detailActivity;
-import com.example.sallaapplication.detailCommunity;
+import com.example.sallaapplication.DetailCommunity;
 import com.model.HistoryData;
 import com.model.postData;
 
@@ -49,7 +49,7 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
         holder.post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, detailCommunity.class);
+                Intent intent = new Intent(context, DetailCommunity.class);
                 intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getDataPostImage());
                 intent.putExtra("post", dataList.get(holder.getAdapterPosition()).getDataPostBody());
                 intent.putExtra("like", dataList.get(holder.getAdapterPosition()).getDataLike());

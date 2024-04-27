@@ -29,7 +29,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".CommunitesMain"
+            android:name=".CommunitiesMain"
             android:exported="true" />
         <activity
             android:name=".detailActivity"

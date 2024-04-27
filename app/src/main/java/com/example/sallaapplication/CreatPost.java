@@ -72,6 +72,7 @@ public class CreatPost extends AppCompatActivity {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         progressDialog=new ProgressDialog(this);
 
+
         // Add a TextChangedListener to the EditText to check if the text is empty or not
         postText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -109,13 +110,12 @@ public class CreatPost extends AppCompatActivity {
             public void onClick(View v) {
                 progressDialog.setMessage(" Publishing Post ");
                 progressDialog.show();
-              // can be deleted !!!!!!
-                if(!postText.getText().toString().isEmpty()||imageUri!=null) {
+
+                if(imageUri!=null) {
                     //to do create Post object and add it to firebase
                     // upload post image || need to access firebase Storage
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference("Android Tutorials").child(currentUser.getUid()).child("blog_images");
                     StorageReference imageFilePath = storageReference.child(imageUri.getLastPathSegment());
-                    if (imageUri != null) {
                         imageFilePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -123,13 +123,15 @@ public class CreatPost extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         String imageDownloadLink = uri.toString();
+                                        //check image profile
+                                        String profileImageUrl = profileImage != null ? profileImage.toString() : null;
                                         //creat post object
                                         Post post = new Post(postText.getText().toString(),
                                                 imageDownloadLink,
                                                 currentUser.getUid()
-                                                //   ,profileImage.toString()
+                                               ,profileImageUrl
                                         );
-                                               // currentUser.getPhotoUrl().toString());
+
                                         //add post to firebase
                                         addPost(post);
                                         // Open DetailCommunity activity here
@@ -147,7 +149,18 @@ public class CreatPost extends AppCompatActivity {
 
                             }
                         });
-                    }
+
+                }else {
+                    // If imageUri is null, create the Post object without the image URL
+                    Post post = new Post(postText.getText().toString(),
+                            currentUser.getUid(),
+                            profileImage != null ? profileImage.toString() : null);
+
+                    // Add the post to Firebase database
+                    addPost(post);
+                    // Open DetailCommunity activity here
+                    Intent intent = new Intent(CreatPost.this, DetailCommunity.class);
+                    startActivity(intent);
                 }
 
 

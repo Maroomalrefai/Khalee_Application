@@ -16,18 +16,24 @@ public class Post {
     private String postText;
     private String photo;
     private String userId;
-  //  private String userProfileImage;
+     private String userProfileImage;
     private Object timeStamp;
 
-    public Post(String postText, String photo
-            , String userId
-//            , String userProfileImage
-    ) {
+    public Post(String postText, String photo, String userId, String userProfileImage) {
         this.postText = postText;
         this.photo = photo;
         this.userId = userId;
-      //  this.userProfileImage = userProfileImage;
+     this.userProfileImage = userProfileImage;
         this.timeStamp = ServerValue.TIMESTAMP;
+    }
+    public Post(String postText, String userId, String userProfileImage) {
+        this.postText = postText;
+        this.userId = userId;
+        this.userProfileImage = userProfileImage;
+        this.timeStamp = ServerValue.TIMESTAMP;
+    }
+    public Post() {
+        // Default constructor required for Firebase
     }
 
     public void setPostText(String postText) {
@@ -42,9 +48,9 @@ public class Post {
         this.userId = userId;
     }
 
-//    public void setUserProfileImage(String userProfileImage) {
-//        this.userProfileImage = userProfileImage;
-//    }
+    public void setUserProfileImage(String userProfileImage) {
+        this.userProfileImage = userProfileImage;
+    }
 
     public void setTimeStamp(Object timeStamp) {
         this.timeStamp = timeStamp;
@@ -61,10 +67,10 @@ public class Post {
     public String getUserId() {
         return userId;
     }
-//
-//    public String getUserProfileImage() {
-//        return userProfileImage;
-//    }
+
+    public String getUserProfileImage() {
+        return userProfileImage;
+    }
 
     public Object getTimeStamp() {
         return timeStamp;
