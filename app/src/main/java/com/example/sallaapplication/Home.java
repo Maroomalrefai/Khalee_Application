@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.model.CommunitiesData;
 import com.model.RecentData;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +42,24 @@ public class Home extends AppCompatActivity {
         Name =findViewById(R.id.name);
         profileIcon = findViewById(R.id.profileIcon);
 
+        // Set profile image and user name if available
         if (user != null) {
-            Name.setText(user.getDisplayName());
-        } else {
-            Name.setText("user name");
+            // Set profile image
+            String profileImageUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
+            if (profileImageUrl != null) {
+                // Load profile image using your preferred image loading library, e.g., Picasso, Glide
+                Picasso.get().load(profileImageUrl).into(profileIcon);
+
+            }
+            // Set user name
+            if (user != null) {
+                Name.setText(user.getDisplayName());
+            } else {
+                Name.setText("user name");
+            }
         }
+
+
         profileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

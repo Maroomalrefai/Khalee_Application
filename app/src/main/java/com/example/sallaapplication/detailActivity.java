@@ -22,8 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
-    public class detailActivity extends AppCompatActivity {
+public class detailActivity extends AppCompatActivity {
         TextView detailDesc, detailTitle, detailLang;
         ImageView detailImage;
         FloatingActionButton deleteButton;
@@ -50,7 +51,9 @@ import com.google.firebase.storage.StorageReference;
                 detailLang.setText(bundle.getString("Company"));
                 key = bundle.getString("Key"); // Assuming "Key" is the key in your database
                 imageUrl = bundle.getString("Image");
-                Glide.with(this).load(bundle.getString("Image")).into(detailImage);
+                // load image from Picasso library
+                Picasso.get().load(bundle.getString("Image")).into(detailImage);
+               // Glide.with(this).load(bundle.getString("Image")).into(detailImage);
             }
 
             deleteButton.setOnClickListener(new View.OnClickListener() {

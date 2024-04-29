@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.sallaapplication.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,6 +46,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.model.Post;
+import com.squareup.picasso.Picasso;
 
 public class CreatPost extends AppCompatActivity {
     ImageView postImage,profileImage;
@@ -73,27 +75,30 @@ public class CreatPost extends AppCompatActivity {
         post=findViewById(R.id.postbtn);
         profileImage=findViewById(R.id.getprofileImage);
         userNameTx=findViewById(R.id.getprofileName);
+
+        //disabled post button
         post.setEnabled(false);
         mAuth = FirebaseAuth.getInstance();
         currentUser  = mAuth.getCurrentUser();
        // currentUser = FirebaseAuth.getInstance().getCurrentUser();
         progressDialog=new ProgressDialog(this);
+
         // Set profile image and user name if available
         if (currentUser != null) {
             // Set profile image
             String profileImageUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
             if (profileImageUrl != null) {
                 // Load profile image using your preferred image loading library, e.g., Picasso, Glide
-                // For example:
-                // Picasso.get().load(profileImageUrl).into(profileImage);
-              Glide.with(this).load(profileImageUrl).into(profileImage);
-            }
+                Picasso.get().load(profileImageUrl).into(profileImage);
 
+            }
             // Set user name
             String userName = currentUser.getDisplayName();
             if (userName != null) {
                 // Set user name to the appropriate view, e.g., TextView
                 userNameTx.setText(userName);
+            }else {
+                userNameTx.setText("user name");
             }
         }
 

@@ -49,6 +49,7 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.theartofdev.edmodo.cropper.CropImage;
 //import com.theartofdev.edmodo.cropper.CropImage;
 //import com.theartofdev.edmodo.cropper.CropImageActivity;
 //import com.theartofdev.edmodo.cropper.CropImageView;
@@ -343,6 +344,23 @@ public class ImageToText extends AppCompatActivity {
                 }
             }
             break;
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri croppedImageUri = result.getUri();
+                // Do something with the cropped image URI
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                // Handle cropping error
+            }
         }
     }
 

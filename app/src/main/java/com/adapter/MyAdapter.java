@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.sallaapplication.R;
 import com.example.sallaapplication.detailActivity;
 import com.model.HistoryData;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,13 +58,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
             }
         });
-
-        // Load image using Glide library
-        Glide.with(context)
+        // Load image using Picasso library
+        Picasso.get()
                 .load(data.getDataImage())
                 .placeholder(R.drawable.bright) // Placeholder image while loading
                 .error(R.drawable.cameraiconbright) // Error image if loading fails
                 .into(holder.recImage);
+
     }
 
     @Override
