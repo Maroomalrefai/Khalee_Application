@@ -12,7 +12,8 @@
     android:layout_marginVertical="10dp"
     app:cardCornerRadius="25dp"
     android:layoutDirection="ltr"
-    app:cardElevation="8dp">
+    app:cardElevation="8dp"
+   >
 
     <RelativeLayout
         android:layout_width="381dp"
@@ -27,7 +28,9 @@
             android:scaleType="centerInside"
             android:src="@drawable/profile"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/circular"
+            />
 
         <TextView
             android:id="@+id/getprofileName"
@@ -91,7 +94,9 @@
             android:backgroundTint="@color/orange"
             android:contentDescription="add photo to your post button"
             android:src="@drawable/attachphoto"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <Button
             android:id="@+id/postbtn"
@@ -100,9 +105,13 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="50dp"
             android:backgroundTint="@color/orange"
             android:contentDescription="ready to post"
             android:text="POST"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

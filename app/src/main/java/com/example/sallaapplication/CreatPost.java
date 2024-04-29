@@ -98,7 +98,9 @@ public class CreatPost extends AppCompatActivity {
                 // Set user name to the appropriate view, e.g., TextView
                 userNameTx.setText(userName);
             }else {
-                userNameTx.setText("user name");
+                userName="User Name";
+                userNameTx.setText(userName);
+
             }
         }
 
