@@ -3,6 +3,7 @@ package com.example.sallaapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -44,6 +45,7 @@ public class uploadActivity extends AppCompatActivity {
         uploadImage = findViewById(R.id.uploadImage);
         uploadDesc = findViewById(R.id.uploadDesc);
         uploadDesc.setEnabled(false);
+
         uploadTopic = findViewById(R.id.uploadTopic);
         uploadLang = findViewById(R.id.uploadLang);
         saveButton = findViewById(R.id.saveButton);
@@ -53,6 +55,8 @@ public class uploadActivity extends AppCompatActivity {
         uri = Uri.parse(uriString); // Convert the string back to Uri
         uploadImage.setImageURI(uri); // Set the image in ImageView
 
+        String dialogMessage = getIntent().getStringExtra("dialogMessage");
+        uploadDesc.setText(dialogMessage);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +102,9 @@ public class uploadActivity extends AppCompatActivity {
                         imageURL = uri.toString();
                         uploadData(userId);
                         progressBar.setVisibility(View.GONE); // Hide ProgressBar
+                        Intent intent = new Intent(uploadActivity.this, History.class);
+                        startActivity(intent);
+                        finish();
                     });
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -135,4 +142,5 @@ public class uploadActivity extends AppCompatActivity {
                     }
                 });
     }
+
 }

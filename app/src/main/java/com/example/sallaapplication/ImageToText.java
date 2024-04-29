@@ -80,6 +80,7 @@ public class ImageToText extends AppCompatActivity {
     List<String> filteredTokens;
     String recognizedText=null;
     String allergy = "Egg";
+    String dialogMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +127,9 @@ public class ImageToText extends AppCompatActivity {
     }
 
     private String preprocessText(String text) {
+        // Clear the filteredTokens list before adding tokens from the new recognized text
+        filteredTokens.clear();
+
         // Convert the text to lowercase
         String lowercaseText = text.toLowerCase();
 
@@ -399,9 +403,11 @@ public class ImageToText extends AppCompatActivity {
 
         // Display result to user
         if (containsAllergen) {
-            showDialog("Ops! This product contains " + allergy + " and  it is not suitable for you.",R.drawable.notfree);
+            dialogMessage = "Ops! This product contains " + allergy + " and it is not suitable for you.";
+            showDialog(dialogMessage,R.drawable.notfree);
         } else {
-            showDialog("Great! This product is free from " + allergy + ".",R.drawable.allergenfree);
+            dialogMessage = "Great! This product is free from " + allergy + ".";
+            showDialog(dialogMessage, R.drawable.allergenfree);
         }
     }
     private boolean searchAllergen(String allergy, List<String> filteredTokens) {
@@ -450,6 +456,7 @@ public class ImageToText extends AppCompatActivity {
                 // Start uploadActivity with the selected image URI
                 Intent intent = new Intent(ImageToText.this, uploadActivity.class);
                 intent.putExtra("imageUri", imageUri.toString());
+                intent.putExtra("dialogMessage", dialogMessage);
                 startActivity(intent);
                 alertDialog.dismiss();
             }
@@ -458,10 +465,6 @@ public class ImageToText extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss(); // Dismiss the dialog when the close button is clicked
-                // Reload the activity
-                Intent intent = getIntent();
-                finish(); // Finish the current activity
-                startActivity(intent); // Start the activity again
             }
         });
     }
