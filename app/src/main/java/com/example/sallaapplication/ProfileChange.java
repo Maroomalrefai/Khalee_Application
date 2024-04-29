@@ -36,6 +36,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -279,56 +280,57 @@ public class ProfileChange extends AppCompatActivity {
         if(resultCode == RESULT_OK && requestCode == REQUESCODE && data !=null){
             pickedImgUri = data.getData();
             ImgUserPhoto.setImageURI(pickedImgUri);
-            // Generate and upload thumbnail
-            generateAndUploadThumbnail(pickedImgUri);
+//            // Generate and upload thumbnail
+//            generateAndUploadThumbnail(pickedImgUri);
         }
     }
     public void getUserInformation() {
         progressBar.setVisibility(View.VISIBLE);
         userEmail.setText(user.getEmail());
         userName.setText(user.getDisplayName());
-        Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.profileicon) .into(ImgUserPhoto);
+        Picasso.get().load(user.getPhotoUrl()).error(R.drawable.profileicon) .into(ImgUserPhoto);
+       // Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.profileicon) .into(ImgUserPhoto);
         progressBar.setVisibility(View.GONE);
 
     }
-    private void generateAndUploadThumbnail(Uri imageUri) {
-        try {
-            // Get the original bitmap from the image URI
-            Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-
-            // Set thumbnail dimensions
-            int thumbnailWidth = 100;
-            int thumbnailHeight = 100;
-
-            // Generate thumbnail
-            Bitmap thumbnailBitmap = ThumbnailUtils.extractThumbnail(originalBitmap, thumbnailWidth, thumbnailHeight);
-
-            // Convert thumbnail bitmap to byte array
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            thumbnailBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] thumbnailData = baos.toByteArray();
-
-            // Upload thumbnail to Firebase Storage
-            StorageReference thumbnailRef = FirebaseStorage.getInstance().getReference().child("thumbnails").child(imageUri.getLastPathSegment());
-            thumbnailRef.putBytes(thumbnailData)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Thumbnail uploaded successfully
-                            // Now you can proceed to upload the original image or update user profile
-                            updateUserImage(imageUri, mAuth.getCurrentUser(), userName.getText().toString());
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Thumbnail upload failed
-                            Toast.makeText(ProfileChange.this, "Failed to upload thumbnail: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void generateAndUploadThumbnail(Uri imageUri) {
+//        try {
+//            // Get the original bitmap from the image URI
+//            Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+//
+//            // Set thumbnail dimensions
+//            int thumbnailWidth = 100;
+//            int thumbnailHeight = 100;
+//
+//            // Generate thumbnail
+//            Bitmap thumbnailBitmap = ThumbnailUtils.extractThumbnail(originalBitmap, thumbnailWidth, thumbnailHeight);
+//
+//            // Convert thumbnail bitmap to byte array
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            thumbnailBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//            byte[] thumbnailData = baos.toByteArray();
+//
+//            // Upload thumbnail to Firebase Storage
+//            StorageReference thumbnailRef = FirebaseStorage.getInstance().getReference().child("thumbnails").child(imageUri.getLastPathSegment());
+//            thumbnailRef.putBytes(thumbnailData)
+//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                        @Override
+//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                            // Thumbnail uploaded successfully
+//                            // Now you can proceed to upload the original image or update user profile
+//                            updateUserImage(imageUri, mAuth.getCurrentUser(), userName.getText().toString());
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            // Thumbnail upload failed
+//                            Toast.makeText(ProfileChange.this, "Failed to upload thumbnail: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 
