@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.adapter.postAdapter;
+import com.adapter.PostAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -19,10 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.model.Post;
 
 import java.util.ArrayList;
@@ -58,7 +55,7 @@ public class DetailCommunity extends AppCompatActivity {
 
         postList =new ArrayList<>();
 
-        postAdapter adapter = new postAdapter(DetailCommunity.this,postList);
+        PostAdapter adapter = new PostAdapter(DetailCommunity.this,postList);
         recyclerView.setAdapter(adapter);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentUser.getUid()).child("blog_images");

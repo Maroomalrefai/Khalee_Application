@@ -12,22 +12,18 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.sallaapplication.R;
-import com.example.sallaapplication.detailActivity;
 import com.example.sallaapplication.DetailCommunity;
-import com.model.HistoryData;
-import com.model.postData;
+import com.model.Post;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
+public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private Context context;
-    private List<postData> dataList;
+    private List<Post> dataList;
 
-    public postAdapter(Context context, List<postData> dataList) {
+    public PostAdapter(Context context, List<Post> dataList) {
         this.context = context;
         this.dataList = dataList;
     }
@@ -41,19 +37,19 @@ public class postAdapter extends RecyclerView.Adapter<postAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        postData data = dataList.get(position);
+        Post data = dataList.get(position);
 
-        holder.profileName.setText(data.getDataProfileName());
-        holder.postBody.setText(data.getDataPostBody());
+//        holder.profileName.setText(data.getDataProfileName());
+        holder.postBody.setText(data.getPostText());
 //        holder.like.setText(data.getDataLang());
         holder.post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailCommunity.class);
-                intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getDataPostImage());
-                intent.putExtra("post", dataList.get(holder.getAdapterPosition()).getDataPostBody());
-                intent.putExtra("like", dataList.get(holder.getAdapterPosition()).getDataLike());
-                intent.putExtra("profile", dataList.get(holder.getAdapterPosition()).getDataProfileImage());
+                intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getPhoto());
+                intent.putExtra("post", dataList.get(holder.getAdapterPosition()).getPostText());
+//                intent.putExtra("like", dataList.get(holder.getAdapterPosition()).getDataLike());
+                intent.putExtra("profile", dataList.get(holder.getAdapterPosition()).getUserProfileImage());
                 context.startActivity(intent);
 
             }
