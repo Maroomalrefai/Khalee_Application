@@ -30,7 +30,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/UserPhoto"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
