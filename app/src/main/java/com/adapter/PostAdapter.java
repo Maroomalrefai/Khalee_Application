@@ -13,7 +13,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallaapplication.R;
-import com.example.sallaapplication.DetailCommunity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.model.Post;
 import com.squareup.picasso.Picasso;
 
@@ -21,9 +22,11 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String profileImageUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
+
     private Context context;
     private List<Post> dataList;
-
     public PostAdapter(Context context, List<Post> dataList) {
         this.context = context;
         this.dataList = dataList;
@@ -41,12 +44,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         Post data = dataList.get(position);
 
         holder.postBody.setText(data.getPostText());
-//        holder.profileName.setText(data.getUserProfileImage());
-        Picasso.get()
-                .load(data.getUserProfileImage())
-                .placeholder(R.drawable.profileicon) // Placeholder image while loading
-                .error(R.drawable.profileicon) // Error image if loading fails
-                .into(holder.profileImage);
+        holder.profileName.setText(user.getDisplayName());
+
+        Picasso.get().load(profileImageUrl).into(holder.profileImage);
 
         Picasso.get()
                 .load(data.getPhoto())

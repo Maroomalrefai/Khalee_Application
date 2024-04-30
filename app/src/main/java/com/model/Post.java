@@ -6,7 +6,6 @@ public class Post {
     private String photo;
     private String userId;
     private String profileName;
-    private String userProfileImage;
     private Object timeStamp;
 
     public Post(String postText, String photo, String userId, String userProfileImage) {
@@ -14,7 +13,6 @@ public class Post {
         this.profileName = profileName;
         this.photo = photo;
         this.userId = userId;
-        this.userProfileImage = userProfileImage;
         this.timeStamp = System.currentTimeMillis();
     }
 
@@ -22,7 +20,6 @@ public class Post {
         this.postText = postText;
         this.profileName = profileName;
         this.userId = userId;
-        this.userProfileImage = userProfileImage;
         this.timeStamp = System.currentTimeMillis();
     }
     public Post() {
@@ -67,14 +64,6 @@ public class Post {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getUserProfileImage() {
-        return userProfileImage;
-    }
-
-    public void setUserProfileImage(String userProfileImage) {
-        this.userProfileImage = userProfileImage;
     }
 
     public Object getTimeStamp() {
