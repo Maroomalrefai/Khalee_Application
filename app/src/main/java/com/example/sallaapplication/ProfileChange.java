@@ -61,7 +61,7 @@ public class ProfileChange extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_change);
-        Button button = findViewById(R.id.editallergy);
+        Button editAllergyBtn = findViewById(R.id.editallergy);
         edate = findViewById(R.id.edate);
         ImgUserPhoto = findViewById(R.id.UserPhoto);
         userName = findViewById(R.id.userName);
@@ -87,7 +87,7 @@ public class ProfileChange extends AppCompatActivity {
                 finish();
             }
         });
-        button.setOnClickListener(new View.OnClickListener() {
+        editAllergyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ProfileChange.this,Question.class);
@@ -306,6 +306,8 @@ public class ProfileChange extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
 
     }
+
+
 //    private void generateAndUploadThumbnail(Uri imageUri) {
 //        try {
 //            // Get the original bitmap from the image URI

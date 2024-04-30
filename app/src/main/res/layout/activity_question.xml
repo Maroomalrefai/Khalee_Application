@@ -254,48 +254,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/community"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/tiltneon"
-            android:text="Join allergy community to share tips and experience? "
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintVertical_bias="0.202" />
-
-        <RadioGroup
-            android:id="@+id/radioGroupOptions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RadioButton
-                android:id="@+id/radioButtonOptionYes"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:button="?android:attr/listChoiceIndicatorMultiple"
-                android:text="Yes"
-                android:fontFamily="@font/tiltneon"
-                android:layout_marginLeft="10dp"
-                android:textSize="23sp"
-                app:buttonTint="#4F7D94" />
-
-            <RadioButton
-                android:id="@+id/radioButtonOptionNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:button="?android:attr/listChoiceIndicatorMultiple"
-                android:text="No"
-                android:fontFamily="@font/tiltneon"
-                android:textSize="23sp"
-                app:buttonTint="#4F7D94" />
-
-        </RadioGroup>
-
 
         <TextView
             android:id="@+id/policess"
