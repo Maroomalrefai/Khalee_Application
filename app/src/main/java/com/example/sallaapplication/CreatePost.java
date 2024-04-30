@@ -28,16 +28,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.sallaapplication.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +44,7 @@ import com.google.firebase.storage.UploadTask;
 import com.model.Post;
 import com.squareup.picasso.Picasso;
 
-public class CreatPost extends AppCompatActivity {
+public class CreatePost extends AppCompatActivity {
     ImageView postImage,profileImage;
     FloatingActionButton attachPhoto;
     EditText postText;
@@ -157,7 +153,7 @@ public class CreatPost extends AppCompatActivity {
                                     String imageDownloadLink = uri.toString();
                                     //check image profile
                                     String profileImageUrl = profileImage != null ? profileImage.toString() : null;
-                                    //creat post object
+                                    //create post object
                                     Post post = new Post(postText.getText().toString(),
                                             imageDownloadLink,
                                             currentUser.getUid()
@@ -167,7 +163,7 @@ public class CreatPost extends AppCompatActivity {
                                     //add post to firebase
                                     addPost(post);
                                     // Open DetailCommunity activity here
-                                    Intent intent = new Intent(CreatPost.this, DetailCommunity.class);
+                                    Intent intent = new Intent(CreatePost.this, DetailCommunity.class);
                                     startActivity(intent);
 
                                 }
@@ -175,7 +171,7 @@ public class CreatPost extends AppCompatActivity {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     //something wrong
-                                    Toast.makeText(CreatPost.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(CreatePost.this, "Failed to upload", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -191,7 +187,7 @@ public class CreatPost extends AppCompatActivity {
                     // Add the post to Firebase database
                     addPost(post);
                     // Open DetailCommunity activity here
-                    Intent intent = new Intent(CreatPost.this, DetailCommunity.class);
+                    Intent intent = new Intent(CreatePost.this, DetailCommunity.class);
                     startActivity(intent);
                 }
 
@@ -254,7 +250,7 @@ public class CreatPost extends AppCompatActivity {
                         postImage.setVisibility(View.VISIBLE);
                     } else {
                         Log.d(TAG, "onActivityResult: cancelled ");
-                        Toast.makeText(CreatPost.this, "Cancelled", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CreatePost.this, "Cancelled", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -284,7 +280,7 @@ public class CreatPost extends AppCompatActivity {
                     }
                     else{
                         Log.d(TAG, "onActivityResult: cancelled");
-                        Toast.makeText(CreatPost.this, "Cancelled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreatePost.this, "Cancelled", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -337,9 +333,9 @@ public class CreatPost extends AppCompatActivity {
 //                check if some action from permission dialog performed or not Allow/Deny
                 if(grantResults.length>0)
                 {
-//                    check if storage permissions granted, contains boolean results either ture or flase
+//                    check if storage permissions granted, contains boolean results either ture or false
                     boolean storageAccepted=grantResults[0]==PackageManager.PERMISSION_GRANTED;
-//                   check if storage permission is grantd or not
+//                   check if storage permission is granted or not
                     if(storageAccepted){
 //                        storage permission granted, we can launch gallery intent
                         pickImageGallery();
@@ -356,7 +352,7 @@ public class CreatPost extends AppCompatActivity {
     private void addPost(Post post){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         DatabaseReference myRef=database.getReference("Posts").child(currentUser.getUid()).push();
-        //get post unque ID and update postkey
+        //get post unique ID and update postKey
         String key=myRef.getKey();
         post.setPostKey(key);
         // Add post data to firebase
@@ -365,7 +361,7 @@ public class CreatPost extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         progressDialog.dismiss();
-                        Toast.makeText(CreatPost.this, "Post Published Successfully", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CreatePost.this, "Post Published Successfully", Toast.LENGTH_LONG).show();
                         Log.i("posts","add");
 
                     }
@@ -373,7 +369,7 @@ public class CreatPost extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CreatPost.this, "Failed to add post: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(CreatePost.this, "Failed to add post: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         Log.i("posts"," not add");
                         progressDialog.dismiss();
                     }

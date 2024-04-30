@@ -83,7 +83,7 @@ public class DetailCommunity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Define the action to be taken when the FloatingActionButton is clicked
-                Intent intent = new Intent(DetailCommunity.this, CreatPost.class); // Change CurrentActivity and NewActivity to your actual activity names
+                Intent intent = new Intent(DetailCommunity.this, CreatePost.class); // Change CurrentActivity and NewActivity to your actual activity names
                 startActivity(intent);
             }
         });
