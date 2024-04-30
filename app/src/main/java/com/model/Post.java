@@ -5,18 +5,22 @@ public class Post {
     private String postText;
     private String photo;
     private String userId;
+    private String profileName;
     private String userProfileImage;
     private Object timeStamp;
 
     public Post(String postText, String photo, String userId, String userProfileImage) {
         this.postText = postText;
+        this.profileName = profileName;
         this.photo = photo;
         this.userId = userId;
         this.userProfileImage = userProfileImage;
         this.timeStamp = System.currentTimeMillis();
     }
+
     public Post(String postText, String userId, String userProfileImage) {
         this.postText = postText;
+        this.profileName = profileName;
         this.userId = userId;
         this.userProfileImage = userProfileImage;
         this.timeStamp = System.currentTimeMillis();
@@ -27,6 +31,14 @@ public class Post {
 
     public String getPostKey() {
         return postKey;
+    }
+
+    public String getProfileName() {
+        return profileName;
+    }
+
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
     }
 
     public void setPostKey(String postKey) {

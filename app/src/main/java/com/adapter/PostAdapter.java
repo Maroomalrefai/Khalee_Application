@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sallaapplication.R;
 import com.example.sallaapplication.DetailCommunity;
 import com.model.Post;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -39,26 +40,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Post data = dataList.get(position);
 
-//        holder.profileName.setText(data.getDataProfileName());
         holder.postBody.setText(data.getPostText());
-//        holder.like.setText(data.getDataLang());
-        holder.post.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, DetailCommunity.class);
-                intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getPhoto());
-                intent.putExtra("post", dataList.get(holder.getAdapterPosition()).getPostText());
-//                intent.putExtra("like", dataList.get(holder.getAdapterPosition()).getDataLike());
-                intent.putExtra("profile", dataList.get(holder.getAdapterPosition()).getUserProfileImage());
-                context.startActivity(intent);
+//        holder.profileName.setText(data.getUserProfileImage());
+        Picasso.get()
+                .load(data.getUserProfileImage())
+                .placeholder(R.drawable.profileicon) // Placeholder image while loading
+                .error(R.drawable.profileicon) // Error image if loading fails
+                .into(holder.profileImage);
 
-            }
-        });
+        Picasso.get()
+                .load(data.getPhoto())
+                .placeholder(R.drawable.generalfinal) // Placeholder image while loading
+                .error(R.drawable.emptyimage) // Error image if loading fails
+                .into(holder.postImage);
     }
 
     @Override
     public int getItemCount() {
-       return dataList.size();
+        return dataList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -79,8 +78,4 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             post = itemView.findViewById(R.id.post);
         }
     }
-
-
-
 }
-
