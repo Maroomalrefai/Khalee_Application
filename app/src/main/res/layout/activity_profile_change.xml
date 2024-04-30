@@ -11,10 +11,10 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="660dp"
+        android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:backgroundTint="#F0F5F9"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="20dp"
         app:cardElevation="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,8 +24,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="639dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="20dp">
@@ -44,10 +43,9 @@
             <TextView
                 android:id="@+id/name"
                 style="bold"
-                android:layout_width="288dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="-15dp"
+                android:layout_marginTop="40dp"
                 android:fontFamily="@font/tiltneon"
                 android:text="username"
                 android:textColor="#4F7D94"
@@ -58,6 +56,7 @@
                 android:id="@+id/userName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:ems="10"
                 android:hint="your name"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -67,9 +66,9 @@
             <TextView
                 android:id="@+id/email"
                 style="bold"
-                android:layout_width="290dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/tiltneon"
                 android:text="email"
                 android:textColor="#4F7D94"
@@ -83,6 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/tiltneon"
                 android:hint="example@email.com"
                 android:inputType="textEmailAddress"
@@ -94,10 +94,9 @@
             <TextView
                 android:id="@+id/datetext"
                 style="bold"
-                android:layout_width="293dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="-15dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/tiltneon"
                 android:text="birthday"
                 android:textColor="#4F7D94"
@@ -112,6 +111,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:fontFamily="@font/tiltneon"
+                android:layout_marginTop="5dp"
                 android:hint="birthday"
                 android:inputType="date"
                 android:textStyle="bold"
@@ -121,11 +121,9 @@
 
             <Button
                 android:id="@+id/editallergy"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginTop="20dp"
                 android:backgroundTint="#F0F5F9"
                 android:fontFamily="@font/tiltneon"
                 android:text="Edit allergies information"
@@ -134,13 +132,14 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText"
-                app:layout_constraintVertical_bias="0.162" />
-<GridLayout
+                app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+            <GridLayout
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                >
     <Button
         android:id="@+id/save_button"
         android:layout_width="wrap_content"

@@ -50,8 +50,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         Picasso.get()
                 .load(data.getPhoto())
-                .placeholder(R.drawable.generalfinal) // Placeholder image while loading
-                .error(R.drawable.emptyimage) // Error image if loading fails
                 .into(holder.postImage);
     }
 
