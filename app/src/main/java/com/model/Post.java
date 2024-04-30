@@ -16,14 +16,14 @@ public class Post {
     private String postText;
     private String photo;
     private String userId;
-     private String userProfileImage;
+    private String userProfileImage;
     private Object timeStamp;
 
     public Post(String postText, String photo, String userId, String userProfileImage) {
         this.postText = postText;
         this.photo = photo;
         this.userId = userId;
-     this.userProfileImage = userProfileImage;
+        this.userProfileImage = userProfileImage;
         this.timeStamp = ServerValue.TIMESTAMP;
     }
     public Post(String postText, String userId, String userProfileImage) {

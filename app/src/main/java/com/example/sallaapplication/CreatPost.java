@@ -80,7 +80,7 @@ public class CreatPost extends AppCompatActivity {
         post.setEnabled(false);
         mAuth = FirebaseAuth.getInstance();
         currentUser  = mAuth.getCurrentUser();
-       // currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        // currentUser = FirebaseAuth.getInstance().getCurrentUser();
         progressDialog=new ProgressDialog(this);
 
         // Set profile image and user name if available
@@ -129,7 +129,7 @@ public class CreatPost extends AppCompatActivity {
                 // Not needed for this implementation
             }
         });
-       // add photo to the post
+        // add photo to the post
         attachPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,39 +148,39 @@ public class CreatPost extends AppCompatActivity {
                     // upload post image || need to access firebase Storage
                     StorageReference storageReference = FirebaseStorage.getInstance().getReference("Android Tutorials").child(currentUser.getUid()).child("blog_images");
                     StorageReference imageFilePath = storageReference.child(imageUri.getLastPathSegment());
-                        imageFilePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        String imageDownloadLink = uri.toString();
-                                        //check image profile
-                                        String profileImageUrl = profileImage != null ? profileImage.toString() : null;
-                                        //creat post object
-                                        Post post = new Post(postText.getText().toString(),
-                                                imageDownloadLink,
-                                                currentUser.getUid()
-                                               ,profileImageUrl
-                                        );
+                    imageFilePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    String imageDownloadLink = uri.toString();
+                                    //check image profile
+                                    String profileImageUrl = profileImage != null ? profileImage.toString() : null;
+                                    //creat post object
+                                    Post post = new Post(postText.getText().toString(),
+                                            imageDownloadLink,
+                                            currentUser.getUid()
+                                            ,profileImageUrl
+                                    );
 
-                                        //add post to firebase
-                                        addPost(post);
-                                        // Open DetailCommunity activity here
-                                        Intent intent = new Intent(CreatPost.this, DetailCommunity.class);
-                                        startActivity(intent);
+                                    //add post to firebase
+                                    addPost(post);
+                                    // Open DetailCommunity activity here
+                                    Intent intent = new Intent(CreatPost.this, DetailCommunity.class);
+                                    startActivity(intent);
 
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        //something wrong
-                                        Toast.makeText(CreatPost.this, "Failed to upload", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //something wrong
+                                    Toast.makeText(CreatPost.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-                            }
-                        });
+                        }
+                    });
 
                 }else {
                     // If imageUri is null, create the Post object without the image URL
@@ -366,7 +366,7 @@ public class CreatPost extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         progressDialog.dismiss();
                         Toast.makeText(CreatPost.this, "Post Published Successfully", Toast.LENGTH_LONG).show();
-                     Log.i("posts","add");
+                        Log.i("posts","add");
 
                     }
                 })

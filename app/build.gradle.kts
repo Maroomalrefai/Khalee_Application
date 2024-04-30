@@ -59,8 +59,4 @@ dependencies {
     implementation ("com.theartofdev.edmodo:android-image-cropper:2.8.0")
     // for load image from Firebase
     implementation ("com.squareup.picasso:picasso:2.8")
-
-
-
-
 }
