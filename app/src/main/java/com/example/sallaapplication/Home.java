@@ -74,14 +74,7 @@ public class Home extends AppCompatActivity {
                 startActivity(i);
             }
         });
-        ImageView icon = findViewById(R.id.profileIcon);
-        icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Home.this, ProfileChange.class);
-                startActivity(i);
-            }
-        });
+
         Button history =findViewById(R.id.history);
         history.setOnClickListener(new View.OnClickListener() {
             @Override

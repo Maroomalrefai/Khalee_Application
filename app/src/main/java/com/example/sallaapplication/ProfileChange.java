@@ -52,7 +52,7 @@ public class ProfileChange extends AppCompatActivity {
     static int REQUESCODE = 1;
     Uri pickedImgUri;
     FirebaseAuth mAuth;
-    Button save;
+    Button save,logoutBtn;
     ProgressBar progressBar;
     FirebaseUser user ;
     String userId;
@@ -73,7 +73,20 @@ public class ProfileChange extends AppCompatActivity {
         ImgUserPhoto.setImageURI(pickedImgUri);
         progressBar = findViewById(R.id.progress_bar);
         userId = user.getUid();
+        logoutBtn=findViewById(R.id.logout);
         getUserInformation();
+
+
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent =new Intent(getApplicationContext(),Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
