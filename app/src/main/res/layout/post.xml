@@ -23,6 +23,7 @@
             android:layout_marginTop="4dp"
             android:scaleType="centerInside"
             android:src="@drawable/profile"
+            app:shapeAppearanceOverlay="@style/circular"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
