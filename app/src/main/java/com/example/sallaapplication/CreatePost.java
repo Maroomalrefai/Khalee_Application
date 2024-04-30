@@ -142,7 +142,7 @@ public class CreatePost extends AppCompatActivity {
                 if(imageUri!=null) {
                     //to do create Post object and add it to firebase
                     // upload post image || need to access firebase Storage
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReference("Android Tutorials").child(currentUser.getUid()).child("Posts");
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference("Android Tutorials").child("Posts").child(currentUser.getUid());
                     StorageReference imageFilePath = storageReference.child(imageUri.getLastPathSegment());
                     imageFilePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -351,7 +351,7 @@ public class CreatePost extends AppCompatActivity {
     }
     private void addPost(Post post){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef=database.getReference("Android Tutorials").child(currentUser.getUid()).child("Posts").push();
+        DatabaseReference myRef=database.getReference("Android Tutorials").child("Posts").push();
         //get post unique ID and update postKey
         String key=myRef.getKey();
         post.setPostKey(key);

@@ -58,7 +58,7 @@ public class DetailCommunity extends AppCompatActivity {
         PostAdapter adapter = new PostAdapter(DetailCommunity.this,postList);
         recyclerView.setAdapter(adapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentUser.getUid()).child("Posts");
+        databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child("Posts");
         progressBar.setVisibility(View.VISIBLE);
 
         eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
