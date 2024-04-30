@@ -32,35 +32,32 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/UserPhoto"
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="140dp"
+                android:layout_height="137dp"
                 android:layout_marginStart="126dp"
                 android:layout_marginEnd="126dp"
                 android:layout_marginBottom="-30dp"
-                app:srcCompat="@drawable/profileicon"
+                android:scaleType="centerCrop"
                 app:shapeAppearanceOverlay="@style/circular"
-                android:scaleType="centerCrop"/>
+                app:srcCompat="@drawable/profileicon" />
 
             <TextView
                 android:id="@+id/name"
                 style="bold"
-                android:layout_width="wrap_content"
+                android:layout_width="288dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-95dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="-15dp"
                 android:fontFamily="@font/tiltneon"
                 android:text="username"
                 android:textColor="#4F7D94"
                 android:textSize="20dp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/userName"
                 android:layout_width="match_parent"
-                android:layout_height="61dp"
-                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="your name"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,11 +67,9 @@
             <TextView
                 android:id="@+id/email"
                 style="bold"
-                android:layout_width="wrap_content"
+                android:layout_width="290dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-120dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="-15dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/tiltneon"
                 android:text="email"
                 android:textColor="#4F7D94"
@@ -85,9 +80,8 @@
 
             <EditText
                 android:id="@+id/userEmail"
-                android:layout_width="349dp"
-                android:layout_height="61dp"
-                android:layout_marginLeft="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:fontFamily="@font/tiltneon"
                 android:hint="example@email.com"
@@ -100,9 +94,8 @@
             <TextView
                 android:id="@+id/datetext"
                 style="bold"
-                android:layout_width="wrap_content"
+                android:layout_width="293dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-105dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="-15dp"
                 android:fontFamily="@font/tiltneon"
@@ -115,9 +108,8 @@
 
             <EditText
                 android:id="@+id/edate"
-                android:layout_width="349dp"
-                android:layout_height="61dp"
-                android:layout_marginLeft="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:ems="10"
                 android:fontFamily="@font/tiltneon"
                 android:hint="birthday"
