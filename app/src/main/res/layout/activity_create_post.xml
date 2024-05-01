@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/post"
@@ -28,7 +27,7 @@
 
         <TextView
             android:id="@+id/getprofileName"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
@@ -52,43 +51,50 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/postText"
+        <ScrollView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/tiltneon"
-            android:hint="Tell us your story \n"
-            android:textColor="@color/black"
-            android:textSize="18sp"
+            android:layout_marginTop="100dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/getprofileImage" />
+            app:layout_constraintTop_toBottomOf="@+id/getprofileName"
+            app:layout_constraintBottom_toTopOf="@+id/addphoto">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/postImage"
-            android:layout_width="0dp"
-            android:layout_height="256dp"
-            android:layout_marginTop="10dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/gluten"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/postText" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/postText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/tiltneon"
+                    android:hint="Tell us your story"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/postImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="256dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/gluten"
+                    android:visibility="gone"/>
+            </LinearLayout>
+        </ScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addphoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/orange"
             android:contentDescription="add photo to your post button"
             android:src="@drawable/attachphoto"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
