@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/post"
     android:layout_marginStart="12dp"
@@ -11,10 +11,14 @@
     app:cardCornerRadius="25dp"
     app:cardElevation="8dp">
 
-    <RelativeLayout
-        android:layout_width="381dp"
-        android:layout_height="match_parent">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileImage"
             android:layout_width="50dp"
@@ -23,73 +27,47 @@
             android:layout_marginTop="4dp"
             android:scaleType="centerCrop"
             android:src="@drawable/profile"
-            app:shapeAppearanceOverlay="@style/circular"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:shapeAppearanceOverlay="@style/circular" />
 
         <TextView
             android:id="@+id/profileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="55dp"
-            android:layout_marginTop="11dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/tiltneon"
-            android:gravity="center"
             android:text="@string/MAROOM"
             android:textColor="#4F7D94 "
             android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            android:textStyle="bold" />
+        </GridLayout>
 
         <TextView
             android:id="@+id/postBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginStart="9dp"
-            android:layout_marginTop="60dp"
             android:fontFamily="@font/tiltneon"
             android:text="here will be the body of the post😎 \n"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            android:textSize="18sp"/>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/postImage"
             android:layout_width="match_parent"
-            android:layout_height="256dp"
-            android:layout_below="@+id/postBody"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="-4dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="50dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/gluten"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="300dp"
+            android:src="@drawable/bright"/>
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/like"
-            android:layout_width="61dp"
-            android:layout_height="52dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="35dp"
-            android:layout_marginBottom="3dp"
-            android:padding="15dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/like"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="290dp"
+            android:src="@drawable/like" />
 
 
-    </RelativeLayout>
+    </LinearLayout>
+
 </androidx.cardview.widget.CardView>

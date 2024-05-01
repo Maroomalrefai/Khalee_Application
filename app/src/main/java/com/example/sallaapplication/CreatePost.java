@@ -59,11 +59,13 @@ public class CreatePost extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseAuth mAuth;
     ProgressDialog progressDialog;
+    String userName;
+    String profileImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_creat_post);
+        setContentView(R.layout.activity_create_post);
         //intial views
         postImage=findViewById(R.id.postImage);
         postText=findViewById(R.id.postText);
@@ -76,20 +78,26 @@ public class CreatePost extends AppCompatActivity {
         post.setEnabled(false);
         mAuth = FirebaseAuth.getInstance();
         currentUser  = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            userName = currentUser.getDisplayName();
+        }
+            else{
+                userName = "User Name";
+            }
+
         // currentUser = FirebaseAuth.getInstance().getCurrentUser();
         progressDialog=new ProgressDialog(this);
 
         // Set profile image and user name if available
         if (currentUser != null) {
             // Set profile image
-            String profileImageUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
+            profileImageUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
             if (profileImageUrl != null) {
                 // Load profile image using your preferred image loading library, e.g., Picasso, Glide
                 Picasso.get().load(profileImageUrl).into(profileImage);
 
             }
             // Set user name
-            String userName = currentUser.getDisplayName();
             if (userName != null) {
                 // Set user name to the appropriate view, e.g., TextView
                 userNameTx.setText(userName);
@@ -138,7 +146,6 @@ public class CreatePost extends AppCompatActivity {
             public void onClick(View v) {
                 progressDialog.setMessage(" Publishing Post ");
                 progressDialog.show();
-
                 if(imageUri!=null) {
                     //to do create Post object and add it to firebase
                     // upload post image || need to access firebase Storage
@@ -152,11 +159,11 @@ public class CreatePost extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     String imageDownloadLink = uri.toString();
                                     //check image profile
-                                    String profileImageUrl = profileImage != null ? profileImage.toString() : null;
                                     //create post object
                                     Post post = new Post(postText.getText().toString(),
                                             imageDownloadLink,
                                             currentUser.getUid()
+                                            ,userName
                                             ,profileImageUrl
                                     );
 
@@ -181,8 +188,9 @@ public class CreatePost extends AppCompatActivity {
                 }else {
                     // If imageUri is null, create the Post object without the image URL
                     Post post = new Post(postText.getText().toString(),
-                            currentUser.getUid(),
-                            profileImage != null ? profileImage.toString() : null);
+                            currentUser.getUid()
+                            ,userName
+                            ,profileImageUrl);
 
                     // Add the post to Firebase database
                     addPost(post);
