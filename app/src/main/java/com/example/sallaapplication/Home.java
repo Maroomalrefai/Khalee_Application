@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -94,11 +93,16 @@ public class Home extends AppCompatActivity {
         });
 
         List<RecentData> recentDataList =new ArrayList<>();
-        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.milk));
-        recentDataList.add(new RecentData("Cheese","Alyaom","5 JOD",R.drawable.emptyimage));
-        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.emptyimage));
-        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.emptyimage));
-
+        recentDataList.add(new RecentData("lactose free milk","Baladna",R.drawable.milk));
+        recentDataList.add(new RecentData("Cheese","AlMazraa",R.drawable.cheese));
+        recentDataList.add(new RecentData("Flax seeds bread","REEF",R.drawable.flaxseeds));
+        recentDataList.add(new RecentData("Coconut bread ","Leeds",R.drawable.coconutbread));
+        recentDataList.add(new RecentData("Lababa","Al Youm",R.drawable.labaneh));
+        recentDataList.add(new RecentData("Yogurt","Maha",R.drawable.mahayogurt));
+        recentDataList.add(new RecentData("Yogurt","Kasih",R.drawable.popcorn));
+        recentDataList.add(new RecentData("Yogurt","Kasih",R.drawable.beans));
+        recentDataList.add(new RecentData("Chocolate","Today",R.drawable.chcolate));
+        recentDataList.add(new RecentData("","",R.drawable.white));
         setRecentRecycler(recentDataList);
 
         List<CommunitiesData> communitiesDatalist=new ArrayList<>();

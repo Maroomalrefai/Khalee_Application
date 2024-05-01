@@ -8,15 +8,16 @@
 
     <ImageView
         android:id="@+id/productImage"
-        android:layout_width="82dp"
-        android:layout_height="157dp"
+        android:layout_width="120dp"
+        android:layout_height="165dp"
         android:layout_marginTop="8dp"
-        android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/productName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/milk" />
+        app:srcCompat="@drawable/milk"
+        android:scaleType="centerInside"
+        />
 
     <TextView
         android:id="@+id/productName"
@@ -39,19 +40,18 @@
         android:fontFamily="@font/tiltneon"
         android:text="Baladna"
         android:textColor="#FE8247"
-        app:layout_constraintBottom_toTopOf="@+id/price"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/productName" />
 
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/tiltneon"
-        android:text="2 JOD"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/companyName" />
+<!--    <TextView-->
+<!--        android:id="@+id/price"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="32dp"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:fontFamily="@font/tiltneon"-->
+<!--        android:text="2 JOD"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/companyName" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
