@@ -28,16 +28,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.sallaapplication.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +44,7 @@ import com.google.firebase.storage.UploadTask;
 import com.model.Post;
 import com.squareup.picasso.Picasso;
 
-public class CreatPost extends AppCompatActivity {
+public class CreatePost extends AppCompatActivity {
     ImageView postImage,profileImage;
     FloatingActionButton attachPhoto;
     EditText postText;
@@ -63,11 +59,13 @@ public class CreatPost extends AppCompatActivity {
     FirebaseUser currentUser;
     FirebaseAuth mAuth;
     ProgressDialog progressDialog;
+    String userName;
+    String profileImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_creat_post);
+        setContentView(R.layout.activity_create_post);
         //intial views
         postImage=findViewById(R.id.postImage);
         postText=findViewById(R.id.postText);
@@ -80,20 +78,26 @@ public class CreatPost extends AppCompatActivity {
         post.setEnabled(false);
         mAuth = FirebaseAuth.getInstance();
         currentUser  = mAuth.getCurrentUser();
-       // currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            userName = currentUser.getDisplayName();
+        }
+            else{
+                userName = "User Name";
+            }
+
+        // currentUser = FirebaseAuth.getInstance().getCurrentUser();
         progressDialog=new ProgressDialog(this);
 
         // Set profile image and user name if available
         if (currentUser != null) {
             // Set profile image
-            String profileImageUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
+            profileImageUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
             if (profileImageUrl != null) {
                 // Load profile image using your preferred image loading library, e.g., Picasso, Glide
                 Picasso.get().load(profileImageUrl).into(profileImage);
 
             }
             // Set user name
-            String userName = currentUser.getDisplayName();
             if (userName != null) {
                 // Set user name to the appropriate view, e.g., TextView
                 userNameTx.setText(userName);
@@ -129,7 +133,7 @@ public class CreatPost extends AppCompatActivity {
                 // Not needed for this implementation
             }
         });
-       // add photo to the post
+        // add photo to the post
         attachPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,57 +146,59 @@ public class CreatPost extends AppCompatActivity {
             public void onClick(View v) {
                 progressDialog.setMessage(" Publishing Post ");
                 progressDialog.show();
-
                 if(imageUri!=null) {
                     //to do create Post object and add it to firebase
                     // upload post image || need to access firebase Storage
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReference("Android Tutorials").child(currentUser.getUid()).child("blog_images");
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference("Android Tutorials").child("Posts").child(currentUser.getUid());
                     StorageReference imageFilePath = storageReference.child(imageUri.getLastPathSegment());
-                        imageFilePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        String imageDownloadLink = uri.toString();
-                                        //check image profile
-                                        String profileImageUrl = profileImage != null ? profileImage.toString() : null;
-                                        //creat post object
-                                        Post post = new Post(postText.getText().toString(),
-                                                imageDownloadLink,
-                                                currentUser.getUid()
-                                               ,profileImageUrl
-                                        );
+                    imageFilePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    String imageDownloadLink = uri.toString();
+                                    //check image profile
+                                    //create post object
+                                    Post post = new Post(postText.getText().toString(),
+                                            imageDownloadLink,
+                                            currentUser.getUid()
+                                            ,userName
+                                            ,profileImageUrl
+                                    );
 
-                                        //add post to firebase
-                                        addPost(post);
-                                        // Open DetailCommunity activity here
-                                        Intent intent = new Intent(CreatPost.this, DetailCommunity.class);
-                                        startActivity(intent);
+                                    //add post to firebase
+                                    addPost(post);
+                                    // Open DetailCommunity activity here
+                                    Intent intent = new Intent(CreatePost.this, DetailCommunity.class);
+                                    startActivity(intent);
+                                    finish();
 
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        //something wrong
-                                        Toast.makeText(CreatPost.this, "Failed to upload", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //something wrong
+                                    Toast.makeText(CreatePost.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-                            }
-                        });
+                        }
+                    });
 
                 }else {
                     // If imageUri is null, create the Post object without the image URL
                     Post post = new Post(postText.getText().toString(),
-                            currentUser.getUid(),
-                            profileImage != null ? profileImage.toString() : null);
+                            currentUser.getUid()
+                            ,userName
+                            ,profileImageUrl);
 
                     // Add the post to Firebase database
                     addPost(post);
                     // Open DetailCommunity activity here
-                    Intent intent = new Intent(CreatPost.this, DetailCommunity.class);
+                    Intent intent = new Intent(CreatePost.this, DetailCommunity.class);
                     startActivity(intent);
+                    finish();
                 }
 
 
@@ -254,7 +260,7 @@ public class CreatPost extends AppCompatActivity {
                         postImage.setVisibility(View.VISIBLE);
                     } else {
                         Log.d(TAG, "onActivityResult: cancelled ");
-                        Toast.makeText(CreatPost.this, "Cancelled", Toast.LENGTH_LONG).show();
+                        Toast.makeText(CreatePost.this, "Cancelled", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -284,7 +290,7 @@ public class CreatPost extends AppCompatActivity {
                     }
                     else{
                         Log.d(TAG, "onActivityResult: cancelled");
-                        Toast.makeText(CreatPost.this, "Cancelled", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreatePost.this, "Cancelled", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -337,9 +343,9 @@ public class CreatPost extends AppCompatActivity {
 //                check if some action from permission dialog performed or not Allow/Deny
                 if(grantResults.length>0)
                 {
-//                    check if storage permissions granted, contains boolean results either ture or flase
+//                    check if storage permissions granted, contains boolean results either ture or false
                     boolean storageAccepted=grantResults[0]==PackageManager.PERMISSION_GRANTED;
-//                   check if storage permission is grantd or not
+//                   check if storage permission is granted or not
                     if(storageAccepted){
 //                        storage permission granted, we can launch gallery intent
                         pickImageGallery();
@@ -355,8 +361,8 @@ public class CreatPost extends AppCompatActivity {
     }
     private void addPost(Post post){
         FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef=database.getReference("Posts").child(currentUser.getUid()).push();
-        //get post unque ID and update postkey
+        DatabaseReference myRef=database.getReference("Android Tutorials").child("Posts").push();
+        //get post unique ID and update postKey
         String key=myRef.getKey();
         post.setPostKey(key);
         // Add post data to firebase
@@ -365,15 +371,15 @@ public class CreatPost extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         progressDialog.dismiss();
-                        Toast.makeText(CreatPost.this, "Post Published Successfully", Toast.LENGTH_LONG).show();
-                     Log.i("posts","add");
+                        Toast.makeText(CreatePost.this, "Post Published Successfully", Toast.LENGTH_LONG).show();
+                        Log.i("posts","add");
 
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CreatPost.this, "Failed to add post: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(CreatePost.this, "Failed to add post: " + e.getMessage(), Toast.LENGTH_LONG).show();
                         Log.i("posts"," not add");
                         progressDialog.dismiss();
                     }
