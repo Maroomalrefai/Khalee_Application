@@ -85,6 +85,7 @@ public class DetailCommunity extends AppCompatActivity {
                 // Define the action to be taken when the FloatingActionButton is clicked
                 Intent intent = new Intent(DetailCommunity.this, CreatePost.class); // Change CurrentActivity and NewActivity to your actual activity names
                 startActivity(intent);
+                finish();
             }
         });
     }
