@@ -172,6 +172,7 @@ public class CreatePost extends AppCompatActivity {
                                     // Open DetailCommunity activity here
                                     Intent intent = new Intent(CreatePost.this, DetailCommunity.class);
                                     startActivity(intent);
+                                    finish();
 
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -197,6 +198,7 @@ public class CreatePost extends AppCompatActivity {
                     // Open DetailCommunity activity here
                     Intent intent = new Intent(CreatePost.this, DetailCommunity.class);
                     startActivity(intent);
+                    finish();
                 }
 
 
