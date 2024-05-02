@@ -7,14 +7,19 @@
 
     <style name="Theme.SallaApplication" parent="Base.Theme.SallaApplication" />
 <style name="dialogTheme" parent="Theme.Material3.DayNight.Dialog">
-    <item name="colorAccent">#4F7D94</item>
+    <item name="colorAccent">@color/blue</item>
     <item name="android:textColorPrimary">#000000</item>
     <item name="colorControlNormal">#FEFEFE</item>
     <item name="colorControlActivated">#FD7533</item>
-    <item name="android:windowBackground">#4F7D93</item>
+    <item name="android:windowBackground">@color/blue</item>
 </style>
     <style name="roundedImageViewRounded">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+
+
+
+
 </resources>

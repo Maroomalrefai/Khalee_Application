@@ -117,8 +117,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="42dp"
-                android:layout_marginEnd="245dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/tiltneon"
                 android:text="@string/Recommended"
@@ -126,9 +125,6 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/recent_Recycle"
                 app:layout_constraintEnd_toStartOf="@+id/textView5"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintStart_toStartOf="@+id/imageView2"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -167,7 +163,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView5"></androidx.recyclerview.widget.RecyclerView>
+                app:layout_constraintTop_toBottomOf="@+id/textView5">
+            </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/textView7"
@@ -225,10 +222,13 @@
                 android:id="@+id/imageView2"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginTop="-40dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/recent_Recycle"
+                app:layout_constraintEnd_toStartOf="@+id/textView4"
                 app:layout_constraintTop_toBottomOf="@id/textView4"
-                app:srcCompat="@drawable/flag"
-                tools:layout_editor_absoluteX="0dp"
-                android:layout_marginTop="-40dp"/>
+                app:srcCompat="@drawable/flag" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
