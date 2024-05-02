@@ -209,6 +209,7 @@ public class ProfileChange extends AppCompatActivity {
             if (photoUri != null) {
                 Glide.with(this)
                         .load(photoUri)
+                        .placeholder(R.drawable.profileicon)
                         .error(R.drawable.profileicon) // Placeholder image in case of error
                         .into(ImgUserPhoto);
             } else {
@@ -348,7 +349,7 @@ public class ProfileChange extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         userEmail.setText(user.getEmail());
         userName.setText(user.getDisplayName());
-        Picasso.get().load(user.getPhotoUrl()).error(R.drawable.profileicon) .into(ImgUserPhoto);
+        Picasso.get().load(user.getPhotoUrl()).error(R.drawable.profileicon).placeholder(R.drawable.profileicon) .into(ImgUserPhoto);
        // Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.profileicon) .into(ImgUserPhoto);
         progressBar.setVisibility(View.GONE);
 

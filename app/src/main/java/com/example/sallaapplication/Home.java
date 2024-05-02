@@ -45,13 +45,14 @@ public class Home extends AppCompatActivity {
         profileIcon = findViewById(R.id.profileIcon);
 
 
+
         // Set profile image and user name if available
         if (user != null) {
             // Set profile image
             String profileImageUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
             if (profileImageUrl != null) {
                 // Load profile image using your preferred image loading library, e.g., Picasso, Glide
-                Picasso.get().load(profileImageUrl).into(profileIcon);
+                Picasso.get().load(profileImageUrl).placeholder(R.drawable.profileicon).into(profileIcon);
 
             }
             // Set user name
