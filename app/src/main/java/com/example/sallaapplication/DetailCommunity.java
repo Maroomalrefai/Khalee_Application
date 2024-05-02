@@ -72,26 +72,26 @@ public class DetailCommunity extends AppCompatActivity {
             communityname.setText(currentCommunityName);
         }
         if (currentCommunityId != null) {
-        databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentCommunityId).child("Posts");
-        progressBar.setVisibility(View.VISIBLE);
+            databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentCommunityId).child("Posts");
+            progressBar.setVisibility(View.VISIBLE);
 
-        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                postList.clear();
-                for(DataSnapshot itemSnapshot: snapshot.getChildren()){
-                    Post post = itemSnapshot.getValue((Post.class));
-                    postList.add(post);
+            eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    postList.clear();
+                    for(DataSnapshot itemSnapshot: snapshot.getChildren()){
+                        Post post = itemSnapshot.getValue((Post.class));
+                        postList.add(post);
+                    }
+                    adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
                 }
-                adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                progressBar.setVisibility(View.GONE);
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    progressBar.setVisibility(View.GONE);
+                }
+            });
         } else {
             // Handle the case where currentCommunityId is null
             // For example, show a message to the user or navigate back to the previous activity

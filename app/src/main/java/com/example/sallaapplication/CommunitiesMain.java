@@ -76,7 +76,7 @@ public class CommunitiesMain extends AppCompatActivity {
             if (communities.getCommunityName().toLowerCase().contains(text.toLowerCase())){
                 filteredList.add(communities);
             }
-        adapter.setFilteredList(filteredList);
+            adapter.setFilteredList(filteredList);
         }
     }
     private void setCommunitiesRecycler(List<CommunitiesData> communitiesDatalist) {
