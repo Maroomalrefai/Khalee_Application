@@ -107,7 +107,6 @@ public class DetailCommunity extends AppCompatActivity {
                 intent.putExtra("communityId", currentCommunityId);
                 intent.putExtra("communityName", currentCommunityName);
                 startActivity(intent);
-                finish();
             }
         });
     }
