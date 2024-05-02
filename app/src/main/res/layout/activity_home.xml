@@ -117,7 +117,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="42dp"
                 android:layout_marginEnd="245dp"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/tiltneon"
@@ -223,14 +223,12 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="30dp"
+                android:layout_width="40dp"
                 android:layout_height="40dp"
+                app:layout_constraintTop_toBottomOf="@id/textView4"
                 app:srcCompat="@drawable/flag"
-                tools:layout_editor_absoluteX="3dp"
-                tools:layout_editor_absoluteY="771dp"
-                tools:ignore="MissingConstraints" />
-
-
+                tools:layout_editor_absoluteX="0dp"
+                android:layout_marginTop="-40dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
