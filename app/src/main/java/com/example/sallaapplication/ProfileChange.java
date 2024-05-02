@@ -63,12 +63,12 @@ public class ProfileChange extends AppCompatActivity {
     String userId;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database;
-
+    Button editAllergyBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_change);
-        Button editAllergyBtn = findViewById(R.id.editallergy);
+        editAllergyBtn = findViewById(R.id.editallergy);
         edate = findViewById(R.id.edate);
         ImgUserPhoto = findViewById(R.id.UserPhoto);
         userName = findViewById(R.id.userName);
@@ -100,7 +100,7 @@ public class ProfileChange extends AppCompatActivity {
         editAllergyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ProfileChange.this,Question.class);
+                Intent i = new Intent(ProfileChange.this,EditAllergies.class);
                 startActivity(i);
             }
         });
