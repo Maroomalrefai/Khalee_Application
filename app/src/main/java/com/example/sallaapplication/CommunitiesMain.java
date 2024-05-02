@@ -73,7 +73,7 @@ public class CommunitiesMain extends AppCompatActivity {
         });
 
         communitiesDataList.add(new CommunitiesData("   General Community","General", R.drawable.generalfinal));
-        communitiesDataList.add(new CommunitiesData("Gluten free Community","Gulten", R.drawable.gluten));
+        communitiesDataList.add(new CommunitiesData("Gluten free Community","Gluten", R.drawable.gluten));
         communitiesDataList.add(new CommunitiesData("Egg free Community","Egg", R.drawable.egg));
         communitiesDataList.add(new CommunitiesData("Sesame free Community","Sesame", R.drawable.sesame));
         communitiesDataList.add(new CommunitiesData("Lactose free Community","Lactose", R.drawable.lactose));
