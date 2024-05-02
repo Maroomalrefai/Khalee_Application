@@ -102,9 +102,9 @@ public class Home extends AppCompatActivity {
         setRecentRecycler(recentDataList);
 
         List<CommunitiesData> communitiesDatalist=new ArrayList<>();
-        communitiesDatalist.add(new CommunitiesData("General Community",R.drawable.generalfinal));
-        communitiesDatalist.add(new CommunitiesData("Tree nuts free Community",R.drawable.treenuts));
-        communitiesDatalist.add(new CommunitiesData("Gluten free Community",R.drawable.gluten));
+        communitiesDatalist.add(new CommunitiesData("General Community","General",R.drawable.generalfinal));
+        communitiesDatalist.add(new CommunitiesData("Tree nuts free Community","Nut",R.drawable.treenuts));
+        communitiesDatalist.add(new CommunitiesData("Gluten free Community","Gluten",R.drawable.gluten));
         setCommunitiesRecycler(communitiesDatalist);
     }
 

@@ -61,7 +61,7 @@ public class CreatePost extends AppCompatActivity {
     ProgressDialog progressDialog;
     String userName;
     String profileImageUrl;
-
+    String currentCommunityId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +74,11 @@ public class CreatePost extends AppCompatActivity {
         profileImage=findViewById(R.id.getprofileImage);
         userNameTx=findViewById(R.id.getprofileName);
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            currentCommunityId = intent.getStringExtra("communityId");
+        }
+
         //disabled post button
         post.setEnabled(false);
         mAuth = FirebaseAuth.getInstance();
@@ -85,7 +90,6 @@ public class CreatePost extends AppCompatActivity {
                 userName = "User Name";
             }
 
-        // currentUser = FirebaseAuth.getInstance().getCurrentUser();
         progressDialog=new ProgressDialog(this);
 
         // Set profile image and user name if available
@@ -149,7 +153,7 @@ public class CreatePost extends AppCompatActivity {
                 if(imageUri!=null) {
                     //to do create Post object and add it to firebase
                     // upload post image || need to access firebase Storage
-                    StorageReference storageReference = FirebaseStorage.getInstance().getReference("Android Tutorials").child("Posts").child(currentUser.getUid());
+                    StorageReference storageReference = FirebaseStorage.getInstance().getReference("Android Tutorials").child(currentCommunityId).child("Posts").child(currentUser.getUid());
                     StorageReference imageFilePath = storageReference.child(imageUri.getLastPathSegment());
                     imageFilePath.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -360,30 +364,33 @@ public class CreatePost extends AppCompatActivity {
         }
     }
     private void addPost(Post post){
-        FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef=database.getReference("Android Tutorials").child("Posts").push();
-        //get post unique ID and update postKey
-        String key=myRef.getKey();
-        post.setPostKey(key);
-        // Add post data to firebase
-        myRef.setValue(post)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        progressDialog.dismiss();
-                        Toast.makeText(CreatePost.this, "Post Published Successfully", Toast.LENGTH_LONG).show();
-                        Log.i("posts","add");
+        if (currentCommunityId != null) {
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("Android Tutorials").child(currentCommunityId).child("Posts").push();
+            //get post unique ID and update postKey
+            String key = myRef.getKey();
+            post.setPostKey(key);
+            // Add post data to firebase
+            myRef.setValue(post)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            progressDialog.dismiss();
+                            Toast.makeText(CreatePost.this, "Post Published Successfully", Toast.LENGTH_LONG).show();
+                            Log.i("posts", "add");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(CreatePost.this, "Failed to add post: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                            Log.i("posts", " not add");
+                            progressDialog.dismiss();
+                        }
 
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(CreatePost.this, "Failed to add post: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.i("posts"," not add");
-                        progressDialog.dismiss();
-                    }
-
-                });
+                    });
+        }else {
+            Log.e(TAG, "Current community ID is null");
+        }
     }
 }

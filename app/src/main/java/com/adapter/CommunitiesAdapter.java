@@ -47,10 +47,14 @@ public class CommunitiesAdapter extends RecyclerView.Adapter<CommunitiesAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CommunitiesViewHolders holder, int position) {
+        CommunitiesData currentCommunity = communitiesDatalist.get(position);
+
         holder.comCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,DetailCommunity.class);
+                intent.putExtra("communityId", currentCommunity.getCommunityID());
+                intent.putExtra("communityName",currentCommunity.getCommunityName());
                 context.startActivity(intent);
             }
         });

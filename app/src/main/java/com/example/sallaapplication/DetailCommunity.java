@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.adapter.PostAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,6 +35,9 @@ public class DetailCommunity extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseUser currentUser;
     FirebaseAuth mAuth;
+    String currentCommunityId;
+    String currentCommunityName;
+    TextView communityname;
 
 
 
@@ -43,6 +47,7 @@ public class DetailCommunity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_community);
         addButton = findViewById(R.id.add);
         recyclerView = findViewById(R.id.recyclerView);
+        communityname = findViewById(R.id.communityname);
         mAuth = FirebaseAuth.getInstance();
         currentUser  = mAuth.getCurrentUser();
         progressBar = findViewById(R.id.progressBar);
@@ -58,7 +63,15 @@ public class DetailCommunity extends AppCompatActivity {
         PostAdapter adapter = new PostAdapter(DetailCommunity.this,postList);
         recyclerView.setAdapter(adapter);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child("Posts");
+        // Receive community information passed from the previous activity
+        Intent intent = getIntent();
+        if (intent != null) {
+            currentCommunityId = intent.getStringExtra("communityId");
+            currentCommunityName = intent.getStringExtra("communityName");
+            communityname.setText(currentCommunityName);
+        }
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentCommunityId).child("Posts");
         progressBar.setVisibility(View.VISIBLE);
 
         eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
@@ -84,6 +97,8 @@ public class DetailCommunity extends AppCompatActivity {
             public void onClick(View v) {
                 // Define the action to be taken when the FloatingActionButton is clicked
                 Intent intent = new Intent(DetailCommunity.this, CreatePost.class); // Change CurrentActivity and NewActivity to your actual activity names
+                intent.putExtra("communityId", currentCommunityId);
+                intent.putExtra("communityName", currentCommunityName);
                 startActivity(intent);
                 finish();
             }

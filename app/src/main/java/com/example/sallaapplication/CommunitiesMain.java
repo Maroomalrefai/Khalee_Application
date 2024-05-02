@@ -56,16 +56,16 @@ public class CommunitiesMain extends AppCompatActivity {
             }
         });
 
-        communitiesDataList.add(new CommunitiesData("   General Community", R.drawable.generalfinal));
-        communitiesDataList.add(new CommunitiesData("Gluten free Community", R.drawable.gluten));
-        communitiesDataList.add(new CommunitiesData("Egg free Community", R.drawable.egg));
-        communitiesDataList.add(new CommunitiesData("Sesame free Community", R.drawable.sesame));
-        communitiesDataList.add(new CommunitiesData("Lactose free Community", R.drawable.lactose));
-        communitiesDataList.add(new CommunitiesData("Tree nuts free Community", R.drawable.treenuts));
-        communitiesDataList.add(new CommunitiesData("Soy free Community", R.drawable.soy));
-        communitiesDataList.add(new CommunitiesData("Peanut free Community", R.drawable.peanut));
-        communitiesDataList.add(new CommunitiesData("Seafood free Community", R.drawable.seafood));
-        communitiesDataList.add(new CommunitiesData("Mustard free Community", R.drawable.mustard));
+        communitiesDataList.add(new CommunitiesData("   General Community","General", R.drawable.generalfinal));
+        communitiesDataList.add(new CommunitiesData("Gluten free Community","Gulten", R.drawable.gluten));
+        communitiesDataList.add(new CommunitiesData("Egg free Community","Egg", R.drawable.egg));
+        communitiesDataList.add(new CommunitiesData("Sesame free Community","Sesame", R.drawable.sesame));
+        communitiesDataList.add(new CommunitiesData("Lactose free Community","Lactose", R.drawable.lactose));
+        communitiesDataList.add(new CommunitiesData("Tree nuts free Community", "Nut",R.drawable.treenuts));
+        communitiesDataList.add(new CommunitiesData("Soy free Community","Soy", R.drawable.soy));
+        communitiesDataList.add(new CommunitiesData("Peanut free Community","Peanut", R.drawable.peanut));
+        communitiesDataList.add(new CommunitiesData("Seafood free Community","Seafood", R.drawable.seafood));
+        communitiesDataList.add(new CommunitiesData("Mustard free Community","Mustard", R.drawable.mustard));
         setCommunitiesRecycler(communitiesDataList);
 
     }
