@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="ltr"
     tools:context=".DetailCommunity">
 
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,8 +17,8 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.0"
       app:layout_constraintStart_toStartOf="parent"
-      android:layoutDirection="ltr"
-      app:layout_constraintTop_toTopOf="parent">
+      app:layout_constraintTop_toTopOf="parent"
+      >
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -41,6 +42,7 @@
       android:layout_marginStart="16dp"
       android:layout_marginTop="16dp"
       android:layout_marginBottom="16dp"
+      android:layoutDirection="ltr"
       android:fontFamily="@font/tiltneon"
       android:text="Khalee comunity"
       android:textColor="@color/blue"
