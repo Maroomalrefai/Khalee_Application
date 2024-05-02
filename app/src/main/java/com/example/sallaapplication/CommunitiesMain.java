@@ -11,7 +11,11 @@ import android.widget.ImageView;
 import androidx.appcompat.widget.SearchView;
 import com.adapter.CommunitiesAdapter;
 import com.adapter.MyAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.model.CommunitiesData;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +25,10 @@ public class CommunitiesMain extends AppCompatActivity {
     CommunitiesAdapter adapter;
     SearchView searchView;
     List<CommunitiesData>communitiesDataList;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    ImageView profileIcon;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +38,18 @@ public class CommunitiesMain extends AppCompatActivity {
         searchView=findViewById(R.id.searchicon);
         searchView.clearFocus();
         communitiesDataList = new ArrayList<>();
+        profileIcon = findViewById(R.id.profileicon);
         adapter = new CommunitiesAdapter(CommunitiesMain.this, communitiesDataList);
 
 
-
+        if (user != null) {
+            // Set profile image
+            String profileImageUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
+            if (profileImageUrl != null) {
+                // Load profile image using your preferred image loading library, e.g., Picasso, Glide
+                Picasso.get().load(profileImageUrl).placeholder(R.drawable.profileicon).into(profileIcon);
+            }
+        }
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
