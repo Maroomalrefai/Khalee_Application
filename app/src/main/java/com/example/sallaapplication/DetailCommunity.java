@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adapter.PostAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -70,7 +71,7 @@ public class DetailCommunity extends AppCompatActivity {
             currentCommunityName = intent.getStringExtra("communityName");
             communityname.setText(currentCommunityName);
         }
-
+        if (currentCommunityId != null) {
         databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentCommunityId).child("Posts");
         progressBar.setVisibility(View.VISIBLE);
 
@@ -91,6 +92,11 @@ public class DetailCommunity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
             }
         });
+        } else {
+            // Handle the case where currentCommunityId is null
+            // For example, show a message to the user or navigate back to the previous activity
+            Toast.makeText(this, "Community ID is null", Toast.LENGTH_SHORT).show();
+        }
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
