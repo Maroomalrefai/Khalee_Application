@@ -9,8 +9,14 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
 
@@ -18,7 +24,8 @@ public class Question extends AppCompatActivity {
  Button save;
  EditText date;
  RadioButton agreeRadioButton;
-
+ FirebaseAuth firebaseAuth;
+ FirebaseDatabase database;
 
 
     @Override
@@ -28,16 +35,36 @@ public class Question extends AppCompatActivity {
         save = findViewById(R.id.save);
         date = findViewById(R.id.editTextDate);
         agreeRadioButton = findViewById(R.id.agree);
-
+        firebaseAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
 
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveDateToFirebase(date.getText().toString());//saving date into Firebase
                 Intent i = new Intent(Question.this, Login.class);
                 startActivity(i);
             }
+
+
+
+            private void saveDateToFirebase(String date) {
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                if (currentUser != null) {
+                    String userId = currentUser.getUid();
+                    DatabaseReference userRef = database.getReference("users").child(userId);
+                    userRef.child("dateOfBirth").setValue(date)
+                            .addOnSuccessListener(aVoid -> Toast.makeText(Question.this, "Date saved successfully", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e -> Toast.makeText(Question.this, "Failed to save date: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                } else {
+                    Toast.makeText(Question.this, "User not logged in", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
+
+
+
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
