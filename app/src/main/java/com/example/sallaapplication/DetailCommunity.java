@@ -96,6 +96,7 @@ public class DetailCommunity extends AppCompatActivity {
             // Handle the case where currentCommunityId is null
             // For example, show a message to the user or navigate back to the previous activity
             Toast.makeText(this, "Community ID is null", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
         addButton.setOnClickListener(new View.OnClickListener() {
