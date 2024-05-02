@@ -4,8 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatRadioButton;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -125,6 +128,11 @@ public class SignUp extends AppCompatActivity {
                     Toast.makeText(SignUp.this, "Please enter your username", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                // Check for internet connection
+                if (!isNetworkAvailable()) {
+                    Toast.makeText(SignUp.this, "No internet connection. Failed to Sign up.", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -161,5 +169,12 @@ public class SignUp extends AppCompatActivity {
 
             }
         });
+
+    }
+    // Method to check for internet connection
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
