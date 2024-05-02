@@ -1,10 +1,14 @@
 package com.example.sallaapplication;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -26,6 +30,8 @@ public class Question extends AppCompatActivity {
  RadioButton agreeRadioButton;
  FirebaseAuth firebaseAuth;
  FirebaseDatabase database;
+ DatabaseReference userRef;
+ CheckBox treeNutCheckBox, glutenCheckBox, lactoseCheckBox, peanutCheckBox, seafoodCheckBox, sesameCheckBox, eggCheckBox, soyCheckBox, mustardCheckBox;
 
 
     @Override
@@ -35,19 +41,58 @@ public class Question extends AppCompatActivity {
         save = findViewById(R.id.save);
         date = findViewById(R.id.editTextDate);
         agreeRadioButton = findViewById(R.id.agree);
+        //
         firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser == null) {
+            Log.e(TAG, "Current user is null");
+            return;
+        }
+        String userId = currentUser.getUid();
+        Log.d(TAG, "UserID: " + userId);
+        userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+
+
+
+
+        // Initialize checkboxes
+        treeNutCheckBox = findViewById(R.id.treenut);
+        glutenCheckBox = findViewById(R.id.gluten);
+        lactoseCheckBox = findViewById(R.id.lactose);
+        peanutCheckBox = findViewById(R.id.peannut);
+        seafoodCheckBox = findViewById(R.id.seafood);
+        sesameCheckBox = findViewById(R.id.seasem);
+        eggCheckBox = findViewById(R.id.egg);
+        soyCheckBox = findViewById(R.id.soy);
+        mustardCheckBox = findViewById(R.id.musterd);
+
+
 
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                saveCheckboxState(treeNutCheckBox, "treeNut");
+                saveCheckboxState(glutenCheckBox, "gluten");
+                saveCheckboxState(lactoseCheckBox, "lactose");
+                saveCheckboxState(peanutCheckBox, "peanut");
+                saveCheckboxState(seafoodCheckBox, "seafood");
+                saveCheckboxState(sesameCheckBox, "sesame");
+                saveCheckboxState(eggCheckBox, "egg");
+                saveCheckboxState(soyCheckBox, "soy");
+                saveCheckboxState(mustardCheckBox, "mustard");
                 saveDateToFirebase(date.getText().toString());//saving date into Firebase
+                //saving allergies
                 Intent i = new Intent(Question.this, Login.class);
                 startActivity(i);
             }
 
-
+            private void saveCheckboxState(CheckBox checkBox, String allergyType) {
+                boolean isChecked = checkBox.isChecked();
+                Log.d(TAG,"Saving " + allergyType + " state: " + isChecked);
+                userRef.child("allergies").child(allergyType).setValue(isChecked);
+            }
 
             private void saveDateToFirebase(String date) {
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
@@ -61,8 +106,11 @@ public class Question extends AppCompatActivity {
                     Toast.makeText(Question.this, "User not logged in", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
 
+
+
+        });
+        
 
 
         date.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +128,8 @@ public class Question extends AppCompatActivity {
         });
 
     }
+
+
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
