@@ -13,8 +13,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -360,6 +363,11 @@ public class CreatePost extends AppCompatActivity {
         }
     }
     private void addPost(Post post){
+        // Check for internet connection
+        if (!isNetworkAvailable()) {
+            Toast.makeText(CreatePost.this, "No internet connection. Failed to add post.", Toast.LENGTH_LONG).show();
+            return;
+        }
         FirebaseDatabase database= FirebaseDatabase.getInstance();
         DatabaseReference myRef=database.getReference("Android Tutorials").child("Posts").push();
         //get post unique ID and update postKey
@@ -385,5 +393,11 @@ public class CreatePost extends AppCompatActivity {
                     }
 
                 });
+    }
+    // Method to check for internet connection
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

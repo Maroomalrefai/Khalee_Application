@@ -295,6 +295,7 @@ public class ImageToText extends AppCompatActivity {
 
     private void requestStoragePermission(){
         //Permission for SDK between 23 and 29
+       // ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
             if(ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
                 ActivityCompat.requestPermissions(ImageToText.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
@@ -311,13 +312,9 @@ public class ImageToText extends AppCompatActivity {
                 }catch (Exception exception){
                     Intent intent=new Intent();
                     intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                    startActivityIfNeeded(intent,101);
-
                 }
             }
-
         }
-
     }
 
     private boolean checkCameraPermission(){
