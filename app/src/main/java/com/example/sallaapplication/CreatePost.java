@@ -98,7 +98,7 @@ public class CreatePost extends AppCompatActivity {
             profileImageUrl = currentUser.getPhotoUrl() != null ? currentUser.getPhotoUrl().toString() : null;
             if (profileImageUrl != null) {
                 // Load profile image using your preferred image loading library, e.g., Picasso, Glide
-                Picasso.get().load(profileImageUrl).into(profileImage);
+                Picasso.get().load(profileImageUrl).placeholder(R.drawable.profileicon).into(profileImage);
 
             }
             // Set user name

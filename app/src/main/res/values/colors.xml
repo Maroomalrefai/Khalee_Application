@@ -9,5 +9,11 @@
     <color name="background">#FAF6F3</color>
     <color name="text">#374E44</color>
     <color name="red">#C50404</color>
+    <color name="dark_blue1">#052B47</color>
+    <color name="dark_blue2">#0D1D25</color>
+    <color name="gray_blue">#4B6387</color>
+
+
+
 
 </resources>

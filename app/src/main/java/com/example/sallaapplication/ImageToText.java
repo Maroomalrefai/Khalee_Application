@@ -21,8 +21,11 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -291,8 +294,30 @@ public class ImageToText extends AppCompatActivity {
     }
 
     private void requestStoragePermission(){
-//        request storage permission (for gallery image pick)
-        ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
+        //Permission for SDK between 23 and 29
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
+            if(ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(ImageToText.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
+            }
+        }
+        //Permission for SDK 30 or above
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.R) {
+            if(!Environment.isExternalStorageManager()){
+                try{
+                    Intent intent= new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    intent.addCategory("android.intent.category.DEFAULT");
+                    intent.setData(Uri.parse(String.format("package:%s",getApplicationContext().getPackageName())));
+                    startActivityIfNeeded(intent,101);
+                }catch (Exception exception){
+                    Intent intent=new Intent();
+                    intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    startActivityIfNeeded(intent,101);
+
+                }
+            }
+
+        }
+
     }
 
     private boolean checkCameraPermission(){

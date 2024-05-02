@@ -3,12 +3,13 @@ package com.example.sallaapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,14 +34,17 @@ public class Home extends AppCompatActivity {
     CommunitiesAdapter communitiesAdapter;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         ImageView scan=findViewById(R.id.recycle_bin);
         Name =findViewById(R.id.name);
         profileIcon = findViewById(R.id.profileIcon);
+
+
 
         // Set profile image and user name if available
         if (user != null) {
@@ -48,7 +52,7 @@ public class Home extends AppCompatActivity {
             String profileImageUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
             if (profileImageUrl != null) {
                 // Load profile image using your preferred image loading library, e.g., Picasso, Glide
-                Picasso.get().load(profileImageUrl).into(profileIcon);
+                Picasso.get().load(profileImageUrl).placeholder(R.drawable.profileicon).into(profileIcon);
 
             }
             // Set user name
@@ -94,11 +98,16 @@ public class Home extends AppCompatActivity {
         });
 
         List<RecentData> recentDataList =new ArrayList<>();
-        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.milk));
-        recentDataList.add(new RecentData("Cheese","Alyaom","5 JOD",R.drawable.emptyimage));
-        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.emptyimage));
-        recentDataList.add(new RecentData("milk","Baladuna","2 JOD",R.drawable.emptyimage));
-
+        recentDataList.add(new RecentData("lactose free milk","Baladna",R.drawable.milk));
+        recentDataList.add(new RecentData("Cheese","AlMazraa",R.drawable.cheese));
+        recentDataList.add(new RecentData("Flax seeds bread","REEF",R.drawable.flaxseeds));
+        recentDataList.add(new RecentData("Coconut bread ","Leeds",R.drawable.coconutbread));
+        recentDataList.add(new RecentData("Lababa","Al Youm",R.drawable.labaneh));
+        recentDataList.add(new RecentData("Yogurt","Maha",R.drawable.mahayogurt));
+        recentDataList.add(new RecentData("Yogurt","Kasih",R.drawable.popcorn));
+        recentDataList.add(new RecentData("Yogurt","Kasih",R.drawable.beans));
+        recentDataList.add(new RecentData("Chocolate","Today",R.drawable.chcolate));
+        recentDataList.add(new RecentData("","",R.drawable.white));
         setRecentRecycler(recentDataList);
 
         List<CommunitiesData> communitiesDatalist=new ArrayList<>();

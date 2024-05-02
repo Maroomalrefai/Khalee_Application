@@ -14,8 +14,10 @@
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -47,11 +49,11 @@
                 android:layout_width="0dp"
                 android:layout_height="180dp"
                 android:background="@drawable/barpic"
+                android:fontFamily="@font/tiltneon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:fontFamily="@font/tiltneon">
+                app:layout_constraintTop_toTopOf="parent">
 
 
                 <TextView
@@ -62,15 +64,15 @@
                     android:layout_marginTop="42dp"
                     android:layout_marginEnd="182dp"
                     android:fontFamily="@font/tiltneon"
-                    android:text="@string/welcome_back"
+                    android:text="@string/welcome"
                     android:textColor="@color/white"
-                    android:textSize="24sp"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:textStyle="bold" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/name"
@@ -115,41 +117,20 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="245dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/tiltneon"
-                android:text="@string/clean_for_you"
+                android:text="@string/Recommended"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/recent_Recycle"
                 app:layout_constraintEnd_toStartOf="@+id/textView5"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/tiltneon"
-                android:text="@string/see_all"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/textView4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.966"
-                app:layout_constraintStart_toEndOf="@+id/textView4"
-                app:layout_constraintTop_toTopOf="@+id/textView4"
-                app:layout_constraintVertical_bias="0.0" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recent_Recycle"
                 android:layout_width="405dp"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="32dp"
                 android:background="#E1EDF1"
@@ -167,6 +148,7 @@
                 android:layout_marginBottom="12dp"
                 android:fontFamily="@font/tiltneon"
                 android:text="@string/communities"
+                android:textColor="#49454F"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/communitiesRecyclerView"
@@ -177,9 +159,9 @@
                 android:id="@+id/communitiesRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="210dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5">
             </androidx.recyclerview.widget.RecyclerView>
@@ -188,7 +170,6 @@
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="308dp"
                 android:fontFamily="@font/tiltneon"
@@ -223,10 +204,10 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="80dp"
                     android:layout_marginBottom="37dp"
-                    android:text="@string/scan_your_first_product"
                     android:fontFamily="@font/tiltneon"
-                    android:textStyle="bold"
+                    android:text="@string/scan_your_first_product"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     app:backgroundTint="#FE8247 "
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -237,7 +218,17 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="-40dp"
+                android:layout_marginEnd="9dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/recent_Recycle"
+                app:layout_constraintEnd_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toBottomOf="@id/textView4"
+                app:srcCompat="@drawable/flag" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -50,7 +50,7 @@ import java.util.List;
 
             // Load the post image if available
             if (data.getPhoto() != null) {
-                Picasso.get().load(data.getPhoto()).into(holder.postImage);
+                Picasso.get().load(data.getPhoto()).placeholder(R.drawable.emptyimage).into(holder.postImage);
                 holder.postImage.setVisibility(View.VISIBLE);
             } else {
                 // If no post image, hide the ImageView

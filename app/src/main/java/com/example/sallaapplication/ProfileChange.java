@@ -33,6 +33,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -56,12 +61,14 @@ public class ProfileChange extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseUser user ;
     String userId;
-
+    FirebaseAuth firebaseAuth;
+    FirebaseDatabase database;
+    Button editAllergyBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_change);
-        Button editAllergyBtn = findViewById(R.id.editallergy);
+        editAllergyBtn = findViewById(R.id.editallergy);
         edate = findViewById(R.id.edate);
         ImgUserPhoto = findViewById(R.id.UserPhoto);
         userName = findViewById(R.id.userName);
@@ -75,6 +82,9 @@ public class ProfileChange extends AppCompatActivity {
         userId = user.getUid();
         logoutBtn=findViewById(R.id.logout);
         getUserInformation();
+        firebaseAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        fetchAndDisplayDate();
 
 
 
@@ -90,7 +100,7 @@ public class ProfileChange extends AppCompatActivity {
         editAllergyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ProfileChange.this,Question.class);
+                Intent i = new Intent(ProfileChange.this,EditAllergies.class);
                 startActivity(i);
             }
         });
@@ -117,13 +127,50 @@ public class ProfileChange extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateDateInFirebase(edate.getText().toString());
                 String newName = userName.getText().toString();
                 updateUserImage(pickedImgUri, mAuth.getCurrentUser(), newName);
+            }
+
+            private void updateDateInFirebase(String newDate) {
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                if (currentUser != null) {
+                    String userId = currentUser.getUid();
+                    DatabaseReference userRef = database.getReference("users").child(userId);
+                    userRef.child("dateOfBirth").setValue(newDate)
+                            .addOnSuccessListener(aVoid -> Toast.makeText(ProfileChange.this, "Date updated successfully", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e -> Toast.makeText(ProfileChange.this, "Failed to update date: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                } else {
+                    Toast.makeText(ProfileChange.this, "User not logged in", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
 
     }
+
+    private void fetchAndDisplayDate() {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DatabaseReference userRef = database.getReference("users").child(userId);
+            userRef.child("dateOfBirth").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        String date = dataSnapshot.getValue(String.class);
+                        edate.setText(date);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Toast.makeText(ProfileChange.this, "Failed to fetch date: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        }
+
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -162,6 +209,7 @@ public class ProfileChange extends AppCompatActivity {
             if (photoUri != null) {
                 Glide.with(this)
                         .load(photoUri)
+                        .placeholder(R.drawable.profileicon)
                         .error(R.drawable.profileicon) // Placeholder image in case of error
                         .into(ImgUserPhoto);
             } else {
@@ -301,7 +349,7 @@ public class ProfileChange extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         userEmail.setText(user.getEmail());
         userName.setText(user.getDisplayName());
-        Picasso.get().load(user.getPhotoUrl()).error(R.drawable.profileicon) .into(ImgUserPhoto);
+        Picasso.get().load(user.getPhotoUrl()).error(R.drawable.profileicon).placeholder(R.drawable.profileicon) .into(ImgUserPhoto);
        // Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.profileicon) .into(ImgUserPhoto);
         progressBar.setVisibility(View.GONE);
 

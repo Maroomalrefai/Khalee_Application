@@ -3,7 +3,6 @@ package com.model;
 public class RecentData {
     String productName;
     String companyName;
-    String Price;
     Integer imageUrl;
 
     public Integer getImageUrl() {
@@ -14,10 +13,9 @@ public class RecentData {
         this.imageUrl = imageUrl;
     }
 
-    public RecentData(String productName, String companyName, String price, Integer imageUrl) {
+    public RecentData(String productName, String companyName, Integer imageUrl) {
         this.productName = productName;
         this.companyName = companyName;
-        this.Price = price;
         this.imageUrl = imageUrl;
     }
 
@@ -35,13 +33,5 @@ public class RecentData {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
-    }
-
-    public String getPrice() {
-        return Price;
-    }
-
-    public void setPrice(String price) {
-        Price = price;
     }
 }
