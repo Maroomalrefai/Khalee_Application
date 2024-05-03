@@ -1,21 +1,29 @@
 package com.model;
 
 public class RecentData {
-    String productName;
-    String companyName;
-    Integer imageUrl;
+    private String productName;
+    private String companyName;
+    private Integer imageUrl;
+    private String companyUrl;
 
+    public RecentData(String productName, String companyName, Integer imageUrl, String companyUrl) {
+        this.productName = productName;
+        this.companyName = companyName;
+        this.imageUrl = imageUrl;
+        this.companyUrl = companyUrl;
+    }
+    public String getCompanyUrl() {
+        return companyUrl;
+    }
+
+    public void setCompanyUrl(String companyUrl) {
+        this.companyUrl = companyUrl;
+    }
     public Integer getImageUrl() {
         return imageUrl;
     }
 
     public void setImageUrl(Integer imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public RecentData(String productName, String companyName, Integer imageUrl) {
-        this.productName = productName;
-        this.companyName = companyName;
         this.imageUrl = imageUrl;
     }
 

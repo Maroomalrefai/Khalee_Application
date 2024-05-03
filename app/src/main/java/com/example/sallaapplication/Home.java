@@ -98,16 +98,16 @@ public class Home extends AppCompatActivity {
         });
 
         List<RecentData> recentDataList =new ArrayList<>();
-        recentDataList.add(new RecentData("lactose free milk","Baladna",R.drawable.milk));
-        recentDataList.add(new RecentData("Cheese","AlMazraa",R.drawable.cheese));
-        recentDataList.add(new RecentData("Flax seeds bread","REEF",R.drawable.flaxseeds));
-        recentDataList.add(new RecentData("Coconut bread ","Leeds",R.drawable.coconutbread));
-        recentDataList.add(new RecentData("Lababa","Al Youm",R.drawable.labaneh));
-        recentDataList.add(new RecentData("Yogurt","Maha",R.drawable.mahayogurt));
-        recentDataList.add(new RecentData("Popcorn","Kasih",R.drawable.popcorn));
-        recentDataList.add(new RecentData("Beans","Kasih",R.drawable.beans));
-        recentDataList.add(new RecentData("Chocolate","Today",R.drawable.chcolate));
-        recentDataList.add(new RecentData("","",R.drawable.white));
+        recentDataList.add(new RecentData("lactose free milk","Baladna",R.drawable.milk,"https://www.baladna.com.jo/"));
+        recentDataList.add(new RecentData("Cheese","AlMazraa",R.drawable.cheese,"https://mazraadairy.com/"));
+        recentDataList.add(new RecentData("Flax seeds bread","REEF",R.drawable.flaxseeds,"https://reef-bakeries.com/"));
+        recentDataList.add(new RecentData("Coconut bread ","Leeds",R.drawable.coconutbread,"https://leeds-bakery.com/"));
+        recentDataList.add(new RecentData("Lababa","Al Youm",R.drawable.labaneh,"https://samajordan.jo/en/brands/alyoum-food"));
+        recentDataList.add(new RecentData("Yogurt","Maha",R.drawable.mahayogurt,"https://jordandairy.com/"));
+        recentDataList.add(new RecentData("Popcorn","Kasih",R.drawable.popcorn,"https://www.kasih.com/"));
+        recentDataList.add(new RecentData("Beans","Kasih",R.drawable.beans,"https://www.kasih.com/"));
+        recentDataList.add(new RecentData("Chocolate","Today",R.drawable.chcolate,"http://www.todaychocolate.com/"));
+        recentDataList.add(new RecentData("","",R.drawable.white,""));
         setRecentRecycler(recentDataList);
 
         List<CommunitiesData> communitiesDatalist=new ArrayList<>();
