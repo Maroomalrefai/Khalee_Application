@@ -7,6 +7,8 @@ package com.model;
         private String userId;
         private String profileName;
         private Object timeStamp;
+        private String like;
+        private int no_likes;
 
         public Post(String postText, String photo, String userId, String profileName, String profileImage) {
             this.postText = postText;
@@ -15,6 +17,8 @@ package com.model;
             this.photo = photo;
             this.userId = userId;
             this.timeStamp = System.currentTimeMillis();
+//            this.like=like;
+//            this.no_likes = no_likes;
         }
 
         public Post(String postText, String userId, String profileName, String profileImage) {
@@ -23,10 +27,20 @@ package com.model;
             this.userId = userId;
             this.profileImage = profileImage;
             this.timeStamp = System.currentTimeMillis();
+//            this.like = like;
+//            this.no_likes = no_likes;
         }
 
         public Post() {
             // Default constructor required for Firebase
+        }
+
+        public int getNo_likes() {
+            return no_likes;
+        }
+
+        public void setNo_likes(int no_likes) {
+            this.no_likes = no_likes;
         }
 
         public String getPostKey() {
@@ -83,5 +97,12 @@ package com.model;
 
         public void setTimeStamp(Object timeStamp) {
             this.timeStamp = timeStamp;
+        }
+        public String getLike() {
+            return like;
+        }
+
+        public void setLike(String like) {
+            this.like = like;
         }
     }

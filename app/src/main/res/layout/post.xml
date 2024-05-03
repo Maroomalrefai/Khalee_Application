@@ -72,7 +72,7 @@
             android:layout_marginLeft="20dp"
             android:src="@drawable/favorite_border" />
             <TextView
-                android:id="@+id/no.likes"
+                android:id="@+id/no_likes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
