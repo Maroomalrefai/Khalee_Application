@@ -60,14 +60,27 @@
             android:scaleType="centerCrop"
             android:src="@drawable/bright"/>
 
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/like"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="30dp"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="7dp"
-            android:layout_marginLeft="290dp"
-            android:src="@drawable/like" />
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/favorite_border" />
+            <TextView
+                android:id="@+id/no.likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/tiltneon"
+                android:text="likes"
+                android:textColor="@color/black"
+                android:textSize="18sp"/>
+        </GridLayout>
 
 
     </LinearLayout>
