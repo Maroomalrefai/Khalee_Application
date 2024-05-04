@@ -10,8 +10,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:background="@drawable/barpic"
+        android:layout_height="500dp"
+        android:background="@drawable/bluesmallbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,7 +22,7 @@
             android:layout_width="172dp"
             android:layout_height="41dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="182dp"
             android:fontFamily="@font/tiltneon"
             android:text="Communities"
@@ -36,8 +36,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/profileicon"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="84dp"
+            android:layout_height="73dp"
             android:layout_marginStart="302dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="2dp"
@@ -48,31 +48,31 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.0"
             app:shapeAppearanceOverlay="@style/circular"
-            app:srcCompat="@drawable/profileicon"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:srcCompat="@drawable/profileicon" />
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchicon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="178dp"
-        android:background="@drawable/blue_border"
-        android:fontFamily="@font/tiltneon"
-        android:textStyle="bold"
-        app:closeIcon="@drawable/arrow_left"
-        app:iconifiedByDefault="false"
-        app:queryHint="Search..."
-        app:searchHintIcon="@null"
-        app:searchIcon="@drawable/searchicon" />
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchicon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/blue_border"
+            android:fontFamily="@font/tiltneon"
+            android:textStyle="bold"
+            app:closeIcon="@drawable/arrow_left"
+            app:iconifiedByDefault="false"
+            app:layout_constraintTop_toBottomOf="@+id/community"
+            app:queryHint="Search..."
+            app:searchHintIcon="@null"
+            app:searchIcon="@drawable/searchicon"
+            tools:layout_editor_absoluteX="0dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/Communities"
         android:layout_width="match_parent"
-        android:layout_height="599dp"
-        android:layout_marginTop="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
         tools:ignore="MissingConstraints" />
 </RelativeLayout>
