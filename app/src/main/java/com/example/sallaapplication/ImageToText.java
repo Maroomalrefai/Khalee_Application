@@ -340,6 +340,7 @@ public class ImageToText extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==REQUEST_CODE){
         switch (requestCode){
             case CAMERA_REQUEST_CODE: {
                 if (grantResults.length > 0) {
@@ -363,7 +364,7 @@ public class ImageToText extends AppCompatActivity {
                 if(grantResults.length>0)
                 {
 //                    check if storage permissions granted, contains boolean results either ture or flase
-                    boolean storageAccepted=grantResults[0]==PackageManager.PERMISSION_GRANTED;
+                    boolean storageAccepted=grantResults[1]==PackageManager.PERMISSION_GRANTED;
 //                   check if storage permission is grantd or not
                     if(storageAccepted){
 //                        storage permission granted, we can launch gallery intent
@@ -376,6 +377,7 @@ public class ImageToText extends AppCompatActivity {
                 }
             }
             break;
+        }
         }
     }
 
@@ -508,12 +510,14 @@ public class ImageToText extends AppCompatActivity {
         if(ContextCompat.checkSelfPermission(this,CAMERA_PERMISSION_)==PackageManager.PERMISSION_GRANTED
         && ContextCompat.checkSelfPermission(this,READ_STORAGE_PERMISSION_)==PackageManager.PERMISSION_GRANTED){
             Toast.makeText(this,"Permission accepted",Toast.LENGTH_SHORT).show();
+            pickImageCamera();
         }
         else{
             ActivityCompat.requestPermissions(this,new String[]{CAMERA_PERMISSION_},REQUEST_CODE);
         if(ContextCompat.checkSelfPermission(this,READ_STORAGE_PERMISSION_)==PackageManager.PERMISSION_GRANTED){
-            pickImageGallery();
+
             Toast.makeText(this,"Permission accepted",Toast.LENGTH_SHORT).show();
+            pickImageGallery();
         }else{
             ActivityCompat.requestPermissions(this,new String[]{CAMERA_PERMISSION_,READ_STORAGE_PERMISSION_},REQUEST_CODE);
         }
