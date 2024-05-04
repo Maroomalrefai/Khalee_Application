@@ -510,18 +510,12 @@ public class ImageToText extends AppCompatActivity {
         if(ContextCompat.checkSelfPermission(this,CAMERA_PERMISSION_)==PackageManager.PERMISSION_GRANTED
         && ContextCompat.checkSelfPermission(this,READ_STORAGE_PERMISSION_)==PackageManager.PERMISSION_GRANTED){
             Toast.makeText(this,"Permission accepted",Toast.LENGTH_SHORT).show();
-            pickImageCamera();
-        }
-        else{
-            ActivityCompat.requestPermissions(this,new String[]{CAMERA_PERMISSION_},REQUEST_CODE);
-        if(ContextCompat.checkSelfPermission(this,READ_STORAGE_PERMISSION_)==PackageManager.PERMISSION_GRANTED){
-
-            Toast.makeText(this,"Permission accepted",Toast.LENGTH_SHORT).show();
-            pickImageGallery();
-        }else{
-            ActivityCompat.requestPermissions(this,new String[]{CAMERA_PERMISSION_,READ_STORAGE_PERMISSION_},REQUEST_CODE);
+            if(checkCameraPermission())
+                pickImageCamera();
+            if(checkStoragePermission())
+                pickImageGallery();
         }
 
-    }}
+    }
 
 }
