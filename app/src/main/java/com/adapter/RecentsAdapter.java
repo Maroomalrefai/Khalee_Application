@@ -1,5 +1,7 @@
 package com.adapter;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +23,20 @@ public class RecentsAdapter extends RecyclerView.Adapter<RecentsAdapter.RecentVi
 
     @Override
     public void onBindViewHolder(@NonNull RecentViewHolder holder, int position) {
+        RecentData recentData = recentsDataList.get(position);
+
         holder.product_name.setText(recentsDataList.get(position).getProductName());
         holder.company_name.setText(recentsDataList.get(position).getCompanyName());
         holder.product_image.setImageResource(recentsDataList.get(position).getImageUrl());
+        holder.company_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String companyUrl = recentData.getCompanyUrl();
+                // Navigate to company URL
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(companyUrl));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
