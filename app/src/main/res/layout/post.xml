@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="9dp"
             android:fontFamily="@font/tiltneon"
-            android:text="here will be the body of the post😎 \n"
+            android:text="here will be the body of the post😎\n"
             android:textColor="@color/black"
             android:textSize="18sp"/>
 
