@@ -7,13 +7,10 @@
         android:required="false" /> <!-- permissions needed -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -25,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SallaApplication"
         tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"/>
         <activity
             android:name=".EditAllergies"
             android:exported="false" />
@@ -68,8 +68,8 @@
             android:name=".SignUp"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".SplashDelay"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

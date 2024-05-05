@@ -7,7 +7,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -91,12 +93,18 @@ public class ProfileChange extends AppCompatActivity {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Set login status to false
+                setLoginStatus(false);
+
+                // Sign out the user
                 FirebaseAuth.getInstance().signOut();
-                Intent intent =new Intent(getApplicationContext(),Login.class);
-                startActivity(intent);
+
+                // Redirect to the login activity
+                startActivity(new Intent(ProfileChange.this, Login.class));
                 finish();
             }
         });
+
         editAllergyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +156,12 @@ public class ProfileChange extends AppCompatActivity {
 
 
     }
-
+    private void setLoginStatus(boolean isLoggedIn) {
+        SharedPreferences preferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("isLoggedIn", isLoggedIn);
+        editor.apply();
+    }
     private void fetchAndDisplayDate() {
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null) {
@@ -341,8 +354,6 @@ public class ProfileChange extends AppCompatActivity {
         if(resultCode == RESULT_OK && requestCode == REQUESCODE && data !=null){
             pickedImgUri = data.getData();
             ImgUserPhoto.setImageURI(pickedImgUri);
-//            // Generate and upload thumbnail
-//            generateAndUploadThumbnail(pickedImgUri);
         }
     }
     public void getUserInformation() {

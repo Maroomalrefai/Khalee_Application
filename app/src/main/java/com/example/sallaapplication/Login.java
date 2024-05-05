@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatRadioButton;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -35,7 +36,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        rbLeft= findViewById(R.id.rbLeft);
+        rbLeft = findViewById(R.id.rbLeft);
         rbRight = findViewById(R.id.rbRight);
         login = findViewById(R.id.login);
         editTextEmail = findViewById(R.id.email);
@@ -44,11 +45,10 @@ public class Login extends AppCompatActivity {
 //        progressBar=findViewById(R.id.progressBar);
         textViewResetPass = findViewById(R.id.resetPass);
 
-
         rbRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isSelected = ((AppCompatRadioButton)view).isChecked();
+                boolean isSelected = ((AppCompatRadioButton) view).isChecked();
                 if (view.getId() == R.id.rbLeft) {
                     if (isSelected) {
                         rbLeft.setTextColor(Color.WHITE);
@@ -66,7 +66,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-
         textViewResetPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +73,6 @@ public class Login extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,20 +98,19 @@ public class Login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
 //                                progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
+                                    // Save login status to SharedPreferences
+                                    saveLoginStatus(true);
                                     Toast.makeText(getApplicationContext(), "Login successful.", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Login.this, Home.class);
                                     startActivity(intent);
                                     finish();
                                 } else {
                                     Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-
                                 }
                             }
                         });
-
             }
         });
-
     }
     // Method to check for internet connection
     private boolean isNetworkAvailable() {
@@ -122,4 +119,10 @@ public class Login extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    private void saveLoginStatus(boolean isLoggedIn) {
+        SharedPreferences preferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("isLoggedIn", isLoggedIn);
+        editor.apply();
+    }
 }
