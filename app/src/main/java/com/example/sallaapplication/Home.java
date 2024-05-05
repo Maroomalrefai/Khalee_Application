@@ -107,7 +107,6 @@ public class Home extends AppCompatActivity {
         recentDataList.add(new RecentData("Popcorn","Kasih",R.drawable.popcorn,"https://www.kasih.com/"));
         recentDataList.add(new RecentData("Beans","Kasih",R.drawable.beans,"https://www.kasih.com/"));
         recentDataList.add(new RecentData("Chocolate","Today",R.drawable.chcolate,"http://www.todaychocolate.com/"));
-        recentDataList.add(new RecentData("","",R.drawable.white,""));
         setRecentRecycler(recentDataList);
 
         List<CommunitiesData> communitiesDatalist=new ArrayList<>();
