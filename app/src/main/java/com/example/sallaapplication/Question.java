@@ -84,7 +84,7 @@ public class Question extends AppCompatActivity {
                 saveCheckboxState(mustardCheckBox, "mustard");
                 saveDateToFirebase(date.getText().toString());//saving date into Firebase
                 //saving allergies
-                Intent i = new Intent(Question.this, Login.class);
+                Intent i = new Intent(Question.this, Home.class);
                 startActivity(i);
             }
 
