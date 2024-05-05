@@ -132,8 +132,9 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recent_Recycle"
-                android:layout_width="405dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:padding="5dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="32dp"
                 android:background="#E1EDF1"
