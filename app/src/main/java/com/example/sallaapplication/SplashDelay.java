@@ -3,18 +3,23 @@ package com.example.sallaapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashDelay extends AppCompatActivity {
-
-    // Splash screen duration in milliseconds
-    private static final long SPLASH_DURATION = 1000; // 2 seconds
+    ImageView logo;
+    private static final long SPLASH_DURATION = 2000; // 2 seconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_delay);
+        logo = findViewById(R.id.logo);
+        Animation rotationAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate_animation);
+        logo.startAnimation(rotationAnimation);
 
         // Delay for SPLASH_DURATION milliseconds and then start the MainActivity
         new Handler().postDelayed(new Runnable() {
