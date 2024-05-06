@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -32,15 +33,16 @@ public class Question extends AppCompatActivity {
  RadioButton agreeRadioButton;
  FirebaseAuth firebaseAuth;
  FirebaseDatabase database;
- DatabaseReference userRef;
+ DatabaseReference userRef,databaseReference;
  CheckBox treeNutCheckBox, glutenCheckBox, lactoseCheckBox, peanutCheckBox, seafoodCheckBox, sesameCheckBox, eggCheckBox, soyCheckBox, mustardCheckBox;
  TextInputLayout ingredientContainer;
- MaterialAutoCompleteTextView ingredient;
+ MaterialAutoCompleteTextView ingredientDropdown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+        FirebaseApp.initializeApp(Question.this);
         save = findViewById(R.id.save);
         date = findViewById(R.id.editTextDate);
         agreeRadioButton = findViewById(R.id.agree);
@@ -72,18 +74,30 @@ public class Question extends AppCompatActivity {
 
 
 
+        databaseReference = FirebaseDatabase.getInstance().getReference("ingredients");
         ingredientContainer=findViewById(R.id.ingredientContainer);
-        ingredient=findViewById(R.id.ingredient);
+        ingredientDropdown=findViewById(R.id.ingredient);
 
+        ingredientDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedIngredient = ingredientDropdown.getText().toString();
+            databaseReference.setValue(selectedIngredient)
+                    .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Ingredient saved to Firebase", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to save ingredient to Firebase", Toast.LENGTH_SHORT).show());
+
+        });
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ingredient.getText().toString().isEmpty())
-                {   ingredientContainer.setError("Please select an ingredient!");
+                String selectedIngredient = ingredientDropdown.getText().toString();
 
-                }else {
-                    Toast.makeText(Question.this,ingredient.getText().toString(), Toast.LENGTH_SHORT).show();
-                }
+                // Save the selected ingredient to Firebase
+                saveDataToFirebase(selectedIngredient);
+
+
+//                if(ingredient.getText().toString().isEmpty())
+//                {   ingredientContainer.setError("Please select an ingredient!");
+//
+//                }
                 saveCheckboxState(treeNutCheckBox, "treeNut");
                 saveCheckboxState(glutenCheckBox, "gluten");
                 saveCheckboxState(lactoseCheckBox, "lactose");
@@ -99,6 +113,15 @@ public class Question extends AppCompatActivity {
                 startActivity(i);
             }
 
+            private void saveDataToFirebase(String selectedIngredient) {
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("ingredient");
+                databaseReference.setValue(selectedIngredient)
+                        .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Ingredient saved to Firebase", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to save ingredient to Firebase", Toast.LENGTH_SHORT).show());
+
+            }
+
+
             private void saveCheckboxState(CheckBox checkBox, String allergyType) {
                 boolean isChecked = checkBox.isChecked();
                 Log.d(TAG,"Saving " + allergyType + " state: " + isChecked);
@@ -111,7 +134,7 @@ public class Question extends AppCompatActivity {
                     String userId = currentUser.getUid();
                     DatabaseReference userRef = database.getReference("users").child(userId);
                     userRef.child("dateOfBirth").setValue(date)
-                            .addOnSuccessListener(aVoid -> Toast.makeText(Question.this, "Date saved successfully", Toast.LENGTH_SHORT).show())
+                         //   .addOnSuccessListener(aVoid -> Toast.makeText(Question.this, "Date saved successfully", Toast.LENGTH_SHORT).show())
                             .addOnFailureListener(e -> Toast.makeText(Question.this, "Failed to save date: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                 } else {
                     Toast.makeText(Question.this, "User not logged in", Toast.LENGTH_SHORT).show();

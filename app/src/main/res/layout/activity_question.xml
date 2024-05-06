@@ -30,7 +30,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.118"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <EditText
             android:id="@+id/editTextDate"
@@ -241,16 +242,16 @@
             android:gravity="center"
             android:layout_height="wrap_content"
             app:boxStrokeColor="#E1EDF1"
-            app:hintTextColor="#4F7D94"
+            app:hintTextColor="#E1EDF1"
             android:hint="Select an ingredient"
             android:id="@+id/ingredientContainer"
             app:boxCornerRadiusBottomStart="10sp"
             app:boxCornerRadiusBottomEnd="10sp"
             app:boxCornerRadiusTopEnd="10sp"
             app:boxCornerRadiusTopStart="10sp"
-            app:boxStrokeWidth="0sp"
-            app:boxStrokeWidthFocused="0sp"
-            style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu">
+            app:boxStrokeWidth="5dp"
+            app:boxStrokeWidthFocused="5dp"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
 
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
