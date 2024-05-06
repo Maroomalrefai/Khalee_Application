@@ -146,7 +146,7 @@ public class ProfileChange extends AppCompatActivity {
                     String userId = currentUser.getUid();
                     DatabaseReference userRef = database.getReference("users").child(userId);
                     userRef.child("dateOfBirth").setValue(newDate)
-                            .addOnSuccessListener(aVoid -> Toast.makeText(ProfileChange.this, "Date updated successfully", Toast.LENGTH_SHORT).show())
+                            /*aVoid -> Toast.makeText(ProfileChange.this, "Date updated successfully", Toast.LENGTH_SHORT).show()*/
                             .addOnFailureListener(e -> Toast.makeText(ProfileChange.this, "Failed to update date: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                 } else {
                     Toast.makeText(ProfileChange.this, "User not logged in", Toast.LENGTH_SHORT).show();
@@ -156,6 +156,7 @@ public class ProfileChange extends AppCompatActivity {
 
 
     }
+
     private void setLoginStatus(boolean isLoggedIn) {
         SharedPreferences preferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();

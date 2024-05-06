@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +34,8 @@ public class Question extends AppCompatActivity {
  FirebaseDatabase database;
  DatabaseReference userRef;
  CheckBox treeNutCheckBox, glutenCheckBox, lactoseCheckBox, peanutCheckBox, seafoodCheckBox, sesameCheckBox, eggCheckBox, soyCheckBox, mustardCheckBox;
-
+ TextInputLayout ingredientContainer;
+ MaterialAutoCompleteTextView ingredient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,10 +72,18 @@ public class Question extends AppCompatActivity {
 
 
 
+        ingredientContainer=findViewById(R.id.ingredientContainer);
+        ingredient=findViewById(R.id.ingredient);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(ingredient.getText().toString().isEmpty())
+                {   ingredientContainer.setError("Please select an ingredient!");
+
+                }else {
+                    Toast.makeText(Question.this,ingredient.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
                 saveCheckboxState(treeNutCheckBox, "treeNut");
                 saveCheckboxState(glutenCheckBox, "gluten");
                 saveCheckboxState(lactoseCheckBox, "lactose");

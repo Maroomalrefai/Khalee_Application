@@ -233,25 +233,35 @@
             android:textColor="#FE8247"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintVertical_bias="0.202" />
+            app:layout_constraintVertical_bias="0.202"
+            android:layout_marginBottom="10dp"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:gravity="center"
             android:layout_height="wrap_content"
-            app:boxStrokeColor="#4F7D94"
-            app:hintTextColor="#4F7D94">
+            app:boxStrokeColor="#E1EDF1"
+            app:hintTextColor="#4F7D94"
+            android:hint="Select an ingredient"
+            android:id="@+id/ingredientContainer"
+            app:boxCornerRadiusBottomStart="10sp"
+            app:boxCornerRadiusBottomEnd="10sp"
+            app:boxCornerRadiusTopEnd="10sp"
+            app:boxCornerRadiusTopStart="10sp"
+            app:boxStrokeWidth="0sp"
+            app:boxStrokeWidthFocused="0sp"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ingrediant"
-                android:layout_width="350dp"
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:id="@+id/ingredient"
+                android:inputType="none"
+                app:simpleItems="@array/options_list"
                 android:fontFamily="@font/tiltneon"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:hint="write your ingredients"
-                android:inputType="text"
-                />
+                android:textStyle="bold"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

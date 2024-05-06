@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="options_list" >
+        <item>strawberry</item>
+        <item>Sunflower seeds</item>
+        <item>Pumpkin seeds</item>
+        <item>Garlic</item>
+        <item>Cherries</item>
+        <item>Onion</item>
+        <item>Blackberry</item>
+        <item>Raspberry</item>
+        <item>Honey</item>
+        <item>Tomato</item>
+        <item>No ingredient Allergy</item>
+
+
+
+
+
+
+
+
+
+
+
+    </string-array>
+</resources>
