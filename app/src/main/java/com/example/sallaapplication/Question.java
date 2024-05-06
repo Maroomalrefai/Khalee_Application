@@ -36,16 +36,16 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Question extends AppCompatActivity {
- Button save;
- EditText date;
- RadioButton agreeRadioButton;
- FirebaseAuth firebaseAuth;
- FirebaseDatabase database;
- DatabaseReference userRef,databaseReference;
- CheckBox treeNutCheckBox, glutenCheckBox, lactoseCheckBox, peanutCheckBox, seafoodCheckBox, sesameCheckBox, eggCheckBox, soyCheckBox, mustardCheckBox;
- TextInputLayout ingredientContainer;
- MaterialAutoCompleteTextView ingredientDropdown;
- String[] optionsList ;
+    Button save;
+    EditText date;
+    RadioButton agreeRadioButton;
+    FirebaseAuth firebaseAuth;
+    FirebaseDatabase database;
+    DatabaseReference userRef, databaseReference;
+    CheckBox treeNutCheckBox, glutenCheckBox, lactoseCheckBox, peanutCheckBox, seafoodCheckBox, sesameCheckBox, eggCheckBox, soyCheckBox, mustardCheckBox;
+    TextInputLayout ingredientContainer;
+    MaterialAutoCompleteTextView ingredientDropdown;
+    String[] optionsList;
 
     boolean editMode;
 
@@ -70,7 +70,6 @@ public class Question extends AppCompatActivity {
         String userId = currentUser.getUid();
         Log.d(TAG, "UserID: " + userId);
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
-
 
 
         // Retrieve the editMode parameter
@@ -100,10 +99,9 @@ public class Question extends AppCompatActivity {
         mustardCheckBox = findViewById(R.id.musterd);
 
 
-
         databaseReference = FirebaseDatabase.getInstance().getReference("ingredients");
-        ingredientContainer=findViewById(R.id.ingredientContainer);
-        ingredientDropdown=findViewById(R.id.ingredient);
+        ingredientContainer = findViewById(R.id.ingredientContainer);
+        ingredientDropdown = findViewById(R.id.ingredient);
 
         ingredientDropdown.setOnItemClickListener((parent, view, position, id) -> {
             String selectedIngredient = ingredientDropdown.getText().toString();
@@ -111,9 +109,8 @@ public class Question extends AppCompatActivity {
                     .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Ingredient saved to Firebase", Toast.LENGTH_SHORT).show())
                     .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to save ingredient to Firebase", Toast.LENGTH_SHORT).show());
 
+
         });
-
-
 
 
         save.setOnClickListener(new View.OnClickListener() {
@@ -152,10 +149,9 @@ public class Question extends AppCompatActivity {
             }
 
 
-
             private void saveCheckboxState(CheckBox checkBox, String allergyType) {
                 boolean isChecked = checkBox.isChecked();
-                Log.d(TAG,"Saving " + allergyType + " state: " + isChecked);
+                Log.d(TAG, "Saving " + allergyType + " state: " + isChecked);
                 userRef.child("allergies").child(allergyType).setValue(isChecked);
             }
 
@@ -165,7 +161,7 @@ public class Question extends AppCompatActivity {
                     String userId = currentUser.getUid();
                     DatabaseReference userRef = database.getReference("users").child(userId);
                     userRef.child("dateOfBirth").setValue(date)
-                         //   .addOnSuccessListener(aVoid -> Toast.makeText(Question.this, "Date saved successfully", Toast.LENGTH_SHORT).show())
+                            //   .addOnSuccessListener(aVoid -> Toast.makeText(Question.this, "Date saved successfully", Toast.LENGTH_SHORT).show())
                             .addOnFailureListener(e -> Toast.makeText(Question.this, "Failed to save date: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                 } else {
                     Toast.makeText(Question.this, "User not logged in", Toast.LENGTH_SHORT).show();
@@ -174,7 +170,6 @@ public class Question extends AppCompatActivity {
 
 
         });
-
 
 
         date.setOnClickListener(new View.OnClickListener() {
@@ -196,39 +191,54 @@ public class Question extends AppCompatActivity {
             retrieveIngredientFromFirebase();
         }
     }
-    private void retrieveIngredientFromFirebase() {
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> ingredientsList = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String ingredient = snapshot.getValue(String.class);
-                    if (ingredient != null) {
-                        ingredientsList.add(ingredient);
-                    }
-                }
-                // Set the retrieved data as items for the dropdown
-//                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), androidx.transition.R.layout.support_simple_spinner_dropdown_item, ingredientsList);
+//    private void retrieveIngredientFromFirebase() {
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                List<String> ingredientsList = new ArrayList<>();
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    String ingredient = snapshot.getValue(String.class);
+//                    if (ingredient != null) {
+//                        ingredientsList.add(ingredient);
+//                    }
+//                }
+//                // Set the retrieved data as items for the dropdown
+////                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), androidx.transition.R.layout.support_simple_spinner_dropdown_item, ingredientsList);
+////                ingredientDropdown.setAdapter(adapter);
+//                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, optionsList);
 //                ingredientDropdown.setAdapter(adapter);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, optionsList);
-                ingredientDropdown.setAdapter(adapter);
+//
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                // Handle error
+//                Log.e("Firebase", "Failed to retrieve data from Firebase: " + databaseError.getMessage());
+//                Toast.makeText(getApplicationContext(), "Failed to retrieve data from Firebase", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//}
+private void retrieveIngredientFromFirebase() {
 
+    DatabaseReference ingredientRef = userRef.child("ingredient");
+    ingredientRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+            String ingredient = dataSnapshot.getValue(String.class);
+            if (ingredient != null) {
+                ingredientDropdown.setText(ingredient);
             }
+        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-                Log.e("Firebase", "Failed to retrieve data from Firebase: " + databaseError.getMessage());
-                Toast.makeText(getApplicationContext(), "Failed to retrieve data from Firebase", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        ingredientDropdown.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedIngredient = optionsList[position];
-        });
-
-    }
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            Log.e("Firebase", "Failed to retrieve ingredient from Firebase: " + databaseError.getMessage());
+            Toast.makeText(getApplicationContext(), "Failed to retrieve ingredient from Firebase", Toast.LENGTH_SHORT).show();
+        }
+    });
+}
 
 
 
