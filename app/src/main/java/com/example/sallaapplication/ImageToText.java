@@ -219,8 +219,8 @@ public class ImageToText extends AppCompatActivity {
                         pickImageCamera();
                     }
                     else {
-                       // requestCameraPermission();
-                        showPermissoinDialog();
+                        requestCameraPermission();
+//                        showPermissoinDialog();
                     }
                 }
                 else if (id == 2) {
@@ -230,8 +230,8 @@ public class ImageToText extends AppCompatActivity {
                         pickImageGallery();
                     }
                     else{
-//                        requestStoragePermission();
-                        showPermissoinDialog();
+                        requestStoragePermission();
+//                        showPermissoinDialog();
                     }
                 }
                 return true;
@@ -300,32 +300,13 @@ public class ImageToText extends AppCompatActivity {
         return result;
     }
 
-//    private void requestStoragePermission(){
-//        if(Build.VERSION.SDK_INT>=33){
-//
-//        }
-//        //Permission for SDK between 23 and 29
-//       // ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
-//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-//            if(ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_EXTERNAL_STORAGE)!=PackageManager.PERMISSION_GRANTED){
-//                ActivityCompat.requestPermissions(ImageToText.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},100);
-//            }
-//        }
-//        //Permission for SDK 30 or above
-//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.R) {
-//            if(!Environment.isExternalStorageManager()){
-//                try{
-//                    Intent intent= new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-//                    intent.addCategory("android.intent.category.DEFAULT");
-//                    intent.setData(Uri.parse(String.format("package:%s",getApplicationContext().getPackageName())));
-//                    startActivityIfNeeded(intent,101);
-//                }catch (Exception exception){
-//                    Intent intent=new Intent();
-//                    intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-//                }
-//            }
-//        }
-//    }
+    private void requestStoragePermission(){
+        ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
+
+    }
+
+
+
 
     private boolean checkCameraPermission(){
         boolean cameraResult = ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)==(PackageManager.PERMISSION_GRANTED);
@@ -333,14 +314,13 @@ public class ImageToText extends AppCompatActivity {
         return cameraResult && storageResult;
     }
 
-//    private void requestCameraPermission(){
-//        ActivityCompat.requestPermissions(this,cameraPermission,CAMERA_REQUEST_CODE);
-//    }
+    private void requestCameraPermission(){
+        ActivityCompat.requestPermissions(this,cameraPermission,CAMERA_REQUEST_CODE);
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==REQUEST_CODE){
         switch (requestCode){
             case CAMERA_REQUEST_CODE: {
                 if (grantResults.length > 0) {
@@ -377,7 +357,7 @@ public class ImageToText extends AppCompatActivity {
                 }
             }
             break;
-        }}
+        }
     }
 
 
@@ -505,20 +485,6 @@ public class ImageToText extends AppCompatActivity {
             }
         });
     }
-    private void showPermissoinDialog(){
-        if(ContextCompat.checkSelfPermission(this,CAMERA_PERMISSION_)==PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(this,"Permission accepted",Toast.LENGTH_SHORT).show();
-            pickImageCamera();
-        }
-        else{
-            ActivityCompat.requestPermissions(this,new String[]{CAMERA_PERMISSION_},REQUEST_CODE);
-        if(ContextCompat.checkSelfPermission(this,READ_STORAGE_PERMISSION_)==PackageManager.PERMISSION_GRANTED){
-            pickImageGallery();
-            Toast.makeText(this,"Permission accepted",Toast.LENGTH_SHORT).show();
-        }else{
-            ActivityCompat.requestPermissions(this,new String[]{READ_STORAGE_PERMISSION_},REQUEST_CODE);
-        }
 
-    }}
 
 }
