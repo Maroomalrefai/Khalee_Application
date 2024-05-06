@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -16,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
@@ -23,10 +25,15 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class Question extends AppCompatActivity {
  Button save;
@@ -61,6 +68,7 @@ public class Question extends AppCompatActivity {
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
 
+
         // Retrieve the editMode parameter
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -70,9 +78,9 @@ public class Question extends AppCompatActivity {
         if (editMode) {
             TextView birthTextView = findViewById(R.id.Birth);
             EditText birthEditText = findViewById(R.id.editTextDate);
-
             birthTextView.setVisibility(View.GONE);
             birthEditText.setVisibility(View.GONE);
+
         }
 
 
@@ -100,14 +108,17 @@ public class Question extends AppCompatActivity {
                     .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to save ingredient to Firebase", Toast.LENGTH_SHORT).show());
 
         });
+
+
+
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String selectedIngredient = ingredientDropdown.getText().toString();
 
                 // Save the selected ingredient to Firebase
-                saveDataToFirebase(selectedIngredient);
-
+                saveIngredientToFirebase(selectedIngredient);
 
 //                if(ingredient.getText().toString().isEmpty())
 //                {   ingredientContainer.setError("Please select an ingredient!");
@@ -128,13 +139,14 @@ public class Question extends AppCompatActivity {
                 startActivity(i);
             }
 
-            private void saveDataToFirebase(String selectedIngredient) {
+            private void saveIngredientToFirebase(String selectedIngredient) {
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("ingredient");
                 databaseReference.setValue(selectedIngredient)
-                        .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Ingredient saved to Firebase", Toast.LENGTH_SHORT).show())
+                        //.addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Ingredient saved to Firebase", Toast.LENGTH_SHORT).show())
                         .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to save ingredient to Firebase", Toast.LENGTH_SHORT).show());
 
             }
+
 
 
             private void saveCheckboxState(CheckBox checkBox, String allergyType) {
@@ -157,9 +169,8 @@ public class Question extends AppCompatActivity {
             }
 
 
-
         });
-        
+
 
 
         date.setOnClickListener(new View.OnClickListener() {
@@ -176,7 +187,77 @@ public class Question extends AppCompatActivity {
             }
         });
 
+        if (editMode) {
+            setupAllergyFunction();
+            retrieveDataFromFirebase();
+        }
     }
+    private void retrieveDataFromFirebase() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> ingredientsList = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String ingredient = snapshot.getValue(String.class);
+                    if (ingredient != null) {
+                        ingredientsList.add(ingredient);
+                    }
+                }
+                // Set the retrieved data as items for the dropdown
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), androidx.transition.R.layout.support_simple_spinner_dropdown_item, ingredientsList);
+                ingredientDropdown.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
+                Log.e("Firebase", "Failed to retrieve data from Firebase: " + databaseError.getMessage());
+                Toast.makeText(getApplicationContext(), "Failed to retrieve data from Firebase", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
+    private void setupAllergyFunction() {
+        // Setup allergy listeners only if in edit mode
+        setupAllergyListener("treeNut", treeNutCheckBox);
+        setupAllergyListener( "gluten",glutenCheckBox);
+        setupAllergyListener("lactose", lactoseCheckBox);
+        setupAllergyListener( "peanut",peanutCheckBox);
+        setupAllergyListener("seafood", seafoodCheckBox);
+        setupAllergyListener( "sesame",sesameCheckBox);
+        setupAllergyListener("egg", eggCheckBox);
+        setupAllergyListener( "soy",soyCheckBox);
+        setupAllergyListener( "mustard",mustardCheckBox);
+    }
+
+    private void setupAllergyListener(String allergyType, CheckBox checkBox) {
+        userRef.child("allergies").child(allergyType).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Boolean isChecked = dataSnapshot.getValue(Boolean.class);
+                if (isChecked != null) {
+                    checkBox.setChecked(isChecked);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "Database error: " + databaseError.getMessage());
+            }
+        });
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isChecked = checkBox.isChecked();
+                userRef.child("allergies").child(allergyType).setValue(isChecked);
+            }
+        });
+    }
+
 
 
     private void showDatePickerDialog() {
