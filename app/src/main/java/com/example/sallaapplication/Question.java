@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class Question extends AppCompatActivity {
  CheckBox treeNutCheckBox, glutenCheckBox, lactoseCheckBox, peanutCheckBox, seafoodCheckBox, sesameCheckBox, eggCheckBox, soyCheckBox, mustardCheckBox;
  TextInputLayout ingredientContainer;
  MaterialAutoCompleteTextView ingredientDropdown;
+ boolean editMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +61,19 @@ public class Question extends AppCompatActivity {
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
 
+        // Retrieve the editMode parameter
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            editMode = extras.getBoolean("editMode", false);
+        }
+        // Hide the birthdate part if it's in edit mode
+        if (editMode) {
+            TextView birthTextView = findViewById(R.id.Birth);
+            EditText birthEditText = findViewById(R.id.editTextDate);
+
+            birthTextView.setVisibility(View.GONE);
+            birthEditText.setVisibility(View.GONE);
+        }
 
 
         // Initialize checkboxes

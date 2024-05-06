@@ -108,10 +108,13 @@ public class ProfileChange extends AppCompatActivity {
         editAllergyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ProfileChange.this,EditAllergies.class);
-                startActivity(i);
+                Intent intent = new Intent(ProfileChange.this, Question.class);
+                intent.putExtra("editMode", true); // Pass true to indicate edit mode
+                startActivity(intent);
             }
         });
+
+
         edate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
