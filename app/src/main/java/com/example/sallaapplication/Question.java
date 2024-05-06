@@ -45,7 +45,9 @@ public class Question extends AppCompatActivity {
  CheckBox treeNutCheckBox, glutenCheckBox, lactoseCheckBox, peanutCheckBox, seafoodCheckBox, sesameCheckBox, eggCheckBox, soyCheckBox, mustardCheckBox;
  TextInputLayout ingredientContainer;
  MaterialAutoCompleteTextView ingredientDropdown;
- boolean editMode;
+ String[] optionsList ;
+
+    boolean editMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class Question extends AppCompatActivity {
         save = findViewById(R.id.save);
         date = findViewById(R.id.editTextDate);
         agreeRadioButton = findViewById(R.id.agree);
+        optionsList = getResources().getStringArray(R.array.options_list);
+
         //
         firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -189,10 +193,10 @@ public class Question extends AppCompatActivity {
 
         if (editMode) {
             setupAllergyFunction();
-            retrieveDataFromFirebase();
+            retrieveIngredientFromFirebase();
         }
     }
-    private void retrieveDataFromFirebase() {
+    private void retrieveIngredientFromFirebase() {
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -204,8 +208,12 @@ public class Question extends AppCompatActivity {
                     }
                 }
                 // Set the retrieved data as items for the dropdown
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), androidx.transition.R.layout.support_simple_spinner_dropdown_item, ingredientsList);
+//                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), androidx.transition.R.layout.support_simple_spinner_dropdown_item, ingredientsList);
+//                ingredientDropdown.setAdapter(adapter);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, optionsList);
                 ingredientDropdown.setAdapter(adapter);
+
+
             }
 
             @Override
@@ -215,7 +223,13 @@ public class Question extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Failed to retrieve data from Firebase", Toast.LENGTH_SHORT).show();
             }
         });
+
+        ingredientDropdown.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedIngredient = optionsList[position];
+        });
+
     }
+
 
 
 
