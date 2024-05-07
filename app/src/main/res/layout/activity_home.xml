@@ -121,7 +121,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="4dp"
                 android:fontFamily="@font/tiltneon"
-                android:text="  🇯🇴 Jordanian products:"
+                android:text=" 🇯🇴 Jordanian products:"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
