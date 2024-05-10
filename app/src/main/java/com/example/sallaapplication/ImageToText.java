@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +45,10 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -52,6 +57,7 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.model.HistoryData;
 import com.theartofdev.edmodo.cropper.CropImage;
 //import com.theartofdev.edmodo.cropper.CropImage;
 //import com.theartofdev.edmodo.cropper.CropImageActivity;
@@ -75,10 +81,6 @@ public class ImageToText extends AppCompatActivity {
     private static final String TAG = "MAIN_TAG";
     private Uri imageUri = null ;
     private static final int CAMERA_REQUEST_CODE=100;
-    private static final String CAMERA_PERMISSION_=Manifest.permission.CAMERA;
-
-    private static final String READ_STORAGE_PERMISSION_=Manifest.permission.READ_EXTERNAL_STORAGE;
-    private  int REQUEST_CODE=11;
 
     private static final int STORAGE_REQUEST_CODE=101;
     private String[] cameraPermission;
@@ -88,7 +90,10 @@ public class ImageToText extends AppCompatActivity {
     JSONObject allergenData;
     List<String> filteredTokens;
     String recognizedText=null;
-    String allergy = "Egg";
+    ValueEventListener eventListener;
+    List<String> allergies;
+    DatabaseReference databaseReference;
+    private  String ingredient=null;
     String dialogMessage;
 
     @Override
@@ -107,6 +112,52 @@ public class ImageToText extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         filteredTokens = new ArrayList<>();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        String userId = user.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(userId).child("allergies");
+        allergies = new ArrayList<>();
+        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               allergies.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String allergyName = snapshot.getKey().toString();
+                    boolean isAllergic = snapshot.getValue(Boolean.class);
+                    if (isAllergic) {
+                        allergies.add(allergyName);
+                    }
+                }
+                // Now you have a list of allergies for the user
+                Log.d("allergies", "User's allergies: " + allergies);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle any errors
+                Log.e("allergies", "Failed to read user's allergies.", databaseError.toException());
+            }
+        });
+        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(userId).child("ingredient" );
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // This method will be called once with the value from the database
+                ingredient = dataSnapshot.getValue(String.class);
+                if (ingredient != null) {
+                    // Do something with the retrieved value
+                    Log.d("ingredient", "Retrieved value: " + ingredient);
+                } else {
+                    Log.d("ingredient", "Value is null");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle potential errors
+                Log.e("ingredient", "Failed to retrieve value.", databaseError.toException());
+            }
+        });
 
     // Load allergen data from assets
         loadAllergenData();
@@ -181,7 +232,7 @@ public class ImageToText extends AppCompatActivity {
                             recognizedTextEt.setText(recognizedText);
                             if (!recognizedText.isEmpty()) {
                                 // Call performSearch after text recognition is successful
-                                performSearch(allergy);
+                                performSearch(allergies);
                             } else {
                                 // Display a Toast message to inform the user
                                 showDialog("Please ensure that your image contains your ingredients", R.drawable.emptyimage);
@@ -409,21 +460,39 @@ public class ImageToText extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    private void performSearch(String allergy) {
+    private void performSearch(List<String> allergies) {
         // Check if recognized text is empty
         if (recognizedText.isEmpty()) {
             // If recognized text is empty, do nothing
-            return ;
+            return;
         }
-        // Perform search within the specified allergy for each filtered token
-        boolean containsAllergen = searchAllergen(allergy, filteredTokens);
+
+        boolean containsAllergen = false;
+        List<String> foundAllergies = new ArrayList<>();
+
+        // Iterate over each allergy in the list
+        for (String allergy : allergies) {
+            // Perform search for the current allergy
+            if (searchAllergen(allergy.trim(), filteredTokens)) {
+                containsAllergen = true;
+                foundAllergies.add(allergy);
+            }
+        }
+        // Check for individual ingredient
+        for (String token : filteredTokens) {
+            if (token.equalsIgnoreCase(ingredient)) {
+                containsAllergen = true;
+                foundAllergies.add(ingredient);
+            }
+        }
 
         // Display result to user
         if (containsAllergen) {
-            dialogMessage = "Ops! This product contains " + allergy + " and it is not suitable for you.";
-            showDialog(dialogMessage,R.drawable.notfree);
+            String allergens = TextUtils.join(", ", foundAllergies);
+            dialogMessage = "Ops! This product contains " + allergens + " and it is not suitable for you.";
+            showDialog(dialogMessage, R.drawable.notfree);
         } else {
-            dialogMessage = "Great! This product is free from " + allergy + ".";
+            dialogMessage = "Great! This product is suitable for you.";
             showDialog(dialogMessage, R.drawable.allergenfree);
         }
     }
@@ -438,7 +507,7 @@ public class ImageToText extends AppCompatActivity {
 
 
                     // Check if the preprocessed ingredient is contained in the preprocessed token
-                    if (jsonIngredient.equals(token)) {
+                    if (jsonIngredient.equalsIgnoreCase(token)) {
                         return true; // Allergen found for this token
                     }
                 }

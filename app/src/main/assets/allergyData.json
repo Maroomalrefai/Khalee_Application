@@ -1,6 +1,6 @@
 {
   "allergens": {
-    "Lactose": [
+    "lactose": [
       "asadero cheese",
       "asiago",
       "beta-lactoglobulin",
@@ -71,7 +71,7 @@
       "whole milk solids",
       "yogurt"
     ],
-    "Egg": [
+    "egg": [
       "Egg",
       "Eggs",
       "Egg Whites",
@@ -122,7 +122,7 @@
       "Vitellin",
       "Simplesse"
     ],
-    "Gluten": [
+    "gluten": [
       "Wheat",
       "Barley",
       "Rye",
@@ -226,11 +226,12 @@
       "Kamut Flour",
       "Hydrolyzed Barley Protein",
       "Oat Bran",
+      "Oat",
       "Oat Flour",
       "Oatmeal",
       "Oats"
     ],
-    "Soy": [
+    "soy": [
       "soy",
       "soybean",
       "soy sauce",
@@ -243,7 +244,7 @@
       "hydrolyzed soy protein",
       "soybean oil"
     ],
-    "Sea Food": [
+    "seafood": [
       "fish",
       "anchovy",
       "bass",
@@ -273,13 +274,13 @@
       "octopus",
       "squid"
     ],
-    "Sesame": [
+    "sesame": [
       "sesame",
       "sesame seeds",
       "tahini",
       "sesame oil"
     ],
-    "Mustard": [
+    "mustard": [
       "mustard",
       "mustard seeds",
       "mustard oil",
@@ -311,7 +312,13 @@
       "Satay Sauces",
       "Vegetarian Meat Substitutes"
     ],
-    "Tree Nuts": [
+    "treeNut": [
+      "Almond",
+      "Hazelnut",
+      "Cashew",
+      "Pistachio",
+      "Walnut",
+      "Macadamia",
       "Almond oil",
       "Hydrolyzed almond protein",
       "Almond paste",
@@ -338,15 +345,19 @@
       "Macadamia oil",
       "Macadamia flavoring",
       "Macadamia essence",
+      "Pecan",
       "Pecan oil",
       "Pecan flavoring",
       "Pecan essence",
+      "Brazil nut",
       "Brazil nut oil",
       "Brazil nut flavoring",
       "Brazil nut essence",
+      "Shea",
       "Shea nut oil",
       "Shea nut flavoring",
       "Shea nut essence",
+      "Nut",
       "Nut oil blend",
       "Nut extract blend",
       "Nut flour",
@@ -365,6 +376,7 @@
       "Hydrolyzed vegetable protein",
       "Xanthan gum",
       "Guar gum",
+      "Nuts",
       "Mixed Nuts",
       "Nut Butters",
       "Nut Pieces"
