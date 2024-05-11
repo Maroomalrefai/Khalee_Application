@@ -34,15 +34,16 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="225dp"
+            android:layout_width="wrap_content"
             android:layout_height="38dp"
             android:layout_marginBottom="59dp"
-            android:text="MAROOM"
+            android:text="Admin"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.306"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/welcome" />
 
