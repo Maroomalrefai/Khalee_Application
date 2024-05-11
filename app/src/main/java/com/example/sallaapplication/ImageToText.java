@@ -164,10 +164,6 @@ public class ImageToText extends AppCompatActivity {
         inputImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Reset imageUri and recognizedText when selecting a new image
-                imageUri = null;
-                recognizedText = null;
-                recognizedTextEt.setText("");
                 showInputImageDialog();
 
             }
