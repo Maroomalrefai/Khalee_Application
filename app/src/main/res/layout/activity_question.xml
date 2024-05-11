@@ -22,7 +22,7 @@
             android:layout_marginTop="15dp"
             android:fontFamily="@font/tiltneon"
             android:gravity="center"
-            android:text="Birth of Date?"
+            android:text="Date of Birth?"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -30,8 +30,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.118"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/editTextDate"
