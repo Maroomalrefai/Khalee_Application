@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Salla Application"
 include(":app")
- 
+include(":adminofkhalee")
