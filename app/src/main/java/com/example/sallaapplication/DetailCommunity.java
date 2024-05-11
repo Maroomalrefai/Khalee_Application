@@ -81,7 +81,7 @@ public class DetailCommunity extends AppCompatActivity {
                     postList.clear();
                     for(DataSnapshot itemSnapshot: snapshot.getChildren()){
                         Post post = itemSnapshot.getValue((Post.class));
-                        postList.add(post);
+                        postList.add(0,post);
                     }
                     adapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
