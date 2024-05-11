@@ -69,27 +69,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Update like status when like button is clicked
                 testClick = true;
-                likereference.addValueEventListener(new ValueEventListener() {
+                DatabaseReference likeReference = FirebaseDatabase.getInstance().getReference("likes").child(data.getPostKey());
+                likeReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(testClick==true){
-
-                            if(snapshot.child(data.getPostKey()).hasChild(getCurrentUserId())){
-                                likereference.child(data.getPostKey()).removeValue();
-                                testClick = false;
+                        if (testClick) {
+                            if (snapshot.child(getCurrentUserId()).exists()) {
+                                likeReference.child(getCurrentUserId()).removeValue();
+                            } else {
+                                likeReference.child(getCurrentUserId()).setValue(true);
                             }
-                            else
-                            {
-                                likereference.child(data.getPostKey()).child(getCurrentUserId()).setValue(true);
-                                testClick = false;
-                            }
+                            testClick = false;
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        // Handle onCancelled
                     }
                 });
             }
