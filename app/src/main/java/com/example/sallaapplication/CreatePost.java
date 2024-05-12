@@ -57,8 +57,8 @@ public class CreatePost extends AppCompatActivity {
     private Uri imageUri = null ;
     private static final int CAMERA_REQUEST_CODE=100;
     private static final int STORAGE_REQUEST_CODE=101;
-    private String[] cameraPermission;
-    private String [] storagePermission;
+    private String[] cameraPermission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private String[] storagePermission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
     FirebaseUser currentUser;
     FirebaseAuth mAuth;
     ProgressDialog progressDialog;
