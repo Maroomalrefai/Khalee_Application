@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -72,6 +75,10 @@ public class DetailCommunity extends AppCompatActivity {
             communityname.setText(currentCommunityName);
         }
         if (currentCommunityId != null) {
+            if (!isNetworkAvailable()) {
+                Toast.makeText(DetailCommunity.this, "No internet connection. Failed to reload posts.", Toast.LENGTH_LONG).show();
+                return;
+            }
             databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentCommunityId).child("Posts");
             progressBar.setVisibility(View.VISIBLE);
 
@@ -92,6 +99,7 @@ public class DetailCommunity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                 }
             });
+
         } else {
             finish();
         }
@@ -105,5 +113,10 @@ public class DetailCommunity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

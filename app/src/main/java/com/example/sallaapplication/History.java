@@ -7,6 +7,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -56,7 +59,14 @@ public class History extends AppCompatActivity {
         adapter = new MyAdapter(History.this, dataList);
         recyclerView.setAdapter(adapter);
         progressBar.setVisibility(View.VISIBLE);
+
+        if (!isNetworkAvailable()) {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(History.this, "No internet connection. Failed to load products.", Toast.LENGTH_LONG).show();
+            return;
+        } else{
         eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dataList.clear();
@@ -74,7 +84,7 @@ public class History extends AppCompatActivity {
                 // Handle onCancelled
                 Toast.makeText(History.this, "Failed to retrieve data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        });}
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -96,5 +106,10 @@ public class History extends AppCompatActivity {
             }
         }
         adapter.searchDataList(searchList);
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
