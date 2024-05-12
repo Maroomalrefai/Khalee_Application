@@ -47,7 +47,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignUp extends AppCompatActivity {
     Button signUp;
-    ImageView facebook,google;
+    ImageView google;
     EditText editTextEmail, editTextPass, editTextUsername;
     FirebaseAuth mAuth;
     AppCompatRadioButton rbLeft, rbRight;
@@ -96,7 +96,6 @@ public class SignUp extends AppCompatActivity {
         editTextEmail = findViewById(R.id.email);
         editTextPass = findViewById(R.id.password);
         editTextUsername = findViewById(R.id.username);
-        facebook = findViewById(R.id.facebook);
         google = findViewById(R.id.google);
         mAuth = FirebaseAuth.getInstance();
         passwordInputLayout = findViewById(R.id.passwordTextInputLayout);
