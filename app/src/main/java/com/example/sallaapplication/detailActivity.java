@@ -3,7 +3,10 @@ package com.example.sallaapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -57,8 +60,13 @@ public class detailActivity extends AppCompatActivity {
         }
 
         deleteButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+                if (!isNetworkAvailable()) {
+                    Toast.makeText(detailActivity.this, "No internet connection. Failed to delete product.", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String userId = user.getUid();
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Android Tutorials")
@@ -93,6 +101,12 @@ public class detailActivity extends AppCompatActivity {
                 });
             }
         });
-    }
 
+
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 }
