@@ -1,5 +1,9 @@
 package com.example.sallaapplication;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatRadioButton;
@@ -17,26 +21,70 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class SignUp extends AppCompatActivity {
     Button signUp;
+    ImageView facebook,google;
     EditText editTextEmail, editTextPass, editTextUsername;
     FirebaseAuth mAuth;
     AppCompatRadioButton rbLeft, rbRight;
     TextInputLayout passwordInputLayout;
     TextView passwordFeedbackTextView;
+    private GoogleSignInClient googleSignInClient;
+    private final ActivityResultLauncher<Intent>activityResultLauncher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if(result.getResultCode()== RESULT_OK){
+                Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                try{
+                    GoogleSignInAccount signInAccount = accountTask.getResult(ApiException.class);
+                    AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(),null);
+                    mAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                editTextUsername.setText(mAuth.getCurrentUser().getDisplayName());
+                                editTextEmail.setText(mAuth.getCurrentUser().getEmail());
+                                Toast.makeText(SignUp.this, "Account created.",Toast.LENGTH_SHORT).show();
+                                saveLoginStatus(true);
+                                Intent intent = new Intent(getApplicationContext(), Question.class);
+                                startActivity(intent);
+                            }
+                            else {
+                                Toast.makeText(SignUp.this, "failed sign in with google:" + task.getException(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                } catch (ApiException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,45 +96,26 @@ public class SignUp extends AppCompatActivity {
         editTextEmail = findViewById(R.id.email);
         editTextPass = findViewById(R.id.password);
         editTextUsername = findViewById(R.id.username);
+        facebook = findViewById(R.id.facebook);
+        google = findViewById(R.id.google);
         mAuth = FirebaseAuth.getInstance();
-
-
-//        textView=findViewById(R.id.loginNow);
         passwordInputLayout = findViewById(R.id.passwordTextInputLayout);
         passwordFeedbackTextView = findViewById(R.id.passwordFeedbackTextView);
         int minPassLength = 6;
-        editTextPass.addTextChangedListener(new TextWatcher() {
+        FirebaseApp.initializeApp(this);
+
+        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.client_id))
+                .requestEmail()
+                .build();
+        googleSignInClient = GoogleSignIn.getClient(SignUp.this, options);
+
+
+        google.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Unused
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String password = s.toString();
-                if (password.length() >= minPassLength) {
-                    // Password meets all requirements
-                    passwordInputLayout.setError(null);
-                    passwordFeedbackTextView.setVisibility(View.GONE);
-                } else {
-                    // Password does not meet all requirements
-                    StringBuilder feedback = new StringBuilder();
-
-
-                    if (password.length() < minPassLength) {
-                        feedback.append("Minimum " + minPassLength + " characters\n");
-
-                    }
-                    passwordInputLayout.setErrorEnabled(true);
-                    passwordInputLayout.setError("Password does not meet requirements");
-                    passwordFeedbackTextView.setText(feedback.toString().trim());
-                    passwordFeedbackTextView.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Unused
+            public void onClick(View view) {
+                Intent intent = googleSignInClient.getSignInIntent();
+                activityResultLauncher.launch(intent);
             }
         });
         rbLeft.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +135,6 @@ public class SignUp extends AppCompatActivity {
                 }
                 Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
-                finish();
             }
         });
         signUp.setOnClickListener(new View.OnClickListener() {
