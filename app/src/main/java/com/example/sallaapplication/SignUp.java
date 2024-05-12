@@ -66,9 +66,7 @@ public class SignUp extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                editTextUsername.setText(mAuth.getCurrentUser().getDisplayName());
-                                editTextEmail.setText(mAuth.getCurrentUser().getEmail());
-                                Toast.makeText(SignUp.this, "Account created.",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignUp.this, "signed up",Toast.LENGTH_SHORT).show();
                                 saveLoginStatus(true);
                                 Intent intent = new Intent(getApplicationContext(), Question.class);
                                 startActivity(intent);
