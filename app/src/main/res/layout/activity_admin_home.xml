@@ -32,6 +32,13 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue1"
             android:textSize="28sp" />
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imageFilterView3"
+            android:layout_width="43dp"
+            android:layout_height="42dp"
+            app:srcCompat="@drawable/logo"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="7dp"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -123,6 +130,14 @@
             android:textAlignment="center"
             android:textColor="@color/dark_blue1"
             android:textSize="28sp" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imageFilterView"
+            android:layout_width="43dp"
+            android:layout_height="42dp"
+            app:srcCompat="@drawable/logo"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="7dp"/>
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -145,11 +160,20 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="35dp"
             android:fontFamily="@font/tiltneon"
             android:text="Products information"
             android:textColor="@color/dark_blue1"
             android:textSize="30sp" />
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imageFilterView2"
+            android:layout_width="43dp"
+            android:layout_height="42dp"
+            app:srcCompat="@drawable/logo"
+            android:layout_marginTop="55dp"
+            android:layout_marginStart="320dp"
+            />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -172,11 +196,20 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="60dp"
             android:fontFamily="@font/tiltneon"
             android:text="Posts information"
             android:textColor="@color/dark_blue1"
             android:textSize="30sp" />
+
+        <androidx.constraintlayout.utils.widget.ImageFilterView
+            android:id="@+id/imageFilterView1"
+            android:layout_width="43dp"
+            android:layout_height="42dp"
+            app:srcCompat="@drawable/logo"
+            android:layout_marginStart="298dp"
+            android:layout_marginTop="55dp"/>
     </androidx.cardview.widget.CardView>
 
 
