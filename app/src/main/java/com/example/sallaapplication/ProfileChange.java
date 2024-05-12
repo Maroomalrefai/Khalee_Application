@@ -27,6 +27,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -96,12 +99,28 @@ public class ProfileChange extends AppCompatActivity {
                 // Set login status to false
                 setLoginStatus(false);
 
-                // Sign out the user
-                FirebaseAuth.getInstance().signOut();
+                // Check if the user is currently signed in with Google
+                GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+                if (account != null) {
+                    // Sign out and revoke access from Google
+                    GoogleSignIn.getClient(ProfileChange.this, GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .signOut()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    // Redirect to the login activity
+                                    startActivity(new Intent(ProfileChange.this, Login.class));
+                                    finish();
+                                }
+                            });
+                } else {
+                    // If the user is not signed in with Google, sign out from Firebase only
+                    FirebaseAuth.getInstance().signOut();
 
-                // Redirect to the login activity
-                startActivity(new Intent(ProfileChange.this, Login.class));
-                finish();
+                    // Redirect to the login activity
+                    startActivity(new Intent(ProfileChange.this, Login.class));
+                    finish();
+                }
             }
         });
 
