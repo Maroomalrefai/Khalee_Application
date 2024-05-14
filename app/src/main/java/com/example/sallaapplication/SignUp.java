@@ -81,7 +81,6 @@ public class SignUp extends AppCompatActivity {
                                 Toast.makeText(SignUp.this, "Account created.", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), Question.class);
                                 startActivity(intent);
-                                saveLoginStatus(true);
                             } else {
                                 // Google Sign-In failed
                                 Toast.makeText(SignUp.this, "Failed to sign in with Google:" + task.getException(), Toast.LENGTH_SHORT).show();
@@ -211,22 +210,6 @@ public class SignUp extends AppCompatActivity {
             }
         });
     }
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        // Check if the user's email is verified when the activity starts
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null && currentUser.isEmailVerified()) {
-            // If the email is verified, navigate to the Question activity
-            startActivity(new Intent(SignUp.this, Question.class));
-            finish(); // Finish the SignUp activity
-        }
-    }
-
-    // Method to wait until the user verifies their email
-    // Method to wait until the user verifies their email
-    // Method to wait until the user verifies their email
     private void sendEmailVerification() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
@@ -260,7 +243,6 @@ public class SignUp extends AppCompatActivity {
                         // If email is verified, navigate to the Question activity
                         startActivity(new Intent(SignUp.this, Question.class));
                         finish(); // Finish the SignUp activity
-                        saveLoginStatus(true);
                         cancel(); // Cancel the timer
                     }
                 }
@@ -280,12 +262,5 @@ public class SignUp extends AppCompatActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-    // Method to save login status
-    private void saveLoginStatus(boolean isLoggedIn) {
-        SharedPreferences preferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("isLoggedIn", isLoggedIn);
-        editor.apply();
     }
 }

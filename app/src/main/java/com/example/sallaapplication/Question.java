@@ -3,7 +3,9 @@ package com.example.sallaapplication;
 import static android.content.ContentValues.TAG;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -138,6 +140,7 @@ public class Question extends AppCompatActivity {
                 //saving allergies
                 Intent i = new Intent(Question.this, Home.class);
                 startActivity(i);
+                saveLoginStatus(true);
             }
 
             private void saveIngredientToFirebase(String selectedIngredient) {
@@ -282,7 +285,13 @@ private void retrieveIngredientFromFirebase() {
         });
     }
 
-
+    // Method to save login status
+    private void saveLoginStatus(boolean isLoggedIn) {
+        SharedPreferences preferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("isLoggedIn", isLoggedIn);
+        editor.apply();
+    }
 
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
