@@ -96,16 +96,25 @@ public class Login extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-//                                progressBar.setVisibility(View.GONE);
+                                // progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
-                                    // Save login status to SharedPreferences
-                                    saveLoginStatus(true);
-                                    Toast.makeText(getApplicationContext(), "Login successful.", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(Login.this, Home.class);
-                                    startActivity(intent);
-                                    finish();
+                                    if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()) {
+                                        // Save login status to SharedPreferences
+                                        saveLoginStatus(true);
+                                        Toast.makeText(getApplicationContext(), "Login successful.", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(Login.this, Home.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(Login.this, "Please verify your email address.", Toast.LENGTH_LONG).show();
+                                    }
                                 } else {
-                                    Toast.makeText(Login.this, "register if you don't have an account", Toast.LENGTH_SHORT).show();
+                                    // Handle other authentication errors
+                                    if (task.getException() != null) {
+                                        Toast.makeText(Login.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(Login.this, "An unexpected error occurred.", Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }
                         });
