@@ -105,7 +105,7 @@ public class Login extends AppCompatActivity {
                                     startActivity(intent);
                                     finish();
                                 } else {
-                                    Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(Login.this, "register if you don't have an account", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

@@ -45,6 +45,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class SignUp extends AppCompatActivity {
     Button signUp;
     ImageView google;
@@ -53,31 +58,39 @@ public class SignUp extends AppCompatActivity {
     AppCompatRadioButton rbLeft, rbRight;
     TextInputLayout passwordInputLayout;
     TextView passwordFeedbackTextView;
+    private static final int REQUEST_CODE_SPLASH = 100;
+
     private GoogleSignInClient googleSignInClient;
-    private final ActivityResultLauncher<Intent>activityResultLauncher= registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
         public void onActivityResult(ActivityResult result) {
-            if(result.getResultCode()== RESULT_OK){
+            // Handling result of Google Sign-In
+            if (result.getResultCode() == RESULT_OK) {
+                // Get Google account information
                 Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
-                try{
+                try {
                     GoogleSignInAccount signInAccount = accountTask.getResult(ApiException.class);
-                    AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(),null);
+                    // Get Google sign-in credential
+                    AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(), null);
+                    // Sign in with Google credential
                     mAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(SignUp.this, "Account created.",Toast.LENGTH_SHORT).show();
-                                saveLoginStatus(true);
+                            if (task.isSuccessful()) {
+                                // Google Sign-In successful, proceed with account creation
+                                Toast.makeText(SignUp.this, "Account created.", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), Question.class);
                                 startActivity(intent);
-                            }
-                            else {
-                                Toast.makeText(SignUp.this, "failed sign in with google:" + task.getException(), Toast.LENGTH_SHORT).show();
+                                saveLoginStatus(true);
+                            } else {
+                                // Google Sign-In failed
+                                Toast.makeText(SignUp.this, "Failed to sign in with Google:" + task.getException(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
 
-                } catch (ApiException e){
+                } catch (ApiException e) {
+                    // Google Sign-In failed due to an exception
                     e.printStackTrace();
                 }
             }
@@ -88,6 +101,7 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
         rbLeft = findViewById(R.id.rbLeft);
         rbRight = findViewById(R.id.rbRight);
         signUp = findViewById(R.id.signUp);
@@ -101,23 +115,27 @@ public class SignUp extends AppCompatActivity {
         int minPassLength = 6;
         FirebaseApp.initializeApp(this);
 
+        // Configure Google Sign-In
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.client_id))
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(SignUp.this, options);
 
-
+        // Set click listener for the Google sign-in button
         google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Launch Google Sign-In intent
                 Intent intent = googleSignInClient.getSignInIntent();
                 activityResultLauncher.launch(intent);
             }
         });
+        // Set click listener for the left and right radio buttons
         rbLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Change text color based on selection
                 boolean isSelected = ((AppCompatRadioButton) view).isChecked();
                 if (view.getId() == R.id.rbLeft) {
                     if (isSelected) {
@@ -130,77 +148,140 @@ public class SignUp extends AppCompatActivity {
                         rbRight.setTextColor(Color.WHITE);
                     }
                 }
+                // Navigate to login activity
                 Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
             }
         });
+
+        // Set click listener for the sign-up button
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email, password, name;
-                email = String.valueOf(editTextEmail.getText());
-                password = String.valueOf(editTextPass.getText());
-                name = String.valueOf(editTextUsername.getText());
+                // Get user-entered email, password, and username
+                String email = editTextEmail.getText().toString();
+                String password = editTextPass.getText().toString();
+                String name = editTextUsername.getText().toString();
 
+                // Validate input fields
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(SignUp.this, "Please enter your email", Toast.LENGTH_SHORT).show();
+                    showToast("Please enter your email");
                     return;
                 }
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(SignUp.this, "Please enter your password", Toast.LENGTH_SHORT).show();
+                    showToast("Please enter your password");
                     return;
                 }
                 if (TextUtils.isEmpty(name)) {
-                    Toast.makeText(SignUp.this, "Please enter your username", Toast.LENGTH_SHORT).show();
+                    showToast("Please enter your username");
                     return;
                 }
                 // Check for internet connection
                 if (!isNetworkAvailable()) {
-                    Toast.makeText(SignUp.this, "No internet connection. Failed to Sign up.", Toast.LENGTH_LONG).show();
+                    showToast("No internet connection. Failed to Sign up.");
                     return;
                 }
 
+                // Create user with email and password
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+                                    // Set the display name for the user
                                     FirebaseUser user = mAuth.getCurrentUser();
-                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                            .setDisplayName(name)
-                                            .build();
-                                    saveLoginStatus(true);
-                                    user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Toast.makeText(SignUp.this, "Account created.",Toast.LENGTH_SHORT).show();
-
-                                                        //if the account had been created go to the question number one
-                                                        Intent intent = new Intent(getApplicationContext(), Question.class);
-                                                        startActivity(intent);
-                                                        finish();
-                                                    } else {
-                                                        Toast.makeText(SignUp.this, "Authentication failed.",
-                                                                Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            });
+                                    if (user != null && user.isEmailVerified()) {
+                                        // If the email is verified, navigate to the Question activity
+                                        startActivity(new Intent(SignUp.this, Question.class));
+                                        finish(); // Finish the SignUp activity
+                                    }
+                                    if (user != null) {
+                                        user.updateProfile(new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(name)
+                                                .build());
+                                    }
+                                    // Send email verification
+                                    sendEmailVerification();
                                 } else {
-                                    Toast.makeText(SignUp.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                                    // User registration failed
+                                    showToast("Authentication failed.");
                                 }
                             }
                         });
             }
         });
-
     }
-    // Method to check for internet connection
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // Check if the user's email is verified when the activity starts
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null && currentUser.isEmailVerified()) {
+            // If the email is verified, navigate to the Question activity
+            startActivity(new Intent(SignUp.this, Question.class));
+            finish(); // Finish the SignUp activity
+        }
+    }
+
+    // Method to wait until the user verifies their email
+    // Method to wait until the user verifies their email
+    // Method to wait until the user verifies their email
+    private void sendEmailVerification() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        showToast("Verification email sent. Please verify your email.");
+
+                        // Check email verification status periodically
+                        checkEmailVerificationStatus();
+                    } else {
+                        showToast("Failed to send verification email.");
+                    }
+                }
+            });
+        }
+    }
+
+    // Method to periodically check email verification status
+    private void checkEmailVerificationStatus() {
+        final FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            // Schedule a timer to check the email verification status periodically
+            Timer timer = new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    user.reload(); // Reload the user data to get the updated email verification status
+                    if (user.isEmailVerified()) {
+                        // If email is verified, navigate to the Question activity
+                        startActivity(new Intent(SignUp.this, Question.class));
+                        finish(); // Finish the SignUp activity
+                        saveLoginStatus(true);
+                        cancel(); // Cancel the timer
+                    }
+                }
+            }, 0, 1000); // Check every second
+        }
+    }
+
+
+
+    // Helper method to show toast messages
+        private void showToast(String message) {
+            Toast.makeText(SignUp.this, message, Toast.LENGTH_SHORT).show();
+        }
+
+        // Method to check for internet connection
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+    // Method to save login status
     private void saveLoginStatus(boolean isLoggedIn) {
         SharedPreferences preferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
