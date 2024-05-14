@@ -102,20 +102,14 @@ public class Login extends AppCompatActivity {
                                         // Save login status to SharedPreferences
                                         saveLoginStatus(true);
                                         Toast.makeText(getApplicationContext(), "Login successful.", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(Login.this, Home.class);
-                                        startActivity(intent);
-                                        finish();
+
                                     } else {
                                         Toast.makeText(Login.this, "Please verify your email address.", Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    // Handle other authentication errors
-                                    if (task.getException() != null) {
-                                        Toast.makeText(Login.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(Login.this, "An unexpected error occurred.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Login.this, "Login failed.", Toast.LENGTH_LONG).show();
                                     }
-                                }
+
                             }
                         });
                 boolean hasAnsweredQuestion = getQuestionState();
