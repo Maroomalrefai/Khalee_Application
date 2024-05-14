@@ -60,8 +60,6 @@ public class Question extends AppCompatActivity {
         date = findViewById(R.id.editTextDate);
         agreeRadioButton = findViewById(R.id.agree);
         optionsList = getResources().getStringArray(R.array.options_list);
-
-        //
         firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
@@ -141,6 +139,7 @@ public class Question extends AppCompatActivity {
                 Intent i = new Intent(Question.this, Home.class);
                 startActivity(i);
                 saveLoginStatus(true);
+                saveQuestionState(true);
             }
 
             private void saveIngredientToFirebase(String selectedIngredient) {
@@ -290,6 +289,12 @@ private void retrieveIngredientFromFirebase() {
         SharedPreferences preferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("isLoggedIn", isLoggedIn);
+        editor.apply();
+    }
+    private void saveQuestionState(boolean hasAnswered) {
+        SharedPreferences preferences = getSharedPreferences("QuestionPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("hasAnswered", hasAnswered);
         editor.apply();
     }
 

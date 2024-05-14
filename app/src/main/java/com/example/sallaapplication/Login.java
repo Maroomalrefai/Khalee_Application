@@ -118,7 +118,21 @@ public class Login extends AppCompatActivity {
                                 }
                             }
                         });
+                boolean hasAnsweredQuestion = getQuestionState();
+
+                // If the user has answered the question, navigate to the home page
+                // Otherwise, navigate to the question page
+                if (hasAnsweredQuestion) {
+                    Intent intent = new Intent(Login.this, Home.class);
+                    startActivity(intent);
+                    finish(); // Finish the login activity so the user can't go back to it using the back button
+                } else {
+                    Intent intent = new Intent(Login.this, Question.class);
+                    startActivity(intent);
+                    finish(); // Finish the login activity so the user can't go back to it using the back button
+                }
             }
+
         });
     }
     // Method to check for internet connection
@@ -126,6 +140,10 @@ public class Login extends AppCompatActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    private boolean getQuestionState() {
+        SharedPreferences preferences = getSharedPreferences("QuestionPrefs", Context.MODE_PRIVATE);
+        return preferences.getBoolean("hasAnswered", false); // Default value is false if not found
     }
 
     private void saveLoginStatus(boolean isLoggedIn) {
