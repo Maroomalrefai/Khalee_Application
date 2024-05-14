@@ -253,11 +253,11 @@ public class SignUp extends AppCompatActivity {
 
 
     // Helper method to show toast messages
-        private void showToast(String message) {
-            Toast.makeText(SignUp.this, message, Toast.LENGTH_SHORT).show();
-        }
+    private void showToast(String message) {
+        Toast.makeText(SignUp.this, message, Toast.LENGTH_SHORT).show();
+    }
 
-        // Method to check for internet connection
+    // Method to check for internet connection
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

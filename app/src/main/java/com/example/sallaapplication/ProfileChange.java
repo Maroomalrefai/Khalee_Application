@@ -163,9 +163,7 @@ public class ProfileChange extends AppCompatActivity {
             }
 
             private void updateDateInFirebase(String newDate) {
-                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                if (currentUser != null) {
-                    String userId = currentUser.getUid();
+                if (user != null) {
                     DatabaseReference userRef = database.getReference("users").child(userId);
                     userRef.child("dateOfBirth").setValue(newDate)
                             /*aVoid -> Toast.makeText(ProfileChange.this, "Date updated successfully", Toast.LENGTH_SHORT).show()*/
@@ -186,9 +184,7 @@ public class ProfileChange extends AppCompatActivity {
         editor.apply();
     }
     private void fetchAndDisplayDate() {
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null) {
-            String userId = currentUser.getUid();
+        if (user != null) {
             DatabaseReference userRef = database.getReference("users").child(userId);
             userRef.child("dateOfBirth").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -227,7 +223,6 @@ public class ProfileChange extends AppCompatActivity {
         datePickerDialog.show();
     }
     private void updateUserInformation() {
-        FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             // Update user email
             userEmail.setText(user.getEmail());
@@ -381,12 +376,14 @@ public class ProfileChange extends AppCompatActivity {
     }
     public void getUserInformation() {
         progressBar.setVisibility(View.VISIBLE);
-        userEmail.setText(user.getEmail());
-        userName.setText(user.getDisplayName());
-        Picasso.get().load(user.getPhotoUrl()).error(R.drawable.profileicon).placeholder(R.drawable.profileicon) .into(ImgUserPhoto);
-       // Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.profileicon) .into(ImgUserPhoto);
+        if (user != null) {
+            userEmail.setText(user.getEmail());
+            userName.setText(user.getDisplayName());
+            Picasso.get().load(user.getPhotoUrl()).error(R.drawable.profileicon).placeholder(R.drawable.profileicon).into(ImgUserPhoto);
+        } else {
+            // Handle the case where user is null, for example, show an error message or redirect the user to login
+        }
         progressBar.setVisibility(View.GONE);
-
     }
 
 
