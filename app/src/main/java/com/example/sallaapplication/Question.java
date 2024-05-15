@@ -58,7 +58,7 @@ public class Question extends AppCompatActivity {
     boolean []selectedIngredients;
     ArrayList<Integer>ingredientList=new ArrayList<>();
     String [] ingredientArray={"Strawberry","Sunflower seeds","Pumpkin seeds","Garlic",
-            "Cherries","Onion","Blackberry","Raspberry","Honey","Tomato"};
+            "Cherries","Onion","Blackberry","Raspberry","Honey","Tomato","Wine"};
     DatabaseReference userIngredientsRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +147,7 @@ public class Question extends AppCompatActivity {
                 String userId = firebaseAuth.getCurrentUser().getUid();
                 DatabaseReference ingredientsRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("ingredients");
 
-                // First, set all ingredients to false
+                 //First, set all ingredients to false
                 for (String ingredient : ingredientArray) {
                     ingredientsRef.child(ingredient).setValue(false);
                 }
@@ -156,7 +156,7 @@ public class Question extends AppCompatActivity {
                 for (Integer index : ingredientList) {
                     String selectedIngredient = ingredientArray[index];
                     ingredientsRef.child(selectedIngredient).setValue(true)
-                            .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Ingredient saved to Firebase", Toast.LENGTH_SHORT).show())
+                          //  .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Ingredient saved to Firebase", Toast.LENGTH_SHORT).show())
                             .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to save ingredient to Firebase", Toast.LENGTH_SHORT).show());
                 }
             }
