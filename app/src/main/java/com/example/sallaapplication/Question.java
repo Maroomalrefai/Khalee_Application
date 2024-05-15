@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,8 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
@@ -45,12 +48,18 @@ public class Question extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference userRef, databaseReference;
     CheckBox treeNutCheckBox, glutenCheckBox, lactoseCheckBox, peanutCheckBox, seafoodCheckBox, sesameCheckBox, eggCheckBox, soyCheckBox, mustardCheckBox;
-    TextInputLayout ingredientContainer;
-    MaterialAutoCompleteTextView ingredientDropdown;
-    String[] optionsList;
 
     boolean editMode;
 
+
+
+    MaterialCardView selectCard;
+    TextView tvIngredients;
+    boolean []selectedIngredients;
+    ArrayList<Integer>ingredientList=new ArrayList<>();
+    String [] ingredientArray={"strawberry","Sunflower seeds","Pumpkin seeds","Garlic",
+            "Cherries","Onion","Blackberry","Raspberry","Honey","Tomato"};
+    DatabaseReference userIngredientsRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +68,6 @@ public class Question extends AppCompatActivity {
         save = findViewById(R.id.save);
         date = findViewById(R.id.editTextDate);
         agreeRadioButton = findViewById(R.id.agree);
-        optionsList = getResources().getStringArray(R.array.options_list);
         firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
@@ -67,9 +75,22 @@ public class Question extends AppCompatActivity {
             Log.e(TAG, "Current user is null");
             return;
         }
+
         String userId = currentUser.getUid();
         Log.d(TAG, "UserID: " + userId);
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+
+
+        selectCard=findViewById(R.id.selectCard);
+        tvIngredients=findViewById(R.id.ingredients);
+        selectedIngredients= new boolean[ingredientArray.length];
+        userIngredientsRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("ingredients");
+
+
+        selectCard.setOnClickListener(v -> {
+            showIngredients();
+
+        });
 
 
         // Retrieve the editMode parameter
@@ -100,31 +121,11 @@ public class Question extends AppCompatActivity {
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference("ingredients");
-        ingredientContainer = findViewById(R.id.ingredientContainer);
-        ingredientDropdown = findViewById(R.id.ingredient);
-
-        ingredientDropdown.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedIngredient = ingredientDropdown.getText().toString();
-            databaseReference.setValue(selectedIngredient)
-                    .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Ingredient saved to Firebase", Toast.LENGTH_SHORT).show())
-                    .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to save ingredient to Firebase", Toast.LENGTH_SHORT).show());
-
-
-        });
-
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String selectedIngredient = ingredientDropdown.getText().toString();
 
-                // Save the selected ingredient to Firebase
-                saveIngredientToFirebase(selectedIngredient);
-
-//                if(ingredient.getText().toString().isEmpty())
-//                {   ingredientContainer.setError("Please select an ingredient!");
-//
-//                }
                 saveCheckboxState(treeNutCheckBox, "treeNut");
                 saveCheckboxState(glutenCheckBox, "gluten");
                 saveCheckboxState(lactoseCheckBox, "lactose");
@@ -192,61 +193,8 @@ public class Question extends AppCompatActivity {
 
         if (editMode) {
             setupAllergyFunction();
-            retrieveIngredientFromFirebase();
         }
     }
-//    private void retrieveIngredientFromFirebase() {
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                List<String> ingredientsList = new ArrayList<>();
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    String ingredient = snapshot.getValue(String.class);
-//                    if (ingredient != null) {
-//                        ingredientsList.add(ingredient);
-//                    }
-//                }
-//                // Set the retrieved data as items for the dropdown
-////                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), androidx.transition.R.layout.support_simple_spinner_dropdown_item, ingredientsList);
-////                ingredientDropdown.setAdapter(adapter);
-//                ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, optionsList);
-//                ingredientDropdown.setAdapter(adapter);
-//
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                // Handle error
-//                Log.e("Firebase", "Failed to retrieve data from Firebase: " + databaseError.getMessage());
-//                Toast.makeText(getApplicationContext(), "Failed to retrieve data from Firebase", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//}
-private void retrieveIngredientFromFirebase() {
-
-    DatabaseReference ingredientRef = userRef.child("ingredient");
-    ingredientRef.addListenerForSingleValueEvent(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-            String ingredient = dataSnapshot.getValue(String.class);
-            if (ingredient != null) {
-                ingredientDropdown.setText(ingredient);
-            }
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-            Log.e("Firebase", "Failed to retrieve ingredient from Firebase: " + databaseError.getMessage());
-            Toast.makeText(getApplicationContext(), "Failed to retrieve ingredient from Firebase", Toast.LENGTH_SHORT).show();
-        }
-    });
-}
-
-
-
-
 
     private void setupAllergyFunction() {
         // Setup allergy listeners only if in edit mode
@@ -314,5 +262,60 @@ private void retrieveIngredientFromFirebase() {
 
         datePickerDialog.show();
     }
+
+
+    private void showIngredients(){
+        AlertDialog.Builder builder=new AlertDialog.Builder(Question.this);
+        builder.setTitle("Select ingredients");
+        builder.setCancelable(false);
+        builder.setMultiChoiceItems(ingredientArray, selectedIngredients, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                if(isChecked){
+                    ingredientList.add(which);
+                }else {
+                    ingredientList.remove(which);
+                }
+            }
+        }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                StringBuilder stringBuilder=new StringBuilder();
+                for(int i=0;i<ingredientList.size();i++){
+                    stringBuilder.append(ingredientArray[ingredientList.get(i)]);
+
+                    //check condition
+                    if(i!= ingredientList.size()-1){
+                        //when  value not equal to ingredient list sizze
+                        stringBuilder.append(", ");
+                    }
+                    //setting selected ingredients
+                    tvIngredients.setText(stringBuilder.toString());
+                }
+
+
+            }
+        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setNeutralButton("Clear all", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //clearing all selected ingredients
+                for(int i=0;i<selectedIngredients.length;i++){
+                    selectedIngredients[i]=false;
+                    ingredientList.clear();
+                    tvIngredients.setText("");
+                }
+
+            }
+        });
+        builder.show();
+
+    }
+
+
 }
 
