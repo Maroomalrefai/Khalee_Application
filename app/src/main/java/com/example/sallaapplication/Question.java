@@ -200,12 +200,40 @@ public class Question extends AppCompatActivity {
 
         if (editMode) {
             setupAllergyFunction();
-
+            retrieveAndSetIngredients();
         }
 
 
 
     }
+    private void retrieveAndSetIngredients() {
+        DatabaseReference ingredientsRef = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseAuth.getCurrentUser().getUid()).child("ingredients");
+        ingredientsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String ingredient = snapshot.getKey();
+                    boolean isSelected = snapshot.getValue(Boolean.class);
+                    if (isSelected) {
+                        stringBuilder.append(ingredient).append(", ");
+                    }
+                }
+                // Remove the trailing comma and space
+                if (stringBuilder.length() > 0) {
+                    stringBuilder.setLength(stringBuilder.length() - 2);
+                }
+                // Set the text in the TextView
+                tvIngredients.setText(stringBuilder.toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Failed to retrieve ingredients from Firebase: " + databaseError.getMessage());
+            }
+        });
+    }
+
 
 
     private void setupAllergyFunction() {
@@ -324,9 +352,15 @@ public class Question extends AppCompatActivity {
 
             }
         });
+
         builder.show();
 
+
     }
+
+
+
+
 
 
 
