@@ -135,11 +135,13 @@ public class Question extends AppCompatActivity {
                 saveCheckboxState(soyCheckBox, "soy");
                 saveCheckboxState(mustardCheckBox, "mustard");
                 saveDateToFirebase(date.getText().toString());//saving date into Firebase
+                // Save login status and question state
+                saveQuestionState(true);
+                saveLoginStatus(true);
                 //saving allergies
                 Intent i = new Intent(Question.this, Home.class);
                 startActivity(i);
-                saveLoginStatus(true);
-                saveQuestionState(true);
+
             }
 
             private void saveIngredientToFirebase(String selectedIngredient) {

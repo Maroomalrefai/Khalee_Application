@@ -102,6 +102,19 @@ public class Login extends AppCompatActivity {
                                         // Save login status to SharedPreferences
                                         saveLoginStatus(true);
                                         Toast.makeText(getApplicationContext(), "Login successful.", Toast.LENGTH_SHORT).show();
+                                        boolean hasAnsweredQuestion = getQuestionState();
+
+                                        // If the user has answered the question, navigate to the home page
+                                        // Otherwise, navigate to the question page
+                                        if (hasAnsweredQuestion) {
+                                            Intent intent = new Intent(Login.this, Home.class);
+                                            startActivity(intent);
+                                            finish(); // Finish the login activity so the user can't go back to it using the back button
+                                        } else {
+                                            Intent intent = new Intent(Login.this, Question.class);
+                                            startActivity(intent);
+                                            finish(); // Finish the login activity so the user can't go back to it using the back button
+                                        }
 
                                     } else {
                                         Toast.makeText(Login.this, "Please verify your email address.", Toast.LENGTH_LONG).show();
@@ -112,19 +125,7 @@ public class Login extends AppCompatActivity {
 
                             }
                         });
-                boolean hasAnsweredQuestion = getQuestionState();
 
-                // If the user has answered the question, navigate to the home page
-                // Otherwise, navigate to the question page
-                if (hasAnsweredQuestion) {
-                    Intent intent = new Intent(Login.this, Home.class);
-                    startActivity(intent);
-                    finish(); // Finish the login activity so the user can't go back to it using the back button
-                } else {
-                    Intent intent = new Intent(Login.this, Question.class);
-                    startActivity(intent);
-                    finish(); // Finish the login activity so the user can't go back to it using the back button
-                }
             }
 
         });

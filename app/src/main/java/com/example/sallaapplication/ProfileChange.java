@@ -201,7 +201,7 @@ public class ProfileChange extends AppCompatActivity {
                 }
             });
         }
-        }
+    }
 
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
