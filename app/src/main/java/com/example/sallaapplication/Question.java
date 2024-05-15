@@ -135,8 +135,8 @@ public class Question extends AppCompatActivity {
                 saveCheckboxState(soyCheckBox, "soy");
                 saveCheckboxState(mustardCheckBox, "mustard");
                 saveDateToFirebase(date.getText().toString());//saving date into Firebase
-                // Save login status and question state
-                saveQuestionState(true);
+
+
                 saveLoginStatus(true);
                 //saving allergies
                 Intent i = new Intent(Question.this, Home.class);
@@ -293,12 +293,7 @@ private void retrieveIngredientFromFirebase() {
         editor.putBoolean("isLoggedIn", isLoggedIn);
         editor.apply();
     }
-    private void saveQuestionState(boolean hasAnswered) {
-        SharedPreferences preferences = getSharedPreferences("QuestionPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("hasAnswered", hasAnswered);
-        editor.apply();
-    }
+
 
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
@@ -319,6 +314,5 @@ private void retrieveIngredientFromFirebase() {
 
         datePickerDialog.show();
     }
-
 }
 

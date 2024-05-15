@@ -20,15 +20,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
     AppCompatRadioButton rbLeft, rbRight;
     Button login, signUpNow;
     EditText editTextEmail, editTextPass;
     FirebaseAuth mAuth;
+    FirebaseFirestore fStore;
     //    ProgressBar progressBar;
     TextView textViewResetPass;
 
@@ -42,6 +48,8 @@ public class Login extends AppCompatActivity {
         editTextEmail = findViewById(R.id.email);
         editTextPass = findViewById(R.id.password);
         mAuth = FirebaseAuth.getInstance();
+        fStore=FirebaseFirestore.getInstance();
+
 //        progressBar=findViewById(R.id.progressBar);
         textViewResetPass = findViewById(R.id.resetPass);
 
@@ -93,53 +101,75 @@ public class Login extends AppCompatActivity {
                 }
 
                 mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+
+
                             @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                // progressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()) {
-                                        // Save login status to SharedPreferences
-                                        saveLoginStatus(true);
-                                        Toast.makeText(getApplicationContext(), "Login successful.", Toast.LENGTH_SHORT).show();
-                                        boolean hasAnsweredQuestion = getQuestionState();
-
-                                        // If the user has answered the question, navigate to the home page
-                                        // Otherwise, navigate to the question page
-                                        if (hasAnsweredQuestion) {
-                                            Intent intent = new Intent(Login.this, Home.class);
-                                            startActivity(intent);
-                                            finish(); // Finish the login activity so the user can't go back to it using the back button
-                                        } else {
-                                            Intent intent = new Intent(Login.this, Question.class);
-                                            startActivity(intent);
-                                            finish(); // Finish the login activity so the user can't go back to it using the back button
-                                        }
-
-                                    } else {
-                                        Toast.makeText(Login.this, "Please verify your email address.", Toast.LENGTH_LONG).show();
-                                    }
+                            public void onSuccess(AuthResult authResult) {
+                                if (mAuth.getCurrentUser() != null && mAuth.getCurrentUser().isEmailVerified()) {
+                                    Toast.makeText(Login.this, "Login successful.", Toast.LENGTH_SHORT).show();
+                                    checkUserAccessLevel(authResult.getUser().getUid());
                                 } else {
-                                        Toast.makeText(Login.this, "Login failed.", Toast.LENGTH_LONG).show();
-                                    }
+                                    Toast.makeText(Login.this, "Please verify your email address.", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(Login.this, "Login failed.", Toast.LENGTH_LONG).show();
 
                             }
                         });
-
             }
 
         });
     }
+    private void checkUserAccessLevel(String uid) {
+        DocumentReference df= fStore.collection("Khalee_Users").document(uid);
+        //extract the data from the document
+        df.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    //user is admin
+                    if (documentSnapshot.contains("isAdmin") && documentSnapshot.getBoolean("isAdmin")) {
+
+                        // For admin login
+//                        saveLoginStatus(true, true);
+                        Intent intent = new Intent(getApplicationContext(), AdminHome.class);
+                        startActivity(intent);
+                        //normal user
+                    }
+                    else {
+                        // For saving user login
+                        saveLoginStatus(true);
+                        Intent intent = new Intent(getApplicationContext(), Home.class);
+                        startActivity(intent);
+                    }
+                } else {
+                    // Document doesn't exist
+                    Toast.makeText(Login.this, "User data not found.", Toast.LENGTH_SHORT).show();
+                }
+                // Finish the Login activity after navigating to the next activity
+                finish();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Handle failure to retrieve user data
+                Toast.makeText(Login.this, "Failed to retrieve user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     // Method to check for internet connection
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-    private boolean getQuestionState() {
-        SharedPreferences preferences = getSharedPreferences("QuestionPrefs", Context.MODE_PRIVATE);
-        return preferences.getBoolean("hasAnswered", false); // Default value is false if not found
-    }
+
 
     private void saveLoginStatus(boolean isLoggedIn) {
         SharedPreferences preferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
@@ -147,4 +177,5 @@ public class Login extends AppCompatActivity {
         editor.putBoolean("isLoggedIn", isLoggedIn);
         editor.apply();
     }
+
 }

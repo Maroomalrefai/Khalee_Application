@@ -34,6 +34,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -44,9 +46,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -55,9 +61,11 @@ public class SignUp extends AppCompatActivity {
     ImageView google;
     EditText editTextEmail, editTextPass, editTextUsername;
     FirebaseAuth mAuth;
+    FirebaseFirestore fStore;
     AppCompatRadioButton rbLeft, rbRight;
     TextInputLayout passwordInputLayout;
     TextView passwordFeedbackTextView;
+
     private static final int REQUEST_CODE_SPLASH = 100;
 
     private GoogleSignInClient googleSignInClient;
@@ -109,8 +117,11 @@ public class SignUp extends AppCompatActivity {
         editTextUsername = findViewById(R.id.username);
         google = findViewById(R.id.google);
         mAuth = FirebaseAuth.getInstance();
+        fStore=FirebaseFirestore.getInstance();
         passwordInputLayout = findViewById(R.id.passwordTextInputLayout);
         passwordFeedbackTextView = findViewById(R.id.passwordFeedbackTextView);
+
+
         int minPassLength = 6;
         FirebaseApp.initializeApp(this);
 
@@ -157,21 +168,21 @@ public class SignUp extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Get user-entered email, password, and username
-                String email = editTextEmail.getText().toString();
-                String password = editTextPass.getText().toString();
-                String name = editTextUsername.getText().toString();
+//                // Get user-entered email, password, and username
+//                String email = editTextEmail.getText().toString();
+//                String password = editTextPass.getText().toString();
+//                String name = editTextUsername.getText().toString();
 
                 // Validate input fields
-                if (TextUtils.isEmpty(email)) {
+                if (TextUtils.isEmpty(editTextEmail.getText().toString())) {
                     showToast("Please enter your email");
                     return;
                 }
-                if (TextUtils.isEmpty(password)) {
+                if (TextUtils.isEmpty(editTextPass.getText().toString())) {
                     showToast("Please enter your password");
                     return;
                 }
-                if (TextUtils.isEmpty(name)) {
+                if (TextUtils.isEmpty(editTextUsername.getText().toString())) {
                     showToast("Please enter your username");
                     return;
                 }
@@ -182,33 +193,37 @@ public class SignUp extends AppCompatActivity {
                 }
 
                 // Create user with email and password
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Set the display name for the user
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    if (user != null && user.isEmailVerified()) {
-                                        // If the email is verified, navigate to the Question activity
-                                        startActivity(new Intent(SignUp.this, Question.class));
-                                        finish(); // Finish the SignUp activity
-                                    }
-                                    if (user != null) {
-                                        user.updateProfile(new UserProfileChangeRequest.Builder()
-                                                .setDisplayName(name)
-                                                .build());
-                                    }
-                                    // Send email verification
-                                    sendEmailVerification();
-                                } else {
-                                    // User registration failed
-                                    showToast("Authentication failed.");
-                                }
-                            }
-                        });
+                mAuth.createUserWithEmailAndPassword(editTextEmail.getText().toString(), editTextPass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null && user.isEmailVerified()) {
+                            Toast.makeText(SignUp.this, "Account created.", Toast.LENGTH_SHORT).show();
+//                            DocumentReference df = fStore.collection("Khalee_Users").document(user.getUid());
+//                            Map<String, Object> userInfo = new HashMap<>();
+//                            userInfo.put("Username", name);
+//                            userInfo.put("Email", email);
+//                            userInfo.put("isAdmin", false);
+//                            df.set(userInfo);
+
+                            Intent intent = new Intent(getApplicationContext(), Question.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        // Send email verification
+                        sendEmailVerification();
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SignUp.this, "Failed to create account.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
-        });
+    });
     }
     private void sendEmailVerification() {
         FirebaseUser user = mAuth.getCurrentUser();
@@ -240,6 +255,12 @@ public class SignUp extends AppCompatActivity {
                 public void run() {
                     user.reload(); // Reload the user data to get the updated email verification status
                     if (user.isEmailVerified()) {
+                        DocumentReference df = fStore.collection("Khalee_Users").document(user.getUid());
+                        Map<String, Object> userInfo = new HashMap<>();
+                        userInfo.put("Username", editTextUsername.getText().toString());
+                        userInfo.put("Email", editTextEmail.getText().toString());
+                        userInfo.put("isAdmin", false);
+                        df.set(userInfo);
                         // If email is verified, navigate to the Question activity
                         startActivity(new Intent(SignUp.this, Question.class));
                         finish(); // Finish the SignUp activity
@@ -249,8 +270,6 @@ public class SignUp extends AppCompatActivity {
             }, 0, 1000); // Check every second
         }
     }
-
-
 
     // Helper method to show toast messages
     private void showToast(String message) {
