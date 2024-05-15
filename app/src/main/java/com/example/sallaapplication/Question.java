@@ -57,7 +57,7 @@ public class Question extends AppCompatActivity {
     TextView tvIngredients;
     boolean []selectedIngredients;
     ArrayList<Integer>ingredientList=new ArrayList<>();
-    String [] ingredientArray={"strawberry","Sunflower seeds","Pumpkin seeds","Garlic",
+    String [] ingredientArray={"Strawberry","Sunflower seeds","Pumpkin seeds","Garlic",
             "Cherries","Onion","Blackberry","Raspberry","Honey","Tomato"};
     DatabaseReference userIngredientsRef;
     @Override
@@ -119,13 +119,11 @@ public class Question extends AppCompatActivity {
         soyCheckBox = findViewById(R.id.soy);
         mustardCheckBox = findViewById(R.id.musterd);
 
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("ingredients");
-
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                saveIngredientsToFirebase();
                 saveCheckboxState(treeNutCheckBox, "treeNut");
                 saveCheckboxState(glutenCheckBox, "gluten");
                 saveCheckboxState(lactoseCheckBox, "lactose");
@@ -144,15 +142,25 @@ public class Question extends AppCompatActivity {
                 startActivity(i);
 
             }
+            // Method to save selected ingredients to Firebase
+            // Method to save selected ingredients to Firebase
+            private void saveIngredientsToFirebase() {
+                String userId = firebaseAuth.getCurrentUser().getUid();
+                DatabaseReference ingredientsRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("ingredients");
 
-            private void saveIngredientToFirebase(String selectedIngredient) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("ingredient");
-                databaseReference.setValue(selectedIngredient)
-                        //.addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Ingredient saved to Firebase", Toast.LENGTH_SHORT).show())
-                        .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to save ingredient to Firebase", Toast.LENGTH_SHORT).show());
+                // First, set all ingredients to false
+                for (String ingredient : ingredientArray) {
+                    ingredientsRef.child(ingredient).setValue(false);
+                }
 
+                // Then, set selected ingredients to true
+                for (Integer index : ingredientList) {
+                    String selectedIngredient = ingredientArray[index];
+                    ingredientsRef.child(selectedIngredient).setValue(true)
+                            .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Ingredient saved to Firebase", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to save ingredient to Firebase", Toast.LENGTH_SHORT).show());
+                }
             }
-
 
             private void saveCheckboxState(CheckBox checkBox, String allergyType) {
                 boolean isChecked = checkBox.isChecked();
@@ -194,7 +202,10 @@ public class Question extends AppCompatActivity {
         if (editMode) {
             setupAllergyFunction();
         }
+
+
     }
+
 
     private void setupAllergyFunction() {
         // Setup allergy listeners only if in edit mode
