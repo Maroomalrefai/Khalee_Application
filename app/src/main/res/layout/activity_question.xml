@@ -236,34 +236,44 @@
             app:layout_constraintVertical_bias="0.202"
             android:layout_marginBottom="10dp"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            app:boxStrokeColor="#E1EDF1"
-            app:hintTextColor="#E1EDF1"
-            android:hint="Select an ingredient"
-            android:id="@+id/ingredientContainer"
-            app:boxCornerRadiusBottomStart="10sp"
-            app:boxCornerRadiusBottomEnd="10sp"
-            app:boxCornerRadiusTopEnd="10sp"
-            app:boxCornerRadiusTopStart="10sp"
-            app:boxStrokeWidth="5dp"
-            app:boxStrokeWidthFocused="5dp"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/selectCard"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            app:cardBackgroundColor="@color/light_blue"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="10dp">
 
 
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/ingredient"
-                android:inputType="none"
-                app:simpleItems="@array/options_list"
-                android:fontFamily="@font/tiltneon"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:layout_height="match_parent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <TextView
+                    android:id="@+id/ingredients"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:hint="Select an ingredient"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentStart="true"
+                    android:textColorHint="@color/blue"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_arrow_drop_down_24"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentEnd="true"/>
+
+
+            </RelativeLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
 
         <TextView
