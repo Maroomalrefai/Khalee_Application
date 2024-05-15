@@ -143,7 +143,6 @@ public class Question extends AppCompatActivity {
 
             }
             // Method to save selected ingredients to Firebase
-            // Method to save selected ingredients to Firebase
             private void saveIngredientsToFirebase() {
                 String userId = firebaseAuth.getCurrentUser().getUid();
                 DatabaseReference ingredientsRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("ingredients");
@@ -201,7 +200,9 @@ public class Question extends AppCompatActivity {
 
         if (editMode) {
             setupAllergyFunction();
+
         }
+
 
 
     }
@@ -326,6 +327,7 @@ public class Question extends AppCompatActivity {
         builder.show();
 
     }
+
 
 
 }
