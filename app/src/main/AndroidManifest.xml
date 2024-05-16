@@ -29,9 +29,9 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-        <activity
-            android:name=".EditAllergies"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".EditAllergies"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".CreatePost"
             android:exported="false" />

@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="@font/tiltneon"
-            android:text="Provide your feedback, we will consider it carefully!"
+            android:text="Provide us your feedback, we will consider it carefully!"
             android:textAlignment="center"
             android:textColor="@color/blue"
             android:textSize="14sp"
