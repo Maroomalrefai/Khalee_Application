@@ -93,7 +93,7 @@ public class ImageToText extends AppCompatActivity {
     ValueEventListener eventListener;
     List<String> allergies;
     DatabaseReference databaseReference;
-    private  String ingredient=null;
+    List<String> ingredients;
     String dialogMessage;
 
     @Override
@@ -117,6 +117,8 @@ public class ImageToText extends AppCompatActivity {
         String userId = user.getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference("users").child(userId).child("allergies");
         allergies = new ArrayList<>();
+        ingredients = new ArrayList<>();
+
         eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -138,18 +140,21 @@ public class ImageToText extends AppCompatActivity {
                 Log.e("allergies", "Failed to read user's allergies.", databaseError.toException());
             }
         });
-        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(userId).child("ingredient" );
+        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(userId).child("ingredients" );
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // This method will be called once with the value from the database
-                ingredient = dataSnapshot.getValue(String.class);
-                if (ingredient != null) {
-                    // Do something with the retrieved value
-                    Log.d("ingredient", "Retrieved value: " + ingredient);
-                } else {
-                    Log.d("ingredient", "Value is null");
+               ingredients.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String SingleIngredient = snapshot.getKey().toString();
+                    boolean isChosen = snapshot.getValue(Boolean.class);
+                    if (isChosen) {
+                        ingredients.add(SingleIngredient);
+                    }
                 }
+                // Now you have a list of allergies for the user
+                Log.d("avoid ingredients", "User's ingredients list: " + ingredients);
+
             }
 
             @Override
@@ -408,35 +413,6 @@ public class ImageToText extends AppCompatActivity {
     }
 
 
-
-
-//crop Image
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == RESULT_OK) {
-//            if (resultCode == STORAGE_REQUEST_CODE) {
-//                CropImage.activity(data.getData())
-//                        .setGuidelines(CropImageView.Guidelines.ON)
-//                        .start(this);
-//            }
-//            if (resultCode == CAMERA_REQUEST_CODE) {
-//                CropImage.activity(imageUri)
-//                        .setGuidelines(CropImageView.Guidelines.ON)
-//                        .start(this);
-//            }
-//        }
-//        if (resultCode==CAMERA_REQUEST_CODE){
-//            CropImage.ActivityResult result=CropImage.getActivityResult(data);
-//            if (resultCode==RESULT_OK){
-//                Uri resultUri =result.getUri();
-//                imageIv.setImageURI(resultUri);
-//                BitmapDrawable bitmapDrawable=(BitmapDrawable)imageIv.getDrawable();
-//                TextRecognizer recognizer = new TextRecognizer.Builder().build();
-//            }
-//        }
-//    }
-
     private void loadAllergenData() {
         // Load JSON data from assets
         try {
@@ -465,7 +441,7 @@ public class ImageToText extends AppCompatActivity {
 
         boolean containsAllergen = false;
         List<String> foundAllergies = new ArrayList<>();
-
+        if (allergies!=null){
         // Iterate over each allergy in the list
         for (String allergy : allergies) {
             // Perform search for the current allergy
@@ -473,12 +449,20 @@ public class ImageToText extends AppCompatActivity {
                 containsAllergen = true;
                 foundAllergies.add(allergy);
             }
-        }
-        // Check for individual ingredient
-        for (String token : filteredTokens) {
-            if (token.equalsIgnoreCase(ingredient)) {
-                containsAllergen = true;
-                foundAllergies.add(ingredient);
+        }}
+        if (ingredients!=null) {
+            // Iterate over each ingredients in the list
+            for (String oneIngredient : ingredients) {
+                if(oneIngredient.equalsIgnoreCase("Wine")){
+                    if (searchAllergen(oneIngredient, filteredTokens)) {
+                        containsAllergen = true;
+                        foundAllergies.add(oneIngredient);
+                    }
+                }
+                if(checkIndividualIngredient(oneIngredient)){
+                    containsAllergen = true;
+                    foundAllergies.add(oneIngredient);
+                }
             }
         }
 
@@ -512,6 +496,15 @@ public class ImageToText extends AppCompatActivity {
             }
         }
         // If no allergen found for any token, return false
+        return false;
+    }
+    private boolean checkIndividualIngredient(String individual) {
+        // Check for individual ingredient
+        for (String token : filteredTokens) {
+            if (token.equalsIgnoreCase(individual)) {
+                return true;
+            }
+        }
         return false;
     }
 
