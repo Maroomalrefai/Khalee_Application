@@ -63,6 +63,7 @@
             android:layout_height="250dp"
             android:layout_gravity="center"
             android:layout_marginStart="30dp"
+            android:padding="5dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="30dp"
             android:background="@drawable/edit_text_border"
@@ -81,7 +82,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/feedback"
+        android:id="@+id/sendFeedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="158dp"

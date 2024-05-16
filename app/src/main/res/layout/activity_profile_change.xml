@@ -172,8 +172,6 @@
                 android:text="Send a feedback"
                 android:textStyle="bold" />
 
-
-
             <ProgressBar
                 android:id="@+id/progress_bar"
                 style="?android:attr/progressBarStyle"
