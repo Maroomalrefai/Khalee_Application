@@ -17,11 +17,20 @@ public class AdminHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
         users=findViewById(R.id.info);
+        profile=findViewById(R.id.profileIcon);
 
         users.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(AdminHome.this, ProfileChange.class);
+//                Intent i = new Intent(AdminHome.this, AdminProfile.class);
+//                startActivity(i);
+//                finish();
+            }
+        });
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(AdminHome.this, AdminProfile.class);
                 startActivity(i);
                 finish();
             }

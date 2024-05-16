@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bright"
+    android:layoutDirection="ltr"
+    tools:context=".ProfileChange">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:backgroundTint="#F0F5F9"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.74">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="547dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/UserPhoto"
+                android:layout_width="140dp"
+                android:layout_height="137dp"
+                android:layout_marginStart="126dp"
+                android:layout_marginEnd="126dp"
+                android:layout_marginBottom="-30dp"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/circular"
+                app:srcCompat="@drawable/profileicon" />
+
+            <TextView
+                android:id="@+id/name"
+                style="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:fontFamily="@font/tiltneon"
+                android:text="username"
+                android:textColor="#4F7D94"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ems="10"
+                android:hint="Khalee Admin"
+                android:textColor="#FE8247"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name" />
+
+            <TextView
+                android:id="@+id/email"
+                style="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/tiltneon"
+                android:text="email"
+                android:textColor="#4F7D94"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Editprofile" />
+
+            <EditText
+                android:id="@+id/userEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ems="10"
+                android:fontFamily="@font/tiltneon"
+                android:hint="example@email.com"
+                android:inputType="textEmailAddress"
+                android:textColor="#FE8247"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/name" />
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:id="@+id/save_button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#0E1D25"
+                android:fontFamily="@font/tiltneon"
+                android:text="Save"
+                android:textStyle="bold" />
+
+            <Button
+                    android:id="@+id/logout"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#0E1D25"
+                    android:fontFamily="@font/tiltneon"
+                    android:text="logout"
+                    android:textStyle="bold" />
+
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

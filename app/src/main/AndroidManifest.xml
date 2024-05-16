@@ -21,6 +21,9 @@
         android:theme="@style/Theme.SallaApplication"
         tools:targetApi="31">
         <activity
+            android:name=".AdminProfile"
+            android:exported="false" />
+        <activity
             android:name=".feedback"
             android:exported="false" />
         <activity
@@ -28,10 +31,9 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
-<!--        <activity-->
-<!--            android:name=".EditAllergies"-->
-<!--            android:exported="false" />-->
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".EditAllergies" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".CreatePost"
             android:exported="false" />
