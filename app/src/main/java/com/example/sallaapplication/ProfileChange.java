@@ -68,7 +68,7 @@ public class ProfileChange extends AppCompatActivity {
     String userId;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database;
-    Button editAllergyBtn;
+    Button editAllergyBtn,feedbackBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +90,15 @@ public class ProfileChange extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         fetchAndDisplayDate();
+        feedbackBtn=findViewById(R.id.feedback);
 
+        feedbackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileChange.this, feedback.class);
+                startActivity(intent);
+            }
+        });
 
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {

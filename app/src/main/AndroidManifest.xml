@@ -21,6 +21,9 @@
         android:theme="@style/Theme.SallaApplication"
         tools:targetApi="31">
         <activity
+            android:name=".feedback"
+            android:exported="false" />
+        <activity
             android:name=".AdminHome"
             android:exported="false" />
         <activity

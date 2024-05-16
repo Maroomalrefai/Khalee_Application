@@ -142,7 +142,7 @@
             <GridLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp"
+                android:layout_marginBottom="10dp"
                 >
     <Button
         android:id="@+id/save_button"
@@ -157,18 +157,33 @@
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:backgroundTint="@color/orange"
+        android:backgroundTint="@color/blue"
         android:fontFamily="@font/tiltneon"
         android:text="logout"
         android:textStyle="bold" />
+
 </GridLayout>
+            <Button
+                android:id="@+id/feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/orange"
+                android:fontFamily="@font/tiltneon"
+                android:text="Send a feedback"
+                android:textStyle="bold" />
+
+
+
             <ProgressBar
                 android:id="@+id/progress_bar"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone" />
+
+
         </LinearLayout>
+
 
     </androidx.cardview.widget.CardView>
 
