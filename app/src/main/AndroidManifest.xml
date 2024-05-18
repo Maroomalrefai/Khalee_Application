@@ -44,7 +44,7 @@
             android:name=".CommunitiesMain"
             android:exported="true" />
         <activity
-            android:name=".detailActivity"
+            android:name=".DetailActivity"
             android:exported="false" />
         <activity
             android:name=".History"

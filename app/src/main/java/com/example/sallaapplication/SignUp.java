@@ -73,36 +73,43 @@ public class SignUp extends AppCompatActivity {
         @Override
         public void onActivityResult(ActivityResult result) {
             // Handling result of Google Sign-In
-            if (result.getResultCode() == RESULT_OK) {
-                // Get Google account information
-                Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
-                try {
-                    GoogleSignInAccount signInAccount = accountTask.getResult(ApiException.class);
-                    // Get Google sign-in credential
-                    AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(), null);
-                    // Sign in with Google credential
-                    mAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Google Sign-In successful, proceed with account creation
-                                Toast.makeText(SignUp.this, "Account created.", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), Question.class);
-                                startActivity(intent);
-                            } else {
-                                // Google Sign-In failed
-                                Toast.makeText(SignUp.this, "Failed to sign in with Google:" + task.getException(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
+                    if (result.getResultCode() == RESULT_OK) {
+                        // Get Google account information
+                        Task<GoogleSignInAccount> accountTask = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                        try {
+                            GoogleSignInAccount signInAccount = accountTask.getResult(ApiException.class);
+                            // Get Google sign-in credential
+                            AuthCredential authCredential = GoogleAuthProvider.getCredential(signInAccount.getIdToken(), null);
+                            // Sign in with Google credential
+                            mAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Google Sign-In successful, proceed with account creation
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        if (user != null && task.getResult().getAdditionalUserInfo().isNewUser()) {
+                                            // New user, proceed with account creation
+                                            Toast.makeText(SignUp.this, "Account created.", Toast.LENGTH_SHORT).show();
+                                            saveUserInfo(user);
+                                            Intent intent = new Intent(getApplicationContext(), Question.class);
+                                            startActivity(intent);
+                                        }
+                                    } else {
+                                        // Google Sign-In failed
+                                        Toast.makeText(SignUp.this, "Failed to sign up with Google:" + task.getException(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
 
-                } catch (ApiException e) {
-                    // Google Sign-In failed due to an exception
-                    e.printStackTrace();
+                        } catch (ApiException e) {
+                            // Google Sign-In failed due to an exception
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
-        }
-    });
+    );
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +127,6 @@ public class SignUp extends AppCompatActivity {
         fStore=FirebaseFirestore.getInstance();
         passwordInputLayout = findViewById(R.id.passwordTextInputLayout);
         passwordFeedbackTextView = findViewById(R.id.passwordFeedbackTextView);
-
 
         int minPassLength = 6;
         FirebaseApp.initializeApp(this);
@@ -168,11 +174,6 @@ public class SignUp extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                // Get user-entered email, password, and username
-//                String email = editTextEmail.getText().toString();
-//                String password = editTextPass.getText().toString();
-//                String name = editTextUsername.getText().toString();
-
                 // Validate input fields
                 if (TextUtils.isEmpty(editTextEmail.getText().toString())) {
                     showToast("Please enter your email");
@@ -199,19 +200,10 @@ public class SignUp extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null && user.isEmailVerified()) {
                             Toast.makeText(SignUp.this, "Account created.", Toast.LENGTH_SHORT).show();
-//                            DocumentReference df = fStore.collection("Khalee_Users").document(user.getUid());
-//                            Map<String, Object> userInfo = new HashMap<>();
-//                            userInfo.put("Username", name);
-//                            userInfo.put("Email", email);
-//                            userInfo.put("isAdmin", false);
-//                            df.set(userInfo);
-
-                            Intent intent = new Intent(getApplicationContext(), Question.class);
-                            startActivity(intent);
-                            finish();
+                            sendEmailVerification();
+                        }else if (user != null) {
+                            sendEmailVerification();
                         }
-                        // Send email verification
-                        sendEmailVerification();
                     }
 
                 }).addOnFailureListener(new OnFailureListener() {
@@ -224,6 +216,29 @@ public class SignUp extends AppCompatActivity {
 
             }
     });
+    }
+
+    private void saveUserInfo(FirebaseUser user) {
+        String userId = user.getUid();
+        DocumentReference documentReference = fStore.collection("Khalee_Users").document(userId);
+
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("name", user.getDisplayName());
+        userMap.put("email", user.getEmail());
+
+        documentReference.set(userMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(SignUp.this, "User info saved successfully.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SignUp.this, "Failed to save user info: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
     private void sendEmailVerification() {
         FirebaseUser user = mAuth.getCurrentUser();
@@ -255,16 +270,10 @@ public class SignUp extends AppCompatActivity {
                 public void run() {
                     user.reload(); // Reload the user data to get the updated email verification status
                     if (user.isEmailVerified()) {
-                        DocumentReference df = fStore.collection("Khalee_Users").document(user.getUid());
-                        Map<String, Object> userInfo = new HashMap<>();
-                        userInfo.put("Username", editTextUsername.getText().toString());
-                        userInfo.put("Email", editTextEmail.getText().toString());
-                        userInfo.put("isAdmin", false);
-                        df.set(userInfo);
-                        // If email is verified, navigate to the Question activity
+                        saveUserInfo(user);
                         startActivity(new Intent(SignUp.this, Question.class));
-                        finish(); // Finish the SignUp activity
-                        cancel(); // Cancel the timer
+                        finish();
+                        cancel();
                     }
                 }
             }, 0, 1000); // Check every second

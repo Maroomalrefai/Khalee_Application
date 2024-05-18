@@ -13,10 +13,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallaapplication.R;
-import com.example.sallaapplication.detailActivity;
 import com.example.sallaapplication.DetailCommunity;
 import com.model.CommunitiesData;
-import com.model.HistoryData;
 
 import java.util.ArrayList;
 import java.util.List;

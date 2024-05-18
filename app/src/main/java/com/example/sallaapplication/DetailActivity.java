@@ -14,11 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -27,7 +25,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class detailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity {
     TextView detailDesc, detailTitle, detailLang;
     ImageView detailImage;
     FloatingActionButton deleteButton;
@@ -64,7 +62,7 @@ public class detailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!isNetworkAvailable()) {
-                    Toast.makeText(detailActivity.this, "No internet connection. Failed to delete product.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(DetailActivity.this, "No internet connection. Failed to delete product.", Toast.LENGTH_LONG).show();
                     return;
                 }
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -79,7 +77,7 @@ public class detailActivity extends AppCompatActivity {
                         reference.child(key).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(detailActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DetailActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), History.class));
                                 finish();
                                 progBar.setVisibility(View.GONE);
@@ -87,7 +85,7 @@ public class detailActivity extends AppCompatActivity {
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(detailActivity.this, "Failed to delete data from database", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DetailActivity.this, "Failed to delete data from database", Toast.LENGTH_SHORT).show();
                                 progBar.setVisibility(View.GONE);
                             }
                         });
@@ -95,7 +93,7 @@ public class detailActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(detailActivity.this, "Failed to delete image from storage", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailActivity.this, "Failed to delete image from storage", Toast.LENGTH_SHORT).show();
                         progBar.setVisibility(View.GONE);
                     }
                 });

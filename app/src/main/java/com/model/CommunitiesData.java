@@ -3,7 +3,6 @@ package com.model;
 public class CommunitiesData {
     private String communityName;
     private String communityID;
-
     private Integer imageUrl;
 
     public CommunitiesData(String communityName, String communityID, Integer imageUrl) {

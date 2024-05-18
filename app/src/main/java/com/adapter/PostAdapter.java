@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallaapplication.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -92,6 +93,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 });
             }
         });
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int adapterPosition = holder.getAdapterPosition();
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    deletePost(data.getPostKey(), adapterPosition);
+                }
+            }
+        });
     }
 
     @Override
@@ -100,6 +110,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        FloatingActionButton delete;
         ImageView profileImage;
         ImageView like;
         TextView profileName;
@@ -110,6 +121,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            delete = itemView.findViewById(R.id.delete);
             profileImage = itemView.findViewById(R.id.profileImage);
             like = itemView.findViewById(R.id.like);
             profileName = itemView.findViewById(R.id.profileName);
@@ -121,33 +133,43 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         public void getLikeButtonStatus(final String postKey, final String userId) {
             DatabaseReference likeReference = FirebaseDatabase.getInstance().getReference("likes");
-                likeReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.child(postKey).hasChild(userId)) {
-                            int likeCount = (int) snapshot.child(postKey).getChildrenCount();
-                            no_Likes.setText(likeCount + " likes");
-                            like.setImageResource(R.drawable.favorite);
-                        } else {
-                            int likeCount = (int) snapshot.child(postKey).getChildrenCount();
-                            no_Likes.setText(likeCount + " likes");
-                            like.setImageResource(R.drawable.favorite_border);
-                        }
+            likeReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.child(postKey).hasChild(userId)) {
+                        int likeCount = (int) snapshot.child(postKey).getChildrenCount();
+                        no_Likes.setText(likeCount + " likes");
+                        like.setImageResource(R.drawable.favorite);
+                    } else {
+                        int likeCount = (int) snapshot.child(postKey).getChildrenCount();
+                        no_Likes.setText(likeCount + " likes");
+                        like.setImageResource(R.drawable.favorite_border);
                     }
+                }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                    }
-                });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
         }
     }
-        private String getCurrentUserId () {
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            if (currentUser != null) {
-                return currentUser.getUid(); // Return the current user's ID
-            } else {
-                return ""; // Return a default value or handle the error appropriately
-            }
+    private String getCurrentUserId () {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            return currentUser.getUid(); // Return the current user's ID
+        } else {
+            return ""; // Return a default value or handle the error appropriately
         }
-
-}
+    }
+    private void deletePost(String postKey, int position) {
+        DatabaseReference postReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(postKey);
+        postReference.removeValue().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                dataList.remove(position);
+                notifyItemRemoved(position);
+                Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Failed to delete post", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }}

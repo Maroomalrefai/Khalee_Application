@@ -10,9 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
+
 import com.example.sallaapplication.R;
-import com.example.sallaapplication.detailActivity;
+import com.example.sallaapplication.DetailActivity;
 import com.model.HistoryData;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.recCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, detailActivity.class);
+                Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("Image", dataList.get(holder.getAdapterPosition()).getDataImage());
                 intent.putExtra("Description", dataList.get(holder.getAdapterPosition()).getDataDesc());
                 intent.putExtra("Title", dataList.get(holder.getAdapterPosition()).getDataTitle());

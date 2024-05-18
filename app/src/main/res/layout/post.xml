@@ -82,7 +82,33 @@
                 android:textSize="18sp"/>
         </GridLayout>
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="290dp"
+                android:layout_marginBottom="25dp"
+                android:backgroundTint="@color/orange"
+                android:contentDescription="delete button"
+                android:src="@drawable/delete"
+                app:tint="@color/white" />
+
+            <ProgressBar
+                android:id="@+id/progBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="170dp"
+                android:layout_marginTop="2dp"
+                android:visibility="gone" />
+        </RelativeLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
