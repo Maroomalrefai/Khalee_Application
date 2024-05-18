@@ -32,10 +32,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     private List<Post> dataList;
     DatabaseReference likereference;
     Boolean testClick = false;
+    private boolean isAdmin;
 
-    public PostAdapter(Context context, List<Post> dataList) {
+
+    public PostAdapter(Context context, List<Post> dataList,boolean isAdmin) {
         this.context = context;
         this.dataList = dataList;
+        this.isAdmin = isAdmin;
     }
 
     @NonNull
@@ -93,6 +96,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 });
             }
         });
+        // Set visibility of delete button based on admin status
+        if (isAdmin) {
+            holder.delete.setVisibility(View.VISIBLE);
+        } else {
+            holder.delete.setVisibility(View.GONE);
+        }
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
