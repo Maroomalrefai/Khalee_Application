@@ -62,4 +62,9 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.8")
 
     implementation ("androidx.appcompat:appcompat:1.3.1")
+    //firebase recyclur
+    implementation ("com.firebaseui:firebase-ui-database:8.0.0")
+    implementation ("com.google.firebase:firebase-database:20.0.5")
+
+
 }

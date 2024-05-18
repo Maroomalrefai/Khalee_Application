@@ -32,9 +32,8 @@ public class AdminHome extends AppCompatActivity {
         users.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(AdminHome.this, AdminProfile.class);
-//                startActivity(i);
-//                finish();
+                Intent i = new Intent(AdminHome.this, ViewUsers.class);
+                startActivity(i);
             }
         });
         profile.setOnClickListener(new View.OnClickListener() {

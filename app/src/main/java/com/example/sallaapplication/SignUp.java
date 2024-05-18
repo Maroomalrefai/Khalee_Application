@@ -46,6 +46,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -62,6 +64,7 @@ public class SignUp extends AppCompatActivity {
     EditText editTextEmail, editTextPass, editTextUsername;
     FirebaseAuth mAuth;
     FirebaseFirestore fStore;
+    FirebaseDatabase database;
     AppCompatRadioButton rbLeft, rbRight;
     TextInputLayout passwordInputLayout;
     TextView passwordFeedbackTextView;
@@ -124,6 +127,7 @@ public class SignUp extends AppCompatActivity {
         editTextUsername = findViewById(R.id.username);
         google = findViewById(R.id.google);
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
         fStore=FirebaseFirestore.getInstance();
         passwordInputLayout = findViewById(R.id.passwordTextInputLayout);
         passwordFeedbackTextView = findViewById(R.id.passwordFeedbackTextView);
@@ -225,6 +229,10 @@ public class SignUp extends AppCompatActivity {
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("name", user.getDisplayName());
         userMap.put("email", user.getEmail());
+//        DatabaseReference userRef = database.getReference("users").child(user.getUid());
+//        userRef.child("username").setValue(editTextUsername.getText().toString());
+//        userRef.child("email").setValue(editTextEmail.getText().toString());
+//        userRef.child("isAdmin").setValue(false);
 
         documentReference.set(userMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

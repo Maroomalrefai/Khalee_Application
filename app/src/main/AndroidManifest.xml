@@ -21,6 +21,9 @@
         android:theme="@style/Theme.SallaApplication"
         tools:targetApi="31">
         <activity
+            android:name=".ViewUsers"
+            android:exported="false" />
+        <activity
             android:name=".AdminProfile"
             android:exported="false" />
         <activity
