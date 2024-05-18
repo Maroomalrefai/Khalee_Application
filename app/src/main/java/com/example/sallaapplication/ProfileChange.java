@@ -303,7 +303,7 @@ public class ProfileChange extends AppCompatActivity {
     private void updateUserImage( Uri pickedImgUri, final FirebaseUser currentUser,String newName) {
 
         if (pickedImgUri != null) {
-            StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("Android Tutorials").child(userId).child("profileImage");
+            StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("users").child("imageUrl");
             final StorageReference imageFilePath = mStorage.child(pickedImgUri.getLastPathSegment());
             progressBar.setVisibility(View.VISIBLE);
             imageFilePath.putFile(pickedImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -318,6 +318,8 @@ public class ProfileChange extends AppCompatActivity {
                                     .setPhotoUri(uri)
                                     .setDisplayName(newName)
                                     .build();
+                            String downloadUrl = uri.toString();
+                            saveProfileImageUrlToDatabase(userId, downloadUrl);
 
                             currentUser.updateProfile(profileUpdate)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -346,6 +348,11 @@ public class ProfileChange extends AppCompatActivity {
             updateUserProfile(currentUser,null, newName);
         }
     }
+    private void saveProfileImageUrlToDatabase(String userId, String downloadUrl) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+        userRef.child("imageUrl").setValue(downloadUrl);
+    }
+
 
     private void openGallery() {
         //TODO: open gallery intent and wait for user to pick an image !
@@ -433,6 +440,7 @@ public class ProfileChange extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
 //    }
+
 
 
 
