@@ -2,6 +2,7 @@ package com.example.sallaapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 import com.adapter.CommunitiesAdapter;
@@ -32,6 +34,7 @@ public class CommunitiesMain extends AppCompatActivity {
     private List<CommunitiesData> communitiesDataList;
     private FirebaseUser user;
     private ImageView profileIcon;
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class CommunitiesMain extends AppCompatActivity {
         recyclerView = findViewById(R.id.Communities);
         searchView = findViewById(R.id.searchicon);
         profileIcon = findViewById(R.id.profileicon);
+        constraintLayout = findViewById(R.id.constraintLayout);
 
         // Initialize data list
         communitiesDataList = new ArrayList<>();
@@ -65,28 +69,19 @@ public class CommunitiesMain extends AppCompatActivity {
 
     private void fetchIsAdminStatus() {
         if (user != null) {
-            // Get the Firestore instance
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-            // Get the document reference for the current user
-            DocumentReference docRef = db.collection("users").document(user.getUid());
-
-            // Retrieve the isAdmin field
-            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.exists()) {
-                        Boolean isAdmin = documentSnapshot.getBoolean("isAdmin");
-                        if (isAdmin != null) {
-                            // Pass isAdmin status to setCommunitiesRecycler method
-                            setCommunitiesRecycler(isAdmin);
-                        }
+            String userId = user.getUid();
+            DocumentReference userRef = FirebaseFirestore.getInstance().collection("Khalee_Users").document(userId);
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()) {
+                        boolean isAdmin = document.getBoolean("isAdmin") != null && document.getBoolean("isAdmin");
+                        setCommunitiesRecycler(isAdmin);
+                    } else {
+                        Toast.makeText(CommunitiesMain.this, "Failed to retrieve user data.", Toast.LENGTH_SHORT).show();
                     }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    // Handle failure to fetch isAdmin status
+                } else {
+                    Toast.makeText(CommunitiesMain.this, "Failed to retrieve user data.", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -147,6 +142,11 @@ public class CommunitiesMain extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new CommunitiesAdapter(this, communitiesDataList, isAdmin);
         recyclerView.setAdapter(adapter);
+        if (isAdmin) {
+            constraintLayout.setBackgroundResource(R.drawable.adsmall);
+        } else {
+            constraintLayout.setBackgroundResource(R.drawable.bluesmallbar);
+        }
     }
 
 }
