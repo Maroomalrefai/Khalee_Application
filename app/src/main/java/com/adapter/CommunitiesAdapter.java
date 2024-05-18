@@ -22,12 +22,12 @@ import java.util.List;
 public class CommunitiesAdapter extends RecyclerView.Adapter<CommunitiesAdapter.CommunitiesViewHolders>{
     Context context;
     List<CommunitiesData> communitiesDatalist;
+    boolean isAdmin;
 
-
-
-    public CommunitiesAdapter(Context context, List<CommunitiesData> communitiesDataList) {
+    public CommunitiesAdapter(Context context, List<CommunitiesData> communitiesDataList, boolean isAdmin) {
         this.context = context;
         this.communitiesDatalist = communitiesDataList;
+        this.isAdmin = isAdmin;
     }
 
     public void setFilteredList(ArrayList<CommunitiesData>filteredList) {
@@ -46,7 +46,11 @@ public class CommunitiesAdapter extends RecyclerView.Adapter<CommunitiesAdapter.
     @Override
     public void onBindViewHolder(@NonNull CommunitiesViewHolders holder, int position) {
         CommunitiesData currentCommunity = communitiesDatalist.get(position);
-
+        if (isAdmin) {
+            holder.comCard.setCardBackgroundColor(context.getResources().getColor(R.color.light_orange));
+        } else {
+            holder.comCard.setCardBackgroundColor(context.getResources().getColor(R.color.light_blue));
+        }
         holder.comCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +62,7 @@ public class CommunitiesAdapter extends RecyclerView.Adapter<CommunitiesAdapter.
         });
         holder.communityName.setText(communitiesDatalist.get(position).getCommunityName());
         holder.communityImage.setImageResource(communitiesDatalist.get(position).getImageUrl());
+
     }
 
     @Override
