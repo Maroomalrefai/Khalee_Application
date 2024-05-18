@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 public class AdminHome extends AppCompatActivity {
     CardView users;
+    CardView Posts;
     ImageView profile;
 
     @Override
@@ -18,6 +19,15 @@ public class AdminHome extends AppCompatActivity {
         setContentView(R.layout.activity_admin_home);
         users=findViewById(R.id.info);
         profile=findViewById(R.id.profileIcon);
+        Posts = findViewById(R.id.posts);
+
+        Posts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminHome.this, CommunitiesMain.class);
+                startActivity(intent);
+            }
+        });
 
         users.setOnClickListener(new View.OnClickListener() {
             @Override
