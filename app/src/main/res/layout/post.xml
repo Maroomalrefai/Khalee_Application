@@ -91,12 +91,12 @@
                 android:id="@+id/delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="290dp"
-                android:layout_marginBottom="25dp"
+                android:layout_marginStart="250dp"
+                android:layout_marginBottom="40dp"
                 android:backgroundTint="@color/orange"
                 android:contentDescription="delete button"
                 android:src="@drawable/delete"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:tint="@color/white" />
 
             <ProgressBar
