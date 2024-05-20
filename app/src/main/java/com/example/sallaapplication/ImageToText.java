@@ -197,19 +197,20 @@ public class ImageToText extends AppCompatActivity {
         // Remove any leading or trailing whitespace
         String trimmedText = lowercaseText.trim();
 
-        // Remove punctuation
-        String textWithoutPunctuation = trimmedText.replaceAll("[^a-zA-Z\\s,]", "");
+        // Remove punctuation except for hyphens and commas
+        String textWithoutPunctuation = trimmedText.replaceAll("[^a-zA-Z\\s,-]", "");
 
-        // Tokenization based on both whitespace and commas
-        String[] tokens = textWithoutPunctuation.split("[\\s,]+");
+        // Tokenization based on hyphens and commas
+        String[] tokens = textWithoutPunctuation.split("[\\s,-]+");
 
         // Remove stopwords
         List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with");
         for (String token : tokens) {
-            if (!stopwords.contains(token)) {
-                filteredTokens.add(token);
+            if (!stopwords.contains(token.trim())) {
+                filteredTokens.add(token.trim());
             }
         }
+
         // Join tokens back into a string
         return String.join(" ", filteredTokens);
     }
@@ -479,16 +480,19 @@ public class ImageToText extends AppCompatActivity {
     private boolean searchAllergen(String allergy, List<String> filteredTokens) {
         // Perform search within the specified allergy for each filtered token
         for (String token : filteredTokens) {
-            // skip (oil,flour) conflict words
-            if (token.equalsIgnoreCase("oil")|| (token.equalsIgnoreCase("flour")&&!(allergy.equalsIgnoreCase("Gluten")))) continue;            try {
+            try {
                 JSONArray ingredientsArray = allergenData.getJSONObject("allergens").getJSONArray(allergy);
                 for (int i = 0; i < ingredientsArray.length(); i++) {
                     String jsonIngredient = ingredientsArray.getString(i).toLowerCase();
 
-
                     // Check if the preprocessed ingredient is contained in the preprocessed token
                     if (jsonIngredient.equalsIgnoreCase(token)) {
                         return true; // Allergen found for this token
+                    }
+
+                    // Check for phrases like "flour wheat"
+                    if (recognizedText.contains(jsonIngredient)) {
+                        return true; // Allergen found in the recognized text
                     }
                 }
             } catch (JSONException e) {
