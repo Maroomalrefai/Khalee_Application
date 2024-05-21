@@ -233,8 +233,7 @@ public class ImageToText extends AppCompatActivity {
                             progressDialog.dismiss();
                             recognizedText = text.getText();
                             recognizedText = preprocessText(recognizedText);
-                            Log.d(TAG, "onSuccess: recognizedText" + recognizedText);
-                            recognizedTextEt.setText(recognizedText);
+                            recognizedTextEt.setText(recognizedText + "\n\nFiltered Tokens:\n" + filteredTokens.toString());
                             if (!recognizedText.isEmpty()) {
                                 // Call performSearch after text recognition is successful
                                 performSearch(allergies);
@@ -437,42 +436,36 @@ public class ImageToText extends AppCompatActivity {
         }
     }
     private void performSearch(List<String> allergies) {
-        // Check if recognized text is empty
-        if (recognizedText.isEmpty()) {
-            // If recognized text is empty, do nothing
-            return;
-        }
-
+        // Continue with the existing logic
         boolean containsAllergen = false;
-        List<String> foundAllergies = new ArrayList<>();
-        if (allergies!=null){
-        // Iterate over each allergy in the list
-        for (String allergy : allergies) {
-            // Perform search for the current allergy
-            if (searchAllergen(allergy.trim(), filteredTokens)) {
-                containsAllergen = true;
-                foundAllergies.add(allergy);
+        List<String> foundIngredients = new ArrayList<>();
+        if (allergies != null) {
+            for (String allergy : allergies) {
+                String foundIngredient = searchAllergen(allergy.trim(), filteredTokens);
+                if (foundIngredient != null) {
+                    containsAllergen = true;
+                    foundIngredients.add(foundIngredient);
+                }
             }
-        }}
-        if (ingredients!=null) {
-            // Iterate over each ingredients in the list
+        }
+        if (ingredients != null) {
             for (String oneIngredient : ingredients) {
-                if(oneIngredient.equalsIgnoreCase("Wine")){
-                    if (searchAllergen(oneIngredient, filteredTokens)) {
+                if (oneIngredient.equalsIgnoreCase("Wine")) {
+                    String foundIngredient = searchAllergen(oneIngredient, filteredTokens);
+                    if (foundIngredient != null) {
                         containsAllergen = true;
-                        foundAllergies.add(oneIngredient);
+                        foundIngredients.add(foundIngredient);
                     }
                 }
-                if(checkIndividualIngredient(oneIngredient)){
+                if (checkIndividualIngredient(oneIngredient)) {
                     containsAllergen = true;
-                    foundAllergies.add(oneIngredient);
+                    foundIngredients.add(oneIngredient);
                 }
             }
         }
 
-        // Display result to user
         if (containsAllergen) {
-            String allergens = TextUtils.join(", ", foundAllergies);
+            String allergens = TextUtils.join(", ", foundIngredients);
             dialogMessage = "Ops! This product contains " + allergens + " and it is not suitable for you.";
             showDialog(dialogMessage, R.drawable.notfree);
         } else {
@@ -480,7 +473,7 @@ public class ImageToText extends AppCompatActivity {
             showDialog(dialogMessage, R.drawable.allergenfree);
         }
     }
-    private boolean searchAllergen(String allergy, List<String> filteredTokens) {
+    private String searchAllergen(String allergy, List<String> filteredTokens) {
         // Perform search within the specified allergy for each filtered token
         for (String token : filteredTokens) {
             try {
@@ -490,20 +483,20 @@ public class ImageToText extends AppCompatActivity {
 
                     // Check if the preprocessed ingredient is contained in the preprocessed token
                     if (jsonIngredient.equalsIgnoreCase(token)) {
-                        return true; // Allergen found for this token
+                        return jsonIngredient; // Allergen found for this token
                     }
 
-                    // Check for phrases like "flour wheat"
-                    if (recognizedText.contains(jsonIngredient)) {
-                        return true; // Allergen found in the recognized text
-                    }
+//                    // Check for phrases like "flour wheat"
+//                    if (recognizedText.equalsIgnoreCase(jsonIngredient)) {
+//                        return jsonIngredient; // Allergen found in the recognized text
+//                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        // If no allergen found for any token, return false
-        return false;
+        // If no allergen found for any token, return null
+        return null;
     }
     private boolean checkIndividualIngredient(String individual) {
         // Check for individual ingredient
