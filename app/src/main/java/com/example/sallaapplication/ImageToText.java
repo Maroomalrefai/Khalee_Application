@@ -197,14 +197,17 @@ public class ImageToText extends AppCompatActivity {
         // Remove any leading or trailing whitespace
         String trimmedText = lowercaseText.trim();
 
+        // Replace parentheses with commas
+        String textWithCommas = trimmedText.replace("(", ",").replace(")", ",");
+
         // Remove punctuation except for hyphens and commas
-        String textWithoutPunctuation = trimmedText.replaceAll("[^a-zA-Z\\s,-]", "");
+        String textWithoutPunctuation = textWithCommas.replaceAll("[^a-zA-Z\\s,-]", "");
 
         // Tokenization based on hyphens and commas
-        String[] tokens = textWithoutPunctuation.split("[\\s,-]+");
+        String[] tokens = textWithoutPunctuation.split("[,-]+");
 
         // Remove stopwords
-        List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with");
+        List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with", "from", "made");
         for (String token : tokens) {
             if (!stopwords.contains(token.trim())) {
                 filteredTokens.add(token.trim());
