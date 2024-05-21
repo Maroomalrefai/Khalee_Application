@@ -197,23 +197,17 @@ public class ImageToText extends AppCompatActivity {
         // Remove any leading or trailing whitespace
         String trimmedText = lowercaseText.trim();
 
-        // Replace parentheses with commas
-        String textWithCommas = trimmedText.replace("(", ",").replace(")", ",");
-
-        // Remove punctuation except for hyphens and commas
-        String textWithoutPunctuation = textWithCommas.replaceAll("[^a-zA-Z\\s,-]", "");
-
         // Tokenization based on hyphens and commas
-        String[] tokens = textWithoutPunctuation.split("[,-]+");
+        String[] tokens = trimmedText.split("[^a-zA-Z\\s]");
 
         // Remove stopwords
         List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with", "from", "made");
         for (String token : tokens) {
-            if (!stopwords.contains(token.trim())) {
+            String trimmedToken = token.trim();
+            if (!stopwords.contains(trimmedToken) && !trimmedToken.isEmpty()) {
                 filteredTokens.add(token.trim());
             }
         }
-
         // Join tokens back into a string
         return String.join(" ", filteredTokens);
     }
@@ -233,7 +227,7 @@ public class ImageToText extends AppCompatActivity {
                             progressDialog.dismiss();
                             recognizedText = text.getText();
                             recognizedText = preprocessText(recognizedText);
-                            recognizedTextEt.setText(recognizedText + "\n\nFiltered Tokens:\n" + filteredTokens.toString());
+                            recognizedTextEt.setText(recognizedText);
                             if (!recognizedText.isEmpty()) {
                                 // Call performSearch after text recognition is successful
                                 performSearch(allergies);
@@ -349,8 +343,6 @@ public class ImageToText extends AppCompatActivity {
     );
 
     private boolean checkStoragePermission(){
-//        check if storage permissions are allowed or not
-//        return true if allowed , false if not allowed
         boolean result= ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
         return result;
     }
@@ -359,9 +351,6 @@ public class ImageToText extends AppCompatActivity {
         ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
 
     }
-
-
-
 
     private boolean checkCameraPermission(){
         boolean cameraResult = ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)==(PackageManager.PERMISSION_GRANTED);
@@ -414,8 +403,6 @@ public class ImageToText extends AppCompatActivity {
             break;
         }
     }
-
-
     private void loadAllergenData() {
         // Load JSON data from assets
         try {
@@ -485,11 +472,6 @@ public class ImageToText extends AppCompatActivity {
                     if (jsonIngredient.equalsIgnoreCase(token)) {
                         return jsonIngredient; // Allergen found for this token
                     }
-
-//                    // Check for phrases like "flour wheat"
-//                    if (recognizedText.equalsIgnoreCase(jsonIngredient)) {
-//                        return jsonIngredient; // Allergen found in the recognized text
-//                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
