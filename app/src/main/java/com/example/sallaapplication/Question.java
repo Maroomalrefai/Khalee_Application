@@ -48,18 +48,16 @@ public class Question extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference userRef, databaseReference;
     CheckBox treeNutCheckBox, glutenCheckBox, lactoseCheckBox, peanutCheckBox, seafoodCheckBox, sesameCheckBox, eggCheckBox, soyCheckBox, mustardCheckBox;
-
     boolean editMode;
-
-
 
     MaterialCardView selectCard;
     TextView tvIngredients;
-    boolean []selectedIngredients;
-    ArrayList<Integer>ingredientList=new ArrayList<>();
-    String [] ingredientArray={"Strawberry","Sunflower seeds","Pumpkin seeds","Garlic",
-            "Cherries","Onion","Blackberry","Raspberry","Honey","Tomato","Wine"};
+    boolean[] selectedIngredients;
+    ArrayList<Integer> ingredientList = new ArrayList<>();
+    String[] ingredientArray = {"Strawberry", "Sunflower seeds", "Pumpkin seeds", "Garlic",
+            "Cherries", "Onion", "Blackberry", "Raspberry", "Honey", "Tomato", "Wine"};
     DatabaseReference userIngredientsRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,18 +78,14 @@ public class Question extends AppCompatActivity {
         Log.d(TAG, "UserID: " + userId);
         userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 
-
-        selectCard=findViewById(R.id.selectCard);
-        tvIngredients=findViewById(R.id.ingredients);
-        selectedIngredients= new boolean[ingredientArray.length];
+        selectCard = findViewById(R.id.selectCard);
+        tvIngredients = findViewById(R.id.ingredients);
+        selectedIngredients = new boolean[ingredientArray.length];
         userIngredientsRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("ingredients");
-
 
         selectCard.setOnClickListener(v -> {
             showIngredients();
-
         });
-
 
         // Retrieve the editMode parameter
         Bundle extras = getIntent().getExtras();
@@ -104,9 +98,7 @@ public class Question extends AppCompatActivity {
             EditText birthEditText = findViewById(R.id.editTextDate);
             birthTextView.setVisibility(View.GONE);
             birthEditText.setVisibility(View.GONE);
-
         }
-
 
         // Initialize checkboxes
         treeNutCheckBox = findViewById(R.id.treenut);
@@ -122,32 +114,46 @@ public class Question extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if ((isAnyCheckboxChecked() || !ingredientList.isEmpty()) && isDateOfBirthValid()) {
 
-                saveIngredientsToFirebase();
-                saveCheckboxState(treeNutCheckBox, "treeNut");
-                saveCheckboxState(glutenCheckBox, "gluten");
-                saveCheckboxState(lactoseCheckBox, "lactose");
-                saveCheckboxState(peanutCheckBox, "peanut");
-                saveCheckboxState(seafoodCheckBox, "seafood");
-                saveCheckboxState(sesameCheckBox, "sesame");
-                saveCheckboxState(eggCheckBox, "egg");
-                saveCheckboxState(soyCheckBox, "soy");
-                saveCheckboxState(mustardCheckBox, "mustard");
-                saveDateToFirebase(date.getText().toString());//saving date into Firebase
+                    // At least one checkbox or ingredient is selected
+                    saveIngredientsToFirebase();
+                    saveCheckboxState(treeNutCheckBox, "treeNut");
+                    saveCheckboxState(glutenCheckBox, "gluten");
+                    saveCheckboxState(lactoseCheckBox, "lactose");
+                    saveCheckboxState(peanutCheckBox, "peanut");
+                    saveCheckboxState(seafoodCheckBox, "seafood");
+                    saveCheckboxState(sesameCheckBox, "sesame");
+                    saveCheckboxState(eggCheckBox, "egg");
+                    saveCheckboxState(soyCheckBox, "soy");
+                    saveCheckboxState(mustardCheckBox, "mustard");
+                    saveDateToFirebase(date.getText().toString()); //saving date into Firebase
 
-
-                saveLoginStatus(true);
-                //saving allergies
-                Intent i = new Intent(Question.this, Home.class);
-                startActivity(i);
-
+                    saveLoginStatus(true);
+                    //saving allergies
+                    Intent i = new Intent(Question.this, Home.class);
+                    startActivity(i);
+                } else {
+                    // Show a toast message if no checkbox or ingredient is selected
+                    Toast.makeText(Question.this, "Please select at least one allergy or ingredient and your Birthday.", Toast.LENGTH_SHORT).show();
+                }
             }
+
+            private boolean isAnyCheckboxChecked() {
+                return treeNutCheckBox.isChecked() || glutenCheckBox.isChecked() || lactoseCheckBox.isChecked() ||
+                        peanutCheckBox.isChecked() || seafoodCheckBox.isChecked() || sesameCheckBox.isChecked() ||
+                        eggCheckBox.isChecked() || soyCheckBox.isChecked() || mustardCheckBox.isChecked();
+            }
+            private boolean isDateOfBirthValid() {
+                return !date.getText().toString().isEmpty();
+            }
+
             // Method to save selected ingredients to Firebase
             private void saveIngredientsToFirebase() {
                 String userId = firebaseAuth.getCurrentUser().getUid();
                 DatabaseReference ingredientsRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("ingredients");
 
-                 //First, set all ingredients to false
+                // First, set all ingredients to false
                 for (String ingredient : ingredientArray) {
                     ingredientsRef.child(ingredient).setValue(false);
                 }
@@ -156,7 +162,6 @@ public class Question extends AppCompatActivity {
                 for (Integer index : ingredientList) {
                     String selectedIngredient = ingredientArray[index];
                     ingredientsRef.child(selectedIngredient).setValue(true)
-                          //  .addOnSuccessListener(aVoid -> Toast.makeText(getApplicationContext(), "Ingredient saved to Firebase", Toast.LENGTH_SHORT).show())
                             .addOnFailureListener(e -> Toast.makeText(getApplicationContext(), "Failed to save ingredient to Firebase", Toast.LENGTH_SHORT).show());
                 }
             }
@@ -173,16 +178,12 @@ public class Question extends AppCompatActivity {
                     String userId = currentUser.getUid();
                     DatabaseReference userRef = database.getReference("users").child(userId);
                     userRef.child("dateOfBirth").setValue(date)
-                            //   .addOnSuccessListener(aVoid -> Toast.makeText(Question.this, "Date saved successfully", Toast.LENGTH_SHORT).show())
                             .addOnFailureListener(e -> Toast.makeText(Question.this, "Failed to save date: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                 } else {
                     Toast.makeText(Question.this, "User not logged in", Toast.LENGTH_SHORT).show();
                 }
             }
-
-
         });
-
 
         date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,10 +203,8 @@ public class Question extends AppCompatActivity {
             setupAllergyFunction();
             retrieveAndSetIngredients();
         }
-
-
-
     }
+
     private void retrieveAndSetIngredients() {
         DatabaseReference ingredientsRef = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseAuth.getCurrentUser().getUid()).child("ingredients");
         ingredientsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -234,19 +233,17 @@ public class Question extends AppCompatActivity {
         });
     }
 
-
-
     private void setupAllergyFunction() {
         // Setup allergy listeners only if in edit mode
         setupAllergyListener("treeNut", treeNutCheckBox);
-        setupAllergyListener( "gluten",glutenCheckBox);
+        setupAllergyListener("gluten", glutenCheckBox);
         setupAllergyListener("lactose", lactoseCheckBox);
-        setupAllergyListener( "peanut",peanutCheckBox);
+        setupAllergyListener("peanut", peanutCheckBox);
         setupAllergyListener("seafood", seafoodCheckBox);
-        setupAllergyListener( "sesame",sesameCheckBox);
+        setupAllergyListener("sesame", sesameCheckBox);
         setupAllergyListener("egg", eggCheckBox);
-        setupAllergyListener( "soy",soyCheckBox);
-        setupAllergyListener( "mustard",mustardCheckBox);
+        setupAllergyListener("soy", soyCheckBox);
+        setupAllergyListener("mustard", mustardCheckBox);
     }
 
     private void setupAllergyListener(String allergyType, CheckBox checkBox) {
@@ -282,7 +279,6 @@ public class Question extends AppCompatActivity {
         editor.apply();
     }
 
-
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -290,7 +286,7 @@ public class Question extends AppCompatActivity {
         int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,R.style.dialogTheme,
+                this, R.style.dialogTheme,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -303,24 +299,15 @@ public class Question extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-
-    private void showIngredients(){
-        AlertDialog.Builder builder=new AlertDialog.Builder(Question.this);
+    private void showIngredients() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Question.this);
         builder.setTitle("Select ingredients");
         builder.setCancelable(false);
         builder.setMultiChoiceItems(ingredientArray, selectedIngredients, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-//                if(isChecked){
-//                    ingredientList.add(which);
-//                }else {
-//                    ingredientList.remove(which);
-//                }
-                selectedIngredients[which] = isChecked;
                 if (isChecked) {
-                    if (!ingredientList.contains(which)) {
-                        ingredientList.add(which);
-                    }
+                    ingredientList.add(which);
                 } else {
                     ingredientList.remove(Integer.valueOf(which));
                 }
@@ -328,20 +315,14 @@ public class Question extends AppCompatActivity {
         }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                StringBuilder stringBuilder=new StringBuilder();
-                for(int i=0;i<ingredientList.size();i++){
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < ingredientList.size(); i++) {
                     stringBuilder.append(ingredientArray[ingredientList.get(i)]);
-
-                    //check condition
-                    if(i!= ingredientList.size()-1){
-                        //when  value not equal to ingredient list sizze
+                    if (i != ingredientList.size() - 1) {
                         stringBuilder.append(", ");
                     }
-                    //setting selected ingredients
-                    tvIngredients.setText(stringBuilder.toString());
                 }
-
-
+                tvIngredients.setText(stringBuilder.toString());
             }
         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -351,12 +332,6 @@ public class Question extends AppCompatActivity {
         }).setNeutralButton("Clear all", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //clearing all selected ingredients
-//                for(int i=0;i<selectedIngredients.length;i++){
-//                    selectedIngredients[i]=false;
-//                    ingredientList.clear();
-//                    tvIngredients.setText("");
-//                }
                 for (int i = 0; i < selectedIngredients.length; i++) {
                     selectedIngredients[i] = false;
                 }
@@ -366,15 +341,5 @@ public class Question extends AppCompatActivity {
         });
 
         builder.show();
-
-
     }
-
-
-
-
-
-
-
 }
-
