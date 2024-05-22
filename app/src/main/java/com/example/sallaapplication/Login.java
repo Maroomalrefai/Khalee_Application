@@ -194,7 +194,7 @@ public class Login extends AppCompatActivity {
                     if (documentSnapshot.contains("isAdmin") && documentSnapshot.getBoolean("isAdmin")) {
 
                         // For admin login
-//                        saveLoginStatus(true, true);
+                        saveLoginStatus(true);
                         Intent intent = new Intent(getApplicationContext(), AdminHome.class);
                         startActivity(intent);
                         //normal user

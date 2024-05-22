@@ -201,7 +201,7 @@ public class ImageToText extends AppCompatActivity {
         String[] tokens = trimmedText.split("[^a-zA-Z\\s]");
 
         // Remove stopwords
-        List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with", "from", "made");
+        List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with", "from", "made","contain");
         for (String token : tokens) {
             String trimmedToken = token.trim();
             if (!stopwords.contains(trimmedToken) && !trimmedToken.isEmpty()) {
