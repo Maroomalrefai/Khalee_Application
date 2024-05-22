@@ -95,11 +95,11 @@ public class UserAdapter extends FirebaseRecyclerAdapter<Users,UserAdapter.ViewH
             @Override
             public void onClick(View v) {
                // getRef(holder.getAdapterPosition()).removeValue();
-                // Dialog
+
                 if (!isNetworkAvailable(context)) {
                     Toast.makeText(context, "No internet connection. Deletion cannot proceed.", Toast.LENGTH_SHORT).show();
                     return;
-                }
+                }// Dialog
                  new AlertDialog.Builder(v.getContext())
                                         .setTitle("Delete User")
                                         .setMessage("Are you sure you want to delete this user?")
