@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,9 +46,10 @@ public class feedback extends AppCompatActivity {
                 databaseReference.push().setValue(text);
                 // Optionally, you can clear the EditText after sending
                 feedbackText.setText("");
-
-                Intent intent = new Intent(feedback.this, ProfileChange.class);
-                startActivity(intent);
+                Toast.makeText(feedback.this, "Feedback has been sent!", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(feedback.this, ProfileChange.class);
+//                startActivity(intent);
+                finish();
 
             }
         });

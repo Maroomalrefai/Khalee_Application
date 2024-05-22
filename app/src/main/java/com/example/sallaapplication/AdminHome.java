@@ -12,7 +12,7 @@ public class AdminHome extends AppCompatActivity {
     CardView users;
     CardView Posts;
     ImageView profile;
-
+    CardView cardViewFeedback ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +20,15 @@ public class AdminHome extends AppCompatActivity {
         users=findViewById(R.id.info);
         profile=findViewById(R.id.profileIcon);
         Posts = findViewById(R.id.posts);
+        cardViewFeedback = findViewById(R.id.cardViewFeedback);
 
+        cardViewFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminHome.this, ViewFeedback.class);
+                startActivity(intent);
+            }
+        });
         Posts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
