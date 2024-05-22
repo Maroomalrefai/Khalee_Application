@@ -25,6 +25,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.model.Post;
 
 import java.util.ArrayList;
@@ -39,11 +42,11 @@ public class DetailCommunity extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseUser currentUser;
     FirebaseAuth mAuth;
+    FirebaseFirestore fStore;
     String currentCommunityId;
     String currentCommunityName;
     TextView communityname;
-
-
+    PostAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +56,17 @@ public class DetailCommunity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         communityname = findViewById(R.id.communityname);
         mAuth = FirebaseAuth.getInstance();
-        currentUser  = mAuth.getCurrentUser();
+        fStore = FirebaseFirestore.getInstance();
+        currentUser = mAuth.getCurrentUser();
         progressBar = findViewById(R.id.progressBar);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(DetailCommunity.this,1);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(DetailCommunity.this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(DetailCommunity.this);
         builder.setCancelable(false);
         progressBar.setVisibility(View.VISIBLE);
 
-        postList =new ArrayList<>();
-
-        PostAdapter adapter = new PostAdapter(DetailCommunity.this,postList);
-        recyclerView.setAdapter(adapter);
+        postList = new ArrayList<>();
 
         // Receive community information passed from the previous activity
         Intent intent = getIntent();
@@ -86,11 +87,13 @@ public class DetailCommunity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     postList.clear();
-                    for(DataSnapshot itemSnapshot: snapshot.getChildren()){
-                        Post post = itemSnapshot.getValue((Post.class));
-                        postList.add(0,post);
+                    for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
+                        Post post = itemSnapshot.getValue(Post.class);
+                        postList.add(0, post);
                     }
-                    adapter.notifyDataSetChanged();
+                    if (adapter != null) {
+                        adapter.notifyDataSetChanged();
+                    }
                     progressBar.setVisibility(View.GONE);
                 }
 
@@ -100,6 +103,9 @@ public class DetailCommunity extends AppCompatActivity {
                 }
             });
 
+            // Fetch the isAdmin status from Firestore
+            fetchIsAdminStatus();
+
         } else {
             finish();
         }
@@ -107,13 +113,39 @@ public class DetailCommunity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DetailCommunity.this, CreatePost.class); // Change CurrentActivity and NewActivity to your actual activity names
+                Intent intent = new Intent(DetailCommunity.this, CreatePost.class);
                 intent.putExtra("communityId", currentCommunityId);
                 intent.putExtra("communityName", currentCommunityName);
                 startActivity(intent);
             }
         });
     }
+
+    private void fetchIsAdminStatus() {
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DocumentReference userRef = fStore.collection("Khalee_Users").document(userId);
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()) {
+                        boolean isAdmin = document.getBoolean("isAdmin") != null && document.getBoolean("isAdmin");
+                        setupPostAdapter(isAdmin);
+                    } else {
+                        Toast.makeText(DetailCommunity.this, "Failed to retrieve user data.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(DetailCommunity.this, "Failed to retrieve user data.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void setupPostAdapter(boolean isAdmin) {
+        adapter = new PostAdapter(DetailCommunity.this, postList, isAdmin);
+        recyclerView.setAdapter(adapter);
+    }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

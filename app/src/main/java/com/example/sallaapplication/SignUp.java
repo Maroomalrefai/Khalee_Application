@@ -196,6 +196,12 @@ public class SignUp extends AppCompatActivity {
                     showToast("No internet connection. Failed to Sign up.");
                     return;
                 }
+                // Check if the username contains "khalee"
+                if (editTextUsername.getText().toString().toLowerCase().contains("khalee")) {
+                    // Deny registration and show a message
+                    showToast("Username cannot contain 'khalee'. Please choose a different username.");
+                    return;
+                }
 
                 // Create user with email and password
                 mAuth.createUserWithEmailAndPassword(editTextEmail.getText().toString(), editTextPass.getText().toString()).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -287,7 +293,7 @@ public class SignUp extends AppCompatActivity {
 
     // Helper method to show toast messages
     private void showToast(String message) {
-        Toast.makeText(SignUp.this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(SignUp.this, message, Toast.LENGTH_LONG).show();
     }
 
     // Method to check for internet connection

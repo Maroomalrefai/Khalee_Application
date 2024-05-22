@@ -197,17 +197,15 @@ public class ImageToText extends AppCompatActivity {
         // Remove any leading or trailing whitespace
         String trimmedText = lowercaseText.trim();
 
-        // Remove punctuation
-        String textWithoutPunctuation = trimmedText.replaceAll("[^a-zA-Z\\s,]", "");
-
-        // Tokenization based on both whitespace and commas
-        String[] tokens = textWithoutPunctuation.split("[\\s,]+");
+        // Tokenization based on hyphens and commas
+        String[] tokens = trimmedText.split("[^a-zA-Z\\s]");
 
         // Remove stopwords
-        List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with",",");
+        List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with", "from", "made","contain");
         for (String token : tokens) {
-            if (!stopwords.contains(token)) {
-                filteredTokens.add(token);
+            String trimmedToken = token.trim();
+            if (!stopwords.contains(trimmedToken) && !trimmedToken.isEmpty()) {
+                filteredTokens.add(token.trim());
             }
         }
         // Join tokens back into a string
@@ -229,7 +227,6 @@ public class ImageToText extends AppCompatActivity {
                             progressDialog.dismiss();
                             recognizedText = text.getText();
                             recognizedText = preprocessText(recognizedText);
-                            Log.d(TAG, "onSuccess: recognizedText" + recognizedText);
                             recognizedTextEt.setText(recognizedText);
                             if (!recognizedText.isEmpty()) {
                                 // Call performSearch after text recognition is successful
@@ -346,8 +343,6 @@ public class ImageToText extends AppCompatActivity {
     );
 
     private boolean checkStoragePermission(){
-//        check if storage permissions are allowed or not
-//        return true if allowed , false if not allowed
         boolean result= ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
         return result;
     }
@@ -356,9 +351,6 @@ public class ImageToText extends AppCompatActivity {
         ActivityCompat.requestPermissions(this,storagePermission,STORAGE_REQUEST_CODE);
 
     }
-
-
-
 
     private boolean checkCameraPermission(){
         boolean cameraResult = ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)==(PackageManager.PERMISSION_GRANTED);
@@ -411,8 +403,6 @@ public class ImageToText extends AppCompatActivity {
             break;
         }
     }
-
-
     private void loadAllergenData() {
         // Load JSON data from assets
         try {
@@ -433,42 +423,36 @@ public class ImageToText extends AppCompatActivity {
         }
     }
     private void performSearch(List<String> allergies) {
-        // Check if recognized text is empty
-        if (recognizedText.isEmpty()) {
-            // If recognized text is empty, do nothing
-            return;
-        }
-
+        // Continue with the existing logic
         boolean containsAllergen = false;
-        List<String> foundAllergies = new ArrayList<>();
-        if (allergies!=null){
-        // Iterate over each allergy in the list
-        for (String allergy : allergies) {
-            // Perform search for the current allergy
-            if (searchAllergen(allergy.trim(), filteredTokens)) {
-                containsAllergen = true;
-                foundAllergies.add(allergy);
+        List<String> foundIngredients = new ArrayList<>();
+        if (allergies != null) {
+            for (String allergy : allergies) {
+                String foundIngredient = searchAllergen(allergy.trim(), filteredTokens);
+                if (foundIngredient != null) {
+                    containsAllergen = true;
+                    foundIngredients.add(foundIngredient);
+                }
             }
-        }}
-        if (ingredients!=null) {
-            // Iterate over each ingredients in the list
+        }
+        if (ingredients != null) {
             for (String oneIngredient : ingredients) {
-                if(oneIngredient.equalsIgnoreCase("Wine")){
-                    if (searchAllergen(oneIngredient, filteredTokens)) {
+                if (oneIngredient.equalsIgnoreCase("Wine")) {
+                    String foundIngredient = searchAllergen(oneIngredient, filteredTokens);
+                    if (foundIngredient != null) {
                         containsAllergen = true;
-                        foundAllergies.add(oneIngredient);
+                        foundIngredients.add(foundIngredient);
                     }
                 }
-                if(checkIndividualIngredient(oneIngredient)){
+                if (checkIndividualIngredient(oneIngredient)) {
                     containsAllergen = true;
-                    foundAllergies.add(oneIngredient);
+                    foundIngredients.add(oneIngredient);
                 }
             }
         }
 
-        // Display result to user
         if (containsAllergen) {
-            String allergens = TextUtils.join(", ", foundAllergies);
+            String allergens = TextUtils.join(", ", foundIngredients);
             dialogMessage = "Ops! This product contains " + allergens + " and it is not suitable for you.";
             showDialog(dialogMessage, R.drawable.notfree);
         } else {
@@ -476,27 +460,25 @@ public class ImageToText extends AppCompatActivity {
             showDialog(dialogMessage, R.drawable.allergenfree);
         }
     }
-    private boolean searchAllergen(String allergy, List<String> filteredTokens) {
+    private String searchAllergen(String allergy, List<String> filteredTokens) {
         // Perform search within the specified allergy for each filtered token
         for (String token : filteredTokens) {
-            // skip (oil,flour) conflict words
-            if (token.equalsIgnoreCase("oil")|| (token.equalsIgnoreCase("flour")&&!(allergy.equalsIgnoreCase("Gluten")))) continue;            try {
+            try {
                 JSONArray ingredientsArray = allergenData.getJSONObject("allergens").getJSONArray(allergy);
                 for (int i = 0; i < ingredientsArray.length(); i++) {
                     String jsonIngredient = ingredientsArray.getString(i).toLowerCase();
 
-
                     // Check if the preprocessed ingredient is contained in the preprocessed token
                     if (jsonIngredient.equalsIgnoreCase(token)) {
-                        return true; // Allergen found for this token
+                        return jsonIngredient; // Allergen found for this token
                     }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        // If no allergen found for any token, return false
-        return false;
+        // If no allergen found for any token, return null
+        return null;
     }
     private boolean checkIndividualIngredient(String individual) {
         // Check for individual ingredient
