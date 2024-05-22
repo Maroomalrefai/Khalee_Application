@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/comCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardCornerRadius="10dp"
-    app:cardBackgroundColor="@color/light_orange"
     android:padding="10dp"
-    app:cardElevation="5dp"
-    >
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:orientation="horizontal"
-        >
+    app:cardBackgroundColor="@color/light_orange"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imageUrl"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_marginTop="3dp"
             android:contentDescription="@string/profile_icon"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
             app:shapeAppearanceOverlay="@style/circular"
             app:srcCompat="@drawable/profileicon" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@+id/buttonContainer"
+            app:layout_constraintStart_toEndOf="@id/imageUrl"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
                 android:id="@+id/viewusername"
@@ -46,7 +43,8 @@
                 android:text="User Name"
                 android:textSize="23sp"
                 android:fontFamily="@font/tiltneon"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/viewemail"
                 android:layout_width="wrap_content"
@@ -54,7 +52,8 @@
                 android:text="example@gmail.com"
                 android:textSize="16sp"
                 android:fontFamily="@font/tiltneon"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/viewDate"
                 android:layout_width="wrap_content"
@@ -62,33 +61,29 @@
                 android:text="userName"
                 android:textSize="16sp"
                 android:fontFamily="@font/tiltneon"
-                android:textStyle="normal"/>
-
+                android:textStyle="normal" />
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_margin="10dp"
-            android:layout_height="wrap_content">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/delete"
+        <LinearLayout
+            android:id="@+id/buttonContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:backgroundTint="@color/dark_blue1"
-            android:contentDescription="delete button"
-            android:src="@drawable/delete"
-            app:tint="@color/white" />
-            <Button
-                android:id="@+id/makeAdmin"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/orange"
-                android:layout_marginLeft="15dp"
-                android:text="Admin"/>
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/dark_blue1"
+                android:contentDescription="delete button"
+                android:src="@drawable/delete"
+                app:tint="@color/white" />
         </LinearLayout>
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
-
