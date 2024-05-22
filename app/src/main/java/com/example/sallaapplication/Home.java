@@ -1,5 +1,6 @@
 package com.example.sallaapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -17,6 +18,11 @@ import com.adapter.CommunitiesAdapter;
 import com.adapter.ProductsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,25 +40,28 @@ public class Home extends AppCompatActivity {
     ProductsAdapter productsAdapter;
     RecyclerView communitiesRecycler;
     CommunitiesAdapter communitiesAdapter;
+    DatabaseReference databaseReference;
+    ValueEventListener eventListener;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    List<ProductData> productDataList = new ArrayList<>(); // Initialize here
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // Initialize views
         ImageView scan = findViewById(R.id.recycle_bin);
         Name = findViewById(R.id.name);
         profileIcon = findViewById(R.id.profileIcon);
+        recentRecycler = findViewById(R.id.recent_Recycle);
 
         // Set profile image and user name if available
         if (user != null) {
-            // Set profile image
             String profileImageUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
             if (profileImageUrl != null) {
-                // Load profile image using Picasso
                 Picasso.get().load(profileImageUrl).placeholder(R.drawable.profileicon).into(profileIcon);
             }
-            // Set user name
             if (user.getDisplayName() != null) {
                 Name.setText(user.getDisplayName());
             } else {
@@ -94,23 +103,33 @@ public class Home extends AppCompatActivity {
             }
         });
 
+        // Fetch products from database
+        databaseReference = FirebaseDatabase.getInstance().getReference("products");
         fetchIsAdminStatus();
 
+        eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                productDataList.clear();
+                for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
+                    ProductData product = itemSnapshot.getValue(ProductData.class);
+                    if (product != null) {
+                        productDataList.add(product);
+                    }
+                }
+                // Set up the RecyclerView here after data is fetched
+                setRecentRecycler();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Home.this, "Failed to retrieve data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setRecentRecycler() {
-        List<ProductData> productDataList = new ArrayList<>();
-//        productDataList.add(new ProductData("Lactose free milk", "Baladna", R.drawable.milk, "https://www.baladna.com.jo/"));
-//        productDataList.add(new ProductData("Cheese", "AlMazraa", R.drawable.cheese, "https://mazraadairy.com/"));
-//        productDataList.add(new ProductData("Flax seeds bread", "REEF", R.drawable.flaxseeds, "https://reef-bakeries.com/"));
-//        productDataList.add(new ProductData("Coconut bread", "Leeds", R.drawable.coconutbread, "https://leeds-bakery.com/"));
-//        productDataList.add(new ProductData("Lababa", "Al Youm", R.drawable.labaneh, "https://samajordan.jo/en/brands/alyoum-food"));
-//        productDataList.add(new ProductData("Yogurt", "Maha", R.drawable.mahayogurt, "https://jordandairy.com/"));
-//        productDataList.add(new ProductData("Popcorn", "Kasih", R.drawable.popcorn, "https://www.kasih.com/"));
-//        productDataList.add(new ProductData("Beans", "Kasih", R.drawable.beans, "https://www.kasih.com/"));
-//        productDataList.add(new ProductData("Chocolate", "Today", R.drawable.chcolate, "http://www.todaychocolate.com/"));
-
-        recentRecycler = findViewById(R.id.recent_Recycle);
+        // Set up the RecyclerView and Adapter
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         recentRecycler.setLayoutManager(layoutManager);
         productsAdapter = new ProductsAdapter(this, productDataList);
@@ -151,5 +170,4 @@ public class Home extends AppCompatActivity {
             });
         }
     }
-
 }
