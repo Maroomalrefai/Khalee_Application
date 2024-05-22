@@ -24,6 +24,9 @@
             android:name=".ViewUsers"
             android:exported="false" />
         <activity
+            android:name=".ViewProducts"
+            android:exported="false" />
+        <activity
             android:name=".AdminProfile"
             android:exported="false" />
         <activity

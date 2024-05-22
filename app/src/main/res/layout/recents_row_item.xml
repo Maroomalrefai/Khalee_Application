@@ -4,7 +4,9 @@
     android:id="@+id/itemCard"
     android:layout_width="150dp"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10dp">
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
+    app:cardCornerRadius="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,10 +14,12 @@
 
         <ImageView
             android:id="@+id/productImage"
-            android:layout_width="120dp"
+            android:layout_width="match_parent"
             android:layout_height="165dp"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="8dp"
+            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:scaleType="centerInside"
             app:layout_constraintBottom_toTopOf="@+id/productName"
             app:layout_constraintEnd_toEndOf="parent"
