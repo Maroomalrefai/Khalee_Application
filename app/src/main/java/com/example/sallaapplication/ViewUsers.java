@@ -35,7 +35,7 @@ public class ViewUsers extends AppCompatActivity {
         FirebaseRecyclerOptions<Users> options =new FirebaseRecyclerOptions.Builder<Users>()
                 .setQuery(FirebaseDatabase.getInstance().getReference().child("users"),Users.class)
                 .build();
-        userAdapter =new UserAdapter(options);
+        userAdapter =new UserAdapter(options,ViewUsers.this);
         recyclerView.setAdapter(userAdapter);
 
     }

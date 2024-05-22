@@ -1,10 +1,24 @@
 package com.model;
 
-import java.util.ArrayList;
-
 public class Users {
+    private String username;
+    private String email;
+    private String dateOfBirth;
+    private String imageUrl;
+    private String uid; // Ensure this field is present and populated
 
+    // Default constructor required for calls to DataSnapshot.getValue(Users.class)
+    public Users() {}
 
+    public Users(String username, String email, String dateOfBirth, String imageUrl, String uid) {
+        this.username = username;
+        this.email = email;
+        this.dateOfBirth = dateOfBirth;
+        this.imageUrl = imageUrl;
+        this.uid = uid;
+    }
+
+    // Getter and setter methods
     public String getUsername() {
         return username;
     }
@@ -21,17 +35,13 @@ public class Users {
         this.email = email;
     }
 
-
-    public Users() {
-        // Default constructor required for calls to DataSnapshot.getValue(UserInfo.class)
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
-    public Users(String username, String email, String dateOfBirth, String imageUrl) {
-        this.username = username;
-        this.email = email;
+
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-        this.imageUrl = imageUrl;
     }
-
 
     public String getImageUrl() {
         return imageUrl;
@@ -41,19 +51,11 @@ public class Users {
         this.imageUrl = imageUrl;
     }
 
-    private String imageUrl;
-    private String username;
-    private String email;
-
-    public String getDateOfBirth() {
-        return dateOfBirth;
+    public String getUid() {
+        return uid;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
-
-    private String dateOfBirth;
-
-
 }
