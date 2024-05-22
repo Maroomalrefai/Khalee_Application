@@ -204,7 +204,7 @@ public class ImageToText extends AppCompatActivity {
         String[] tokens = textWithoutPunctuation.split("[\\s,]+");
 
         // Remove stopwords
-        List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with");
+        List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with",",");
         for (String token : tokens) {
             if (!stopwords.contains(token)) {
                 filteredTokens.add(token);

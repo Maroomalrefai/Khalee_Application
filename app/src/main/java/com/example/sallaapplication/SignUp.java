@@ -229,10 +229,7 @@ public class SignUp extends AppCompatActivity {
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("name", user.getDisplayName());
         userMap.put("email", user.getEmail());
-//        DatabaseReference userRef = database.getReference("users").child(user.getUid());
-//        userRef.child("username").setValue(editTextUsername.getText().toString());
-//        userRef.child("email").setValue(editTextEmail.getText().toString());
-//        userRef.child("isAdmin").setValue(false);
+
 
         documentReference.set(userMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

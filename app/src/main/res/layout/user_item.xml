@@ -6,6 +6,7 @@
     android:id="@+id/comCard"
     android:layout_margin="8dp"
     app:cardCornerRadius="10dp"
+    app:cardBackgroundColor="@color/light_orange"
     android:padding="10dp"
     app:cardElevation="5dp"
     >
@@ -63,6 +64,29 @@
                 android:fontFamily="@font/tiltneon"
                 android:textStyle="normal"/>
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:backgroundTint="@color/dark_blue1"
+            android:contentDescription="delete button"
+            android:src="@drawable/delete"
+            app:tint="@color/white" />
+            <Button
+                android:id="@+id/makeAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/orange"
+                android:layout_marginLeft="15dp"
+                android:text="Admin"/>
         </LinearLayout>
 
     </LinearLayout>
