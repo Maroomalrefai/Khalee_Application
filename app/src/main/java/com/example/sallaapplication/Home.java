@@ -14,14 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adapter.CommunitiesAdapter;
-import com.adapter.RecentsAdapter;
+import com.adapter.ProductsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.model.CommunitiesData;
-import com.model.RecentData;
+import com.model.ProductData;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class Home extends AppCompatActivity {
     RecyclerView recentRecycler;
     TextView Name;
     ImageView profileIcon;
-    RecentsAdapter recentsAdapter;
+    ProductsAdapter productsAdapter;
     RecyclerView communitiesRecycler;
     CommunitiesAdapter communitiesAdapter;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -99,22 +99,22 @@ public class Home extends AppCompatActivity {
     }
 
     private void setRecentRecycler() {
-        List<RecentData> recentDataList = new ArrayList<>();
-        recentDataList.add(new RecentData("Lactose free milk", "Baladna", R.drawable.milk, "https://www.baladna.com.jo/"));
-        recentDataList.add(new RecentData("Cheese", "AlMazraa", R.drawable.cheese, "https://mazraadairy.com/"));
-        recentDataList.add(new RecentData("Flax seeds bread", "REEF", R.drawable.flaxseeds, "https://reef-bakeries.com/"));
-        recentDataList.add(new RecentData("Coconut bread", "Leeds", R.drawable.coconutbread, "https://leeds-bakery.com/"));
-        recentDataList.add(new RecentData("Lababa", "Al Youm", R.drawable.labaneh, "https://samajordan.jo/en/brands/alyoum-food"));
-        recentDataList.add(new RecentData("Yogurt", "Maha", R.drawable.mahayogurt, "https://jordandairy.com/"));
-        recentDataList.add(new RecentData("Popcorn", "Kasih", R.drawable.popcorn, "https://www.kasih.com/"));
-        recentDataList.add(new RecentData("Beans", "Kasih", R.drawable.beans, "https://www.kasih.com/"));
-        recentDataList.add(new RecentData("Chocolate", "Today", R.drawable.chcolate, "http://www.todaychocolate.com/"));
+        List<ProductData> productDataList = new ArrayList<>();
+//        productDataList.add(new ProductData("Lactose free milk", "Baladna", R.drawable.milk, "https://www.baladna.com.jo/"));
+//        productDataList.add(new ProductData("Cheese", "AlMazraa", R.drawable.cheese, "https://mazraadairy.com/"));
+//        productDataList.add(new ProductData("Flax seeds bread", "REEF", R.drawable.flaxseeds, "https://reef-bakeries.com/"));
+//        productDataList.add(new ProductData("Coconut bread", "Leeds", R.drawable.coconutbread, "https://leeds-bakery.com/"));
+//        productDataList.add(new ProductData("Lababa", "Al Youm", R.drawable.labaneh, "https://samajordan.jo/en/brands/alyoum-food"));
+//        productDataList.add(new ProductData("Yogurt", "Maha", R.drawable.mahayogurt, "https://jordandairy.com/"));
+//        productDataList.add(new ProductData("Popcorn", "Kasih", R.drawable.popcorn, "https://www.kasih.com/"));
+//        productDataList.add(new ProductData("Beans", "Kasih", R.drawable.beans, "https://www.kasih.com/"));
+//        productDataList.add(new ProductData("Chocolate", "Today", R.drawable.chcolate, "http://www.todaychocolate.com/"));
 
         recentRecycler = findViewById(R.id.recent_Recycle);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         recentRecycler.setLayoutManager(layoutManager);
-        recentsAdapter = new RecentsAdapter(this, recentDataList);
-        recentRecycler.setAdapter(recentsAdapter);
+        productsAdapter = new ProductsAdapter(this, productDataList);
+        recentRecycler.setAdapter(productsAdapter);
     }
 
     private void setCommunitiesRecycler(boolean isAdmin) {

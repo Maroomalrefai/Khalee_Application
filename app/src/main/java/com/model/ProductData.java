@@ -1,12 +1,12 @@
 package com.model;
 
-public class RecentData {
+public class ProductData {
     private String productName;
     private String companyName;
-    private Integer imageUrl;
+    private String imageUrl;
     private String companyUrl;
 
-    public RecentData(String productName, String companyName, Integer imageUrl, String companyUrl) {
+    public ProductData(String productName, String companyName, String imageUrl, String companyUrl) {
         this.productName = productName;
         this.companyName = companyName;
         this.imageUrl = imageUrl;
@@ -19,11 +19,11 @@ public class RecentData {
     public void setCompanyUrl(String companyUrl) {
         this.companyUrl = companyUrl;
     }
-    public Integer getImageUrl() {
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(Integer imageUrl) {
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
@@ -41,5 +41,7 @@ public class RecentData {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+    public ProductData() {
     }
 }

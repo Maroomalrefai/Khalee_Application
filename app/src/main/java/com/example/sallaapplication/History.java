@@ -54,7 +54,7 @@ public class History extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         String userId = user.getUid();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(userId).child("images");
+        databaseReference = FirebaseDatabase.getInstance().getReference("History").child(userId).child("images");
         dataList = new ArrayList<>();
         adapter = new MyAdapter(History.this, dataList);
         recyclerView.setAdapter(adapter);
