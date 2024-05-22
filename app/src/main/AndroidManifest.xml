@@ -21,10 +21,10 @@
         android:theme="@style/Theme.SallaApplication"
         tools:targetApi="31">
         <activity
-            android:name=".ViewFeedback"
+            android:name=".ViewUsers"
             android:exported="false" />
         <activity
-            android:name=".ViewUsers"
+            android:name=".ViewProducts"
             android:exported="false" />
         <activity
             android:name=".AdminProfile"
