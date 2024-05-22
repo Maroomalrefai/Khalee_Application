@@ -311,10 +311,18 @@ public class Question extends AppCompatActivity {
         builder.setMultiChoiceItems(ingredientArray, selectedIngredients, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                if(isChecked){
-                    ingredientList.add(which);
-                }else {
-                    ingredientList.remove(which);
+//                if(isChecked){
+//                    ingredientList.add(which);
+//                }else {
+//                    ingredientList.remove(which);
+//                }
+                selectedIngredients[which] = isChecked;
+                if (isChecked) {
+                    if (!ingredientList.contains(which)) {
+                        ingredientList.add(which);
+                    }
+                } else {
+                    ingredientList.remove(Integer.valueOf(which));
                 }
             }
         }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -344,12 +352,16 @@ public class Question extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //clearing all selected ingredients
-                for(int i=0;i<selectedIngredients.length;i++){
-                    selectedIngredients[i]=false;
-                    ingredientList.clear();
-                    tvIngredients.setText("");
+//                for(int i=0;i<selectedIngredients.length;i++){
+//                    selectedIngredients[i]=false;
+//                    ingredientList.clear();
+//                    tvIngredients.setText("");
+//                }
+                for (int i = 0; i < selectedIngredients.length; i++) {
+                    selectedIngredients[i] = false;
                 }
-
+                ingredientList.clear();
+                tvIngredients.setText("");
             }
         });
 
