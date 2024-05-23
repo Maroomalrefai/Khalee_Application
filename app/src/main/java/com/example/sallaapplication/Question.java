@@ -64,6 +64,8 @@ public class Question extends AppCompatActivity {
         setContentView(R.layout.activity_question);
         FirebaseApp.initializeApp(Question.this);
         save = findViewById(R.id.save);
+
+
         date = findViewById(R.id.editTextDate);
         agreeRadioButton = findViewById(R.id.agree);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -97,7 +99,7 @@ public class Question extends AppCompatActivity {
             TextView birthTextView = findViewById(R.id.Birth);
             EditText birthEditText = findViewById(R.id.editTextDate);
             birthTextView.setVisibility(View.GONE);
-            birthEditText.setVisibility(View.GONE);
+           // birthEditText.setVisibility(View.GONE);
         }
 
         // Initialize checkboxes
@@ -216,6 +218,12 @@ public class Question extends AppCompatActivity {
                     boolean isSelected = snapshot.getValue(Boolean.class);
                     if (isSelected) {
                         stringBuilder.append(ingredient).append(", ");
+                        // Update selectedIngredients array and ingredientList based on saved data
+                        int index = java.util.Arrays.asList(ingredientArray).indexOf(ingredient);
+                        if (index >= 0) {
+                            selectedIngredients[index] = true;
+                            ingredientList.add(index);
+                        }
                     }
                 }
                 // Remove the trailing comma and space

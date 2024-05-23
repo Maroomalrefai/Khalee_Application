@@ -17,7 +17,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sallaapplication.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,22 +33,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private Context context;
     private List<Post> dataList;
-    DatabaseReference likereference;
-    Boolean testClick = false;
+    private DatabaseReference likereference;
+    private Boolean testClick = false;
     private boolean isAdmin;
+    private String currentCommunityId;
 
-
-    public PostAdapter(Context context, List<Post> dataList,boolean isAdmin) {
+    public PostAdapter(Context context, List<Post> dataList, boolean isAdmin, String currentCommunityId) {
         this.context = context;
         this.dataList = dataList;
         this.isAdmin = isAdmin;
+        this.currentCommunityId = currentCommunityId;
+        likereference = FirebaseDatabase.getInstance().getReference("likes");
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.post, parent, false);
-        likereference = FirebaseDatabase.getInstance().getReference("likes");
         return new ViewHolder(view);
     }
 
@@ -100,12 +100,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 });
             }
         });
+
         // Set visibility of delete button based on admin status
         if (isAdmin) {
             holder.delete.setVisibility(View.VISIBLE);
         } else {
             holder.delete.setVisibility(View.GONE);
         }
+
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +116,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     return;
                 }
                 int adapterPosition = holder.getAdapterPosition();
-                if (adapterPosition != RecyclerView.NO_POSITION) {
+                if (adapterPosition != RecyclerView.NO_POSITION && adapterPosition < dataList.size()) {
                     new AlertDialog.Builder(v.getContext())
                             .setTitle("Delete Post")
                             .setMessage("Are you sure you want to delete this post?")
@@ -122,13 +124,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Continue with delete operation
                                     deletePost(data.getPostKey(), adapterPosition);
-
                                 }
                             })
                             .setNegativeButton(android.R.string.no, null)
                             .setIcon(android.R.drawable.ic_dialog_alert)
                             .show();
-
                 }
             }
         });
@@ -140,8 +140,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        FloatingActionButton delete;
-        ImageView profileImage;
+        ImageView profileImage, delete;
         ImageView like;
         TextView profileName;
         TextView postBody;
@@ -183,7 +182,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             });
         }
     }
-    private String getCurrentUserId () {
+
+    private String getCurrentUserId() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             return currentUser.getUid(); // Return the current user's ID
@@ -191,18 +191,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             return ""; // Return a default value or handle the error appropriately
         }
     }
+
     private void deletePost(String postKey, int position) {
-        DatabaseReference postReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(postKey);
+        DatabaseReference postReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentCommunityId).child("Posts").child(postKey);
         postReference.removeValue().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                dataList.remove(position);
-                notifyItemRemoved(position);
-                Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show();
+                if (position < dataList.size()) {
+                    dataList.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, dataList.size());
+                    Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 Toast.makeText(context, "Failed to delete post", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     private boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

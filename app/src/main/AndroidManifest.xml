@@ -24,6 +24,9 @@
             android:name=".ViewUsers"
             android:exported="false" />
         <activity
+            android:name=".AddProducts"
+            android:exported="true" />
+        <activity
             android:name=".ViewProducts"
             android:exported="false" />
         <activity
@@ -75,9 +78,12 @@
             android:exported="false" />
         <activity
             android:name=".Login"
-            android:exported="true" />
+            android:launchMode="singleTask" />
         <activity
             android:name=".SignUp"
+            android:exported="false" />
+        <activity
+            android:name=".ViewFeedback"
             android:exported="false" />
         <activity
             android:name=".SplashDelay"

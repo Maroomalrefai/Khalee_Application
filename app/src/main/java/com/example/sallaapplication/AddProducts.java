@@ -24,14 +24,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.model.ProductData;
-
-import java.text.DateFormat;
-import java.util.Calendar;
 
 public class AddProducts extends AppCompatActivity {
 
@@ -132,25 +130,33 @@ public class AddProducts extends AppCompatActivity {
             return;
         }
 
-        ProductData dataClass = new ProductData(title, comp, imageURL, compURL);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("products");
+        String postKey = databaseReference.push().getKey();
 
-        FirebaseDatabase.getInstance().getReference("products").child(title)
-                .setValue(dataClass).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(AddProducts.this, "Saved", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(AddProducts.this, "Save failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(AddProducts.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        if (postKey == null) {
+            Toast.makeText(this, "Failed to generate post key", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ProductData productData = new ProductData(title, comp, imageURL, compURL);
+        productData.setProductKey(postKey);
+
+        databaseReference.child(postKey).setValue(productData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(AddProducts.this, "Saved", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(AddProducts.this, "Save failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddProducts.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private String getCurrentUserId() {

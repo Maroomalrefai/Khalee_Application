@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adapter.CommunitiesAdapter;
+import com.adapter.PostAdapter;
 import com.adapter.ProductsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -132,7 +133,6 @@ public class Home extends AppCompatActivity {
         // Set up the RecyclerView and Adapter
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         recentRecycler.setLayoutManager(layoutManager);
-        productsAdapter = new ProductsAdapter(this, productDataList);
         recentRecycler.setAdapter(productsAdapter);
     }
 
@@ -161,6 +161,7 @@ public class Home extends AppCompatActivity {
                     if (document != null && document.exists()) {
                         boolean isAdmin = document.getBoolean("isAdmin") != null && document.getBoolean("isAdmin");
                         setCommunitiesRecycler(isAdmin);
+                        setupProductAdapter(isAdmin);
                     } else {
                         Toast.makeText(Home.this, "Failed to retrieve user data.", Toast.LENGTH_SHORT).show();
                     }
@@ -170,4 +171,17 @@ public class Home extends AppCompatActivity {
             });
         }
     }
+    private void setupProductAdapter(boolean isAdmin) {
+        productsAdapter = new ProductsAdapter(Home.this, productDataList, isAdmin);
+        recentRecycler.setAdapter(productsAdapter);
+    }
 }
+//        productDataList.add(new ProductData("Lactose free milk", "Baladna", R.drawable.milk, "https://www.baladna.com.jo/"));
+//        productDataList.add(new ProductData("Cheese", "AlMazraa", R.drawable.cheese, "https://mazraadairy.com/"));
+//        productDataList.add(new ProductData("Flax seeds bread", "REEF", R.drawable.flaxseeds, "https://reef-bakeries.com/"));
+//        productDataList.add(new ProductData("Coconut bread", "Leeds", R.drawable.coconutbread, "https://leeds-bakery.com/"));
+//        productDataList.add(new ProductData("Lababa", "Al Youm", R.drawable.labaneh, "https://samajordan.jo/en/brands/alyoum-food"));
+//        productDataList.add(new ProductData("Yogurt", "Maha", R.drawable.mahayogurt, "https://jordandairy.com/"));
+//        productDataList.add(new ProductData("Popcorn", "Kasih", R.drawable.popcorn, "https://www.kasih.com/"));
+//        productDataList.add(new ProductData("Beans", "Kasih", R.drawable.beans, "https://www.kasih.com/"));
+//        productDataList.add(new ProductData("Chocolate", "Today", R.drawable.chcolate, "http://www.todaychocolate.com/"));
