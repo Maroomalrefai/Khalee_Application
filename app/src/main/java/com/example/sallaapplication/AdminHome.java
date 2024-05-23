@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 public class AdminHome extends AppCompatActivity {
-    CardView Posts,Products,users;
+    CardView Posts,Products,users,feedback;
     ImageView profile;
 
     @Override
@@ -20,7 +20,15 @@ public class AdminHome extends AppCompatActivity {
         profile=findViewById(R.id.profileIcon);
         Posts = findViewById(R.id.posts);
         Products = findViewById(R.id.products);
+        feedback=findViewById(R.id.cardViewFeedback);
 
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminHome.this, ViewFeedback.class);
+                startActivity(intent);
+            }
+        });
         Posts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
