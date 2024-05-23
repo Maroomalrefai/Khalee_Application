@@ -25,7 +25,7 @@
             android:exported="false" />
         <activity
             android:name=".AddProducts"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ViewProducts"
             android:exported="false" />
