@@ -67,7 +67,7 @@ public class DetailActivity extends AppCompatActivity {
                 }
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String userId = user.getUid();
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Android Tutorials")
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("History")
                         .child(userId).child("images");
                 progBar.setVisibility(View.VISIBLE);
                 StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl);

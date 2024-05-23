@@ -119,8 +119,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        FloatingActionButton delete;
-        ImageView profileImage;
+        ImageView profileImage,delete;
         ImageView like;
         TextView profileName;
         TextView postBody;

@@ -87,13 +87,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <ImageView
                 android:id="@+id/delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="34dp"
+                android:background="@color/dark_blue1"
+                app:srcCompat="@drawable/delete"
                 android:layout_marginStart="250dp"
                 android:layout_marginBottom="40dp"
-                android:backgroundTint="@color/orange"
                 android:contentDescription="delete button"
                 android:src="@drawable/delete"
                 android:visibility="visible"

@@ -1,7 +1,6 @@
 package com.example.sallaapplication;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,11 +13,16 @@ import android.widget.Toast;
 
 import com.adapter.ProductsAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.model.ProductData;
 
 import java.util.ArrayList;
@@ -32,6 +36,7 @@ public class ViewProducts extends AppCompatActivity {
     ValueEventListener eventListener;
     ProgressBar progressBar;
     ProductsAdapter adapter;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +46,10 @@ public class ViewProducts extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progressBar);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(ViewProducts.this, 2); // 2 columns
-        recyclerView.setLayoutManager(gridLayoutManager);
-
+        user = FirebaseAuth.getInstance().getCurrentUser();
         productDataList = new ArrayList<>();
-        adapter = new ProductsAdapter(ViewProducts.this, productDataList);
+        adapter = new ProductsAdapter(this, productDataList, false); // Initialize adapter with default admin status as false
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2)); // 2 columns
         recyclerView.setAdapter(adapter);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("products");
@@ -62,6 +66,7 @@ public class ViewProducts extends AppCompatActivity {
                         productDataList.add(product);
                     }
                 }
+                fetchIsAdminStatus();
                 adapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             }
@@ -80,5 +85,38 @@ public class ViewProducts extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void fetchIsAdminStatus() {
+        if (user != null) {
+            String userId = user.getUid();
+            DocumentReference userRef = FirebaseFirestore.getInstance().collection("Khalee_Users").document(userId);
+            userRef.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()) {
+                        boolean isAdmin = document.getBoolean("isAdmin") != null && document.getBoolean("isAdmin");
+                        setupProductAdapter(isAdmin);
+                    } else {
+                        Toast.makeText(ViewProducts.this, "Failed to retrieve user data.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(ViewProducts.this, "Failed to retrieve user data.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void setupProductAdapter(boolean isAdmin) {
+        adapter = new ProductsAdapter(ViewProducts.this, productDataList, isAdmin);
+        recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (databaseReference != null && eventListener != null) {
+            databaseReference.removeEventListener(eventListener);
+        }
     }
 }
