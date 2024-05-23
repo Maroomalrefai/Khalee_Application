@@ -142,7 +142,7 @@ public class DetailCommunity extends AppCompatActivity {
     }
 
     private void setupPostAdapter(boolean isAdmin) {
-        adapter = new PostAdapter(DetailCommunity.this, postList, isAdmin);
+        adapter = new PostAdapter(DetailCommunity.this, postList, isAdmin, currentCommunityId);
         recyclerView.setAdapter(adapter);
     }
 

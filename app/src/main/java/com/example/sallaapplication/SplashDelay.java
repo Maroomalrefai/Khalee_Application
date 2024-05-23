@@ -42,6 +42,7 @@ public class SplashDelay extends AppCompatActivity {
             // Check if it's the first time the app is opened
             if (isFirstTime()) {
                 startActivity(new Intent(SplashDelay.this, MainActivity.class));
+                finish();
             } else {
                 // If it's not the first time, check if the user is logged in
                 if (isUserLoggedIn()) {
@@ -84,9 +85,11 @@ public class SplashDelay extends AppCompatActivity {
                         if (isAdmin) {
                             // Redirect to AdminHome if the user is an admin
                             startActivity(new Intent(SplashDelay.this, AdminHome.class));
+                            finish();
                         } else {
                             // Redirect to Home if the user is not an admin
                             startActivity(new Intent(SplashDelay.this, Home.class));
+                            finish();
                         }
                         finish(); // Finish SplashDelay to prevent the user from returning to it
                     } else {
