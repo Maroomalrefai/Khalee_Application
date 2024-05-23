@@ -1,6 +1,15 @@
 package com.model;
 
 public class Users {
+    public String getPostKey() {
+        return postKey;
+    }
+
+    public void setPostKey(String postKey) {
+        this.postKey = postKey;
+    }
+
+    private String postKey;
     private String username;
     private String email;
     private String dateOfBirth;
@@ -10,7 +19,8 @@ public class Users {
     // Default constructor required for calls to DataSnapshot.getValue(Users.class)
     public Users() {}
 
-    public Users(String username, String email, String dateOfBirth, String imageUrl, String uid) {
+    public Users(String postKey,String username, String email, String dateOfBirth, String imageUrl, String uid) {
+        this.postKey = username;
         this.username = username;
         this.email = email;
         this.dateOfBirth = dateOfBirth;

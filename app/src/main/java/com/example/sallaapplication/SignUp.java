@@ -50,6 +50,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.model.Users;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -68,9 +69,7 @@ public class SignUp extends AppCompatActivity {
     AppCompatRadioButton rbLeft, rbRight;
     TextInputLayout passwordInputLayout;
     TextView passwordFeedbackTextView;
-
     private static final int REQUEST_CODE_SPLASH = 100;
-
     private GoogleSignInClient googleSignInClient;
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
         @Override
@@ -118,7 +117,6 @@ public class SignUp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
         rbLeft = findViewById(R.id.rbLeft);
         rbRight = findViewById(R.id.rbRight);
         signUp = findViewById(R.id.signUp);
@@ -131,10 +129,8 @@ public class SignUp extends AppCompatActivity {
         fStore=FirebaseFirestore.getInstance();
         passwordInputLayout = findViewById(R.id.passwordTextInputLayout);
         passwordFeedbackTextView = findViewById(R.id.passwordFeedbackTextView);
-
         int minPassLength = 6;
         FirebaseApp.initializeApp(this);
-
         // Configure Google Sign-In
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.client_id))
@@ -239,8 +235,10 @@ public class SignUp extends AppCompatActivity {
         DatabaseReference userRef = database.getReference("users").child(user.getUid());
         userRef.child("username").setValue(editTextUsername.getText().toString());
         userRef.child("email").setValue(editTextEmail.getText().toString());
-        userRef.child("isAdmin").setValue(false);
+        userRef.child("isAdmin").setValue(false);// get post unique ID and update postKey
+
         documentReference.set(userMap)
+
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {

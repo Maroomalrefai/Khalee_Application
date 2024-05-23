@@ -34,21 +34,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/searchicon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/orang_border"
-            android:fontFamily="@font/tiltneon"
-            android:textStyle="bold"
-            app:closeIcon="@drawable/arrow_left"
-            app:iconifiedByDefault="false"
-            app:layout_constraintTop_toBottomOf="@+id/users"
-            app:queryHint="Search..."
-            app:searchHintIcon="@null"
-            app:searchIcon="@drawable/searchicon"
-            tools:layout_editor_absoluteX="0dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView

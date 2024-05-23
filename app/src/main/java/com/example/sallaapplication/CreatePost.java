@@ -111,7 +111,6 @@ public class CreatePost extends AppCompatActivity {
             }else {
                 userName="User Name";
                 userNameTx.setText(userName);
-
             }
         }
 
