@@ -34,7 +34,8 @@ public class CommunitiesMain extends AppCompatActivity {
     private List<CommunitiesData> communitiesDataList;
     private FirebaseUser user;
     private ImageView profileIcon;
-    ConstraintLayout constraintLayout;
+    private ConstraintLayout constraintLayout;
+    private boolean isAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class CommunitiesMain extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document != null && document.exists()) {
-                        boolean isAdmin = document.getBoolean("isAdmin") != null && document.getBoolean("isAdmin");
+                        isAdmin = document.getBoolean("isAdmin") != null && document.getBoolean("isAdmin");
                         setCommunitiesRecycler(isAdmin);
                     } else {
                         Toast.makeText(CommunitiesMain.this, "Failed to retrieve user data.", Toast.LENGTH_SHORT).show();
@@ -106,23 +107,28 @@ public class CommunitiesMain extends AppCompatActivity {
         profileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CommunitiesMain.this, ProfileChange.class);
-                startActivity(i);
+                Intent intent;
+                if (isAdmin) {
+                    intent = new Intent(CommunitiesMain.this, AdminProfile.class);
+                } else {
+                    intent = new Intent(CommunitiesMain.this, ProfileChange.class);
+                }
+                startActivity(intent);
             }
         });
     }
 
     private void setupInitialDataForRecyclerView() {
-        communitiesDataList.add(new CommunitiesData("   General Community","General", R.drawable.generalfinal));
-        communitiesDataList.add(new CommunitiesData("Gluten free Community","Gluten", R.drawable.gluten));
-        communitiesDataList.add(new CommunitiesData("Egg free Community","Egg", R.drawable.egg));
-        communitiesDataList.add(new CommunitiesData("Sesame free Community","Sesame", R.drawable.sesame));
-        communitiesDataList.add(new CommunitiesData("Lactose free Community","Lactose", R.drawable.lactose));
-        communitiesDataList.add(new CommunitiesData("Tree nuts free Community", "Nut",R.drawable.treenuts));
-        communitiesDataList.add(new CommunitiesData("Soy free Community","Soy", R.drawable.soy));
-        communitiesDataList.add(new CommunitiesData("Peanut free Community","Peanut", R.drawable.peanut));
-        communitiesDataList.add(new CommunitiesData("Seafood free Community","Seafood", R.drawable.seafood));
-        communitiesDataList.add(new CommunitiesData("Mustard free Community","Mustard", R.drawable.mustard));
+        communitiesDataList.add(new CommunitiesData("General Community", "General", R.drawable.generalfinal));
+        communitiesDataList.add(new CommunitiesData("Gluten free Community", "Gluten", R.drawable.gluten));
+        communitiesDataList.add(new CommunitiesData("Egg free Community", "Egg", R.drawable.egg));
+        communitiesDataList.add(new CommunitiesData("Sesame free Community", "Sesame", R.drawable.sesame));
+        communitiesDataList.add(new CommunitiesData("Lactose free Community", "Lactose", R.drawable.lactose));
+        communitiesDataList.add(new CommunitiesData("Tree nuts free Community", "Nut", R.drawable.treenuts));
+        communitiesDataList.add(new CommunitiesData("Soy free Community", "Soy", R.drawable.soy));
+        communitiesDataList.add(new CommunitiesData("Peanut free Community", "Peanut", R.drawable.peanut));
+        communitiesDataList.add(new CommunitiesData("Seafood free Community", "Seafood", R.drawable.seafood));
+        communitiesDataList.add(new CommunitiesData("Mustard free Community", "Mustard", R.drawable.mustard));
         // Set up RecyclerView
         setCommunitiesRecycler(false); // isAdmin status initially unknown, set to false as default
     }
@@ -148,5 +154,4 @@ public class CommunitiesMain extends AppCompatActivity {
             constraintLayout.setBackgroundResource(R.drawable.bluesmallbar);
         }
     }
-
 }

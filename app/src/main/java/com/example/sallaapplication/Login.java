@@ -182,6 +182,12 @@ public class Login extends AppCompatActivity {
                     }
                 });
     }
+    @Override
+    public void onBackPressed() {
+        // Do nothing, or show a message, or handle it as you wish
+        super.onBackPressed();
+        moveTaskToBack(true); // This will minimize the app
+    }
 
     private void checkUserAccessLevel(String uid) {
         DocumentReference df= fStore.collection("Khalee_Users").document(uid);

@@ -117,9 +117,11 @@ public class ProfileChange extends AppCompatActivity {
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    // Redirect to the login activity
-                                    startActivity(new Intent(ProfileChange.this, Login.class));
+                                    Intent intent = new Intent(ProfileChange.this, Login.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(intent);
                                     finish();
+
                                 }
                             });
                 } else {
