@@ -1,7 +1,11 @@
 package com.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,8 +53,8 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Recent
         holder.company_name.setText(productData.getCompanyName());
         Picasso.get()
                 .load(productData.getImageUrl())
-                .placeholder(R.drawable.bright) // Placeholder image while loading
-                .error(R.drawable.cameraiconbright) // Error image if loading fails
+                .placeholder(R.drawable.emptyimage) // Placeholder image while loading
+                .error(R.drawable.whitecard) // Error image if loading fails
                 .into(holder.product_image);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -70,17 +74,32 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Recent
             holder.delete.setVisibility(View.GONE);
         }
 
+
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!isNetworkAvailable(context)) {
+                    Toast.makeText(context, "No internet connection. Deletion cannot proceed.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 int adapterPosition = holder.getAdapterPosition();
                 if (adapterPosition != RecyclerView.NO_POSITION) {
+                    new AlertDialog.Builder(v.getContext())
+                            .setTitle("Delete Post")
+                            .setMessage("Are you sure you want to delete this post?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
                     deletePost(productData.getProductKey(), adapterPosition);
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+
                 }
             }
         });
-    }
-
+        }
 
     @Override
     public int getItemCount() {
@@ -101,7 +120,11 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Recent
             cardView = itemView.findViewById(R.id.itemCard);
         }
     }
-
+        private boolean isNetworkAvailable(Context context) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
     private void deletePost(String postKey, int position) {
         DatabaseReference postReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(postKey);
         postReference.removeValue().addOnCompleteListener(task -> {
@@ -114,4 +137,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Recent
             }
         });
     }
-}
+
+
+    }
