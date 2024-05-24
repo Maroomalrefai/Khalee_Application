@@ -204,7 +204,7 @@ public class ImageToText extends AppCompatActivity {
                             if (data != null && data.getData() != null) {
                                 imageUri = data.getData();
                                 Log.d(TAG, "Image URI from Gallery: " + imageUri.toString());
-                                imageIv.setImageURI(imageUri);
+                                startCropActivity(imageUri);
                             } else {
                                 Log.e(TAG, "Gallery data is null");
                                 Toast.makeText(ImageToText.this, "Failed to get image from gallery", Toast.LENGTH_LONG).show();
@@ -214,7 +214,7 @@ public class ImageToText extends AppCompatActivity {
                         }
                     }
                 }
-        );
+        );;
 
         // Initialize the cameraActivityResultLauncher
         cameraActivityResultLauncher = registerForActivityResult(
@@ -333,7 +333,7 @@ public class ImageToText extends AppCompatActivity {
     private void pickImageGallery() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        galleryActivityResultLauncher.launch(intent); // Line 323
+        galleryActivityResultLauncher.launch(intent);
     }
 
 
@@ -347,6 +347,12 @@ public class ImageToText extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, CAMERA_REQUEST_CODE);
+    }
+
+    private void startCropActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON_TOUCH)
+                .start(this);
     }
 
     @Override
@@ -367,12 +373,6 @@ public class ImageToText extends AppCompatActivity {
                 Log.e(TAG, "Crop Error: ", error);
             }
         }
-    }
-
-    private void startCropActivity(Uri imageUri) {
-        CropImage.activity(imageUri)
-                .setGuidelines(CropImageView.Guidelines.ON_TOUCH)
-                .start(this);
     }
 
     private boolean checkStoragePermission(){
