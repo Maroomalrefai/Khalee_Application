@@ -204,11 +204,27 @@ public class SignUp extends AppCompatActivity {
                     @Override
                     public void onSuccess(AuthResult authResult) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null && user.isEmailVerified()) {
-                            Toast.makeText(SignUp.this, "Account created.", Toast.LENGTH_SHORT).show();
-                            sendEmailVerification();
-                        }else if (user != null) {
-                            sendEmailVerification();
+                        if (user != null) {
+                            // Update the user's profile with the display name
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(editTextUsername.getText().toString())
+                                    .build();
+
+                            user.updateProfile(profileUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        if (user.isEmailVerified()) {
+                                            Toast.makeText(SignUp.this, "Account created.", Toast.LENGTH_SHORT).show();
+                                            sendEmailVerification();
+                                        } else {
+                                            sendEmailVerification();
+                                        }
+                                    } else {
+                                        showToast("Failed to update display name.");
+                                    }
+                                }
+                            });
                         }
                     }
 

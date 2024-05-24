@@ -303,8 +303,7 @@ public class ProfileChange extends AppCompatActivity {
     }
 
 
-    private void updateUserImage( Uri pickedImgUri, final FirebaseUser currentUser,String newName) {
-
+    private void updateUserImage(Uri pickedImgUri, final FirebaseUser currentUser, String newName) {
         if (pickedImgUri != null) {
             StorageReference mStorage = FirebaseStorage.getInstance().getReference().child("users").child("imageUrl");
             final StorageReference imageFilePath = mStorage.child(pickedImgUri.getLastPathSegment());
@@ -312,45 +311,39 @@ public class ProfileChange extends AppCompatActivity {
             imageFilePath.putFile(pickedImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
                     imageFilePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-
                             UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                                     .setPhotoUri(uri)
                                     .setDisplayName(newName)
                                     .build();
-                            String downloadUrl = uri.toString();
-                            saveProfileImageUrlToDatabase(userId, downloadUrl);
-
                             currentUser.updateProfile(profileUpdate)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
-
                                             if (task.isSuccessful()) {
-                                                Toast.makeText(ProfileChange.this, "success", Toast.LENGTH_SHORT).show();
-                                                getUserInformation();
+                                                Toast.makeText(ProfileChange.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
+                                            } else {
+                                                progressBar.setVisibility(View.GONE);
+                                                Toast.makeText(ProfileChange.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
                                             }
-                                            updateUserProfile(currentUser, uri, newName);
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            // Handle failure in uploading image
                                             progressBar.setVisibility(View.GONE);
-                                            Toast.makeText(ProfileChange.this, "Failed to upload image: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ProfileChange.this, "Failed to update profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
                     });
                 }
             });
-        } else {
-            updateUserProfile(currentUser,null, newName);
         }
     }
+
     private void saveProfileImageUrlToDatabase(String userId, String downloadUrl) {
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
         userRef.child("imageUrl").setValue(downloadUrl);
