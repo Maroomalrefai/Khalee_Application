@@ -372,7 +372,6 @@ public class ImageToText extends AppCompatActivity {
     private void startCropActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON_TOUCH)
-                .setAspectRatio(1, 1) // Set aspect ratio as needed
                 .start(this);
     }
 
