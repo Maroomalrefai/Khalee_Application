@@ -80,7 +80,7 @@ public class DetailCommunity extends AppCompatActivity {
                 Toast.makeText(DetailCommunity.this, "No internet connection. Failed to reload posts.", Toast.LENGTH_LONG).show();
                 return;
             }
-            databaseReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentCommunityId).child("Posts");
+            databaseReference = FirebaseDatabase.getInstance().getReference("Communities").child(currentCommunityId).child("Posts");
             progressBar.setVisibility(View.VISIBLE);
 
             eventListener = databaseReference.addValueEventListener(new ValueEventListener() {
