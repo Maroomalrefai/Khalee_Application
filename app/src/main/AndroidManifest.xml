@@ -21,6 +21,10 @@
         android:theme="@style/Theme.SallaApplication"
         tools:targetApi="31">
         <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+
+        <activity
             android:name=".ViewUsers"
             android:exported="false" />
         <activity
@@ -29,7 +33,7 @@
         <activity
             android:name=".ViewProducts"
             android:exported="false" />
-        <activity
+       <activity
             android:name=".AdminProfile"
             android:exported="false" />
         <activity

@@ -59,6 +59,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.model.HistoryData;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 //import com.theartofdev.edmodo.cropper.CropImage;
 //import com.theartofdev.edmodo.cropper.CropImageActivity;
 //import com.theartofdev.edmodo.cropper.CropImageView;
@@ -79,8 +80,8 @@ public class ImageToText extends AppCompatActivity {
     private ShapeableImageView imageIv;
     private EditText recognizedTextEt;
     private static final String TAG = "MAIN_TAG";
-    private Uri imageUri = null ;
-    private static final int CAMERA_REQUEST_CODE=100;
+    private static final int CAMERA_REQUEST_CODE = 100;
+    private Uri imageUri;
 
     private static final int STORAGE_REQUEST_CODE=101;
     private String[] cameraPermission;
@@ -95,6 +96,9 @@ public class ImageToText extends AppCompatActivity {
     DatabaseReference databaseReference;
     List<String> ingredients;
     String dialogMessage;
+    private ActivityResultLauncher<Intent> galleryActivityResultLauncher;
+    private ActivityResultLauncher<Intent> cameraActivityResultLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,6 +189,53 @@ public class ImageToText extends AppCompatActivity {
 
             }
         });
+
+
+
+
+// Initialize the galleryActivityResultLauncher
+        galleryActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent data = result.getData();
+                            if (data != null && data.getData() != null) {
+                                imageUri = data.getData();
+                                Log.d(TAG, "Image URI from Gallery: " + imageUri.toString());
+                                imageIv.setImageURI(imageUri);
+                            } else {
+                                Log.e(TAG, "Gallery data is null");
+                                Toast.makeText(ImageToText.this, "Failed to get image from gallery", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(ImageToText.this, "Cancelled", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+        );
+
+        // Initialize the cameraActivityResultLauncher
+        cameraActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            if (imageUri != null) {
+                                Log.d(TAG, "Image URI from Camera: " + imageUri.toString());
+                                imageIv.setImageURI(imageUri);
+                            } else {
+                                Log.e(TAG, "Camera imageUri is null");
+                                Toast.makeText(ImageToText.this, "Failed to capture image", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(ImageToText.this, "Cancelled", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+        );
     }
 
     private String preprocessText(String text) {
@@ -227,7 +278,7 @@ public class ImageToText extends AppCompatActivity {
                             progressDialog.dismiss();
                             recognizedText = text.getText();
                             recognizedText = preprocessText(recognizedText);
-                            recognizedTextEt.setText(recognizedText);
+                            recognizedTextEt.setText(filteredTokens.toString());
                             if (!recognizedText.isEmpty()) {
                                 // Call performSearch after text recognition is successful
                                 performSearch(allergies);
@@ -253,94 +304,77 @@ public class ImageToText extends AppCompatActivity {
         }
     }
 
-    private void showInputImageDialog(){
-        PopupMenu popupMenu = new PopupMenu(this,inputImageBtn);
-        popupMenu.getMenu().add(Menu.NONE,1,1,"CAMERA");
-        popupMenu.getMenu().add(Menu.NONE,2,2,"GALLERY");
+    private void showInputImageDialog() {
+        PopupMenu popupMenu = new PopupMenu(this, inputImageBtn);
+        popupMenu.getMenu().add(Menu.NONE, 1, 1, "CAMERA");
+        popupMenu.getMenu().add(Menu.NONE, 2, 2, "GALLERY");
         popupMenu.show();
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                int id=menuItem.getItemId();
-                if (id == 1){
-                    Log.d(TAG, "onMenuItemClick: Camera Clicked");
-                    if (checkCameraPermission()){
+                int id = menuItem.getItemId();
+                if (id == 1) {
+                    if (checkCameraPermission()) {
                         pickImageCamera();
-                    }
-                    else {
+                    } else {
                         requestCameraPermission();
-//                        showPermissoinDialog();
                     }
-                }
-                else if (id == 2) {
-                    Log.d(TAG, "onMenuItemClick:Gallery Clicked ");
-//                    Gallery is clicked, check if storage permission is granted or not
-                    if(checkStoragePermission()){
+                } else if (id == 2) {
+                    if (checkStoragePermission()) {
                         pickImageGallery();
-                    }
-                    else{
+                    } else {
                         requestStoragePermission();
-//                        showPermissoinDialog();
                     }
                 }
                 return true;
             }
         });
     }
-
-    private void pickImageGallery(){
-        Log.d(TAG, "pickImageGallery: ");
-        Intent intent=new Intent(Intent.ACTION_PICK);// pick image from ellery
+    private void pickImageGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        galleryActivityResultLancher.launch(intent);
+        galleryActivityResultLauncher.launch(intent); // Line 323
     }
 
-    private ActivityResultLauncher<Intent> galleryActivityResultLancher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        imageUri = data.getData();
-                        Log.d(TAG, "onActivityResult: imageUri" + imageUri);
-                        imageIv.setImageURI(imageUri);
-                    } else {
-                        Log.d(TAG, "onActivityResult: cancelled ");
-                        Toast.makeText(ImageToText.this, "Cancelled", Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-    );
 
-    private void pickImageCamera (){
-        Log.d(TAG, "pickImageCamera: ");
+    private void pickImageCamera() {
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE,"Sample Title");//title of the picture
-        values.put(MediaStore.Images.Media.DESCRIPTION,"Sample Description");//description
+        values.put(MediaStore.Images.Media.TITLE, "Sample Title");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Sample Description");
 
-        imageUri= getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values);
+        imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-        cameraActivityResultLauncher.launch(intent);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, CAMERA_REQUEST_CODE);
     }
 
-    private ActivityResultLauncher<Intent> cameraActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode()==Activity.RESULT_OK){
-                        Log.d(TAG, "onActivityResult:imageUri " +imageUri);
-                        imageIv.setImageURI(imageUri);
-                    }
-                    else{
-                        Log.d(TAG, "onActivityResult: cancelled");
-                        Toast.makeText(ImageToText.this, "Cancelled", Toast.LENGTH_SHORT).show();
-                    }
-                }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Start CropImage activity with the captured image URI
+            startCropActivity(imageUri);
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri croppedImageUri = result.getUri();
+                // Do something with the cropped image URI
+                imageIv.setImageURI(croppedImageUri); // Example: Display the cropped image
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+                // Handle cropping error
+                Log.e(TAG, "Crop Error: ", error);
             }
-    );
+        }
+    }
+
+    private void startCropActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON_TOUCH)
+                .setAspectRatio(1, 1) // Set aspect ratio as needed
+                .start(this);
+    }
 
     private boolean checkStoragePermission(){
         boolean result= ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)==(PackageManager.PERMISSION_GRANTED);
