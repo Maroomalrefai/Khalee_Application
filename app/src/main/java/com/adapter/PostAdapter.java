@@ -190,7 +190,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     private void deletePost(String postKey, int position) {
-        DatabaseReference postReference = FirebaseDatabase.getInstance().getReference("Android Tutorials").child(currentCommunityId).child("Posts").child(postKey);
+        DatabaseReference postReference = FirebaseDatabase.getInstance().getReference("Communities").child(currentCommunityId).child("Posts").child(postKey);
         postReference.removeValue().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (position < dataList.size()) {

@@ -305,20 +305,23 @@ public class ImageToText extends AppCompatActivity {
     }
 
     private void showInputImageDialog() {
+        //items to display in dialog
         PopupMenu popupMenu = new PopupMenu(this, inputImageBtn);
         popupMenu.getMenu().add(Menu.NONE, 1, 1, "CAMERA");
         popupMenu.getMenu().add(Menu.NONE, 2, 2, "GALLERY");
-        popupMenu.show();
+        popupMenu.show();//show dialog
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 int id = menuItem.getItemId();
+                //camera option clicked
                 if (id == 1) {
                     if (checkCameraPermission()) {
                         pickImageCamera();
                     } else {
                         requestCameraPermission();
                     }
+                    //gallery option clicked
                 } else if (id == 2) {
                     if (checkStoragePermission()) {
                         pickImageGallery();
@@ -331,7 +334,9 @@ public class ImageToText extends AppCompatActivity {
         });
     }
     private void pickImageGallery() {
+        //intent to pick image from gallery
         Intent intent = new Intent(Intent.ACTION_PICK);
+        //set intent type to image
         intent.setType("image/*");
         galleryActivityResultLauncher.launch(intent);
     }
@@ -339,7 +344,7 @@ public class ImageToText extends AppCompatActivity {
 
     private void pickImageCamera() {
         ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.TITLE, "Sample Title");
+        values.put(MediaStore.Images.Media.TITLE, "Sample Title");//title of the picture
         values.put(MediaStore.Images.Media.DESCRIPTION, "Sample Description");
 
         imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
@@ -354,7 +359,7 @@ public class ImageToText extends AppCompatActivity {
                 .setGuidelines(CropImageView.Guidelines.ON_TOUCH)
                 .start(this);
     }
-
+//handle image result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -394,7 +399,7 @@ public class ImageToText extends AppCompatActivity {
     private void requestCameraPermission(){
         ActivityCompat.requestPermissions(this,cameraPermission,CAMERA_REQUEST_CODE);
     }
-
+//handle permission result
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
