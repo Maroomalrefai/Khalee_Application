@@ -25,8 +25,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -65,7 +63,6 @@ public class Question extends AppCompatActivity {
         FirebaseApp.initializeApp(Question.this);
         save = findViewById(R.id.save);
 
-
         date = findViewById(R.id.editTextDate);
         agreeRadioButton = findViewById(R.id.agree);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -99,7 +96,7 @@ public class Question extends AppCompatActivity {
             TextView birthTextView = findViewById(R.id.Birth);
             EditText birthEditText = findViewById(R.id.editTextDate);
             birthTextView.setVisibility(View.GONE);
-           // birthEditText.setVisibility(View.GONE);
+            birthEditText.setVisibility(View.GONE);
         }
 
         // Initialize checkboxes
@@ -129,7 +126,9 @@ public class Question extends AppCompatActivity {
                     saveCheckboxState(eggCheckBox, "egg");
                     saveCheckboxState(soyCheckBox, "soy");
                     saveCheckboxState(mustardCheckBox, "mustard");
-                    saveDateToFirebase(date.getText().toString()); //saving date into Firebase
+                    if (!editMode) {
+                        saveDateToFirebase(date.getText().toString()); //saving date into Firebase
+                    }
 
                     saveLoginStatus(true);
                     //saving allergies
@@ -137,7 +136,11 @@ public class Question extends AppCompatActivity {
                     startActivity(i);
                 } else {
                     // Show a toast message if no checkbox or ingredient is selected
-                    Toast.makeText(Question.this, "Please select at least one allergy or ingredient and your Birthday.", Toast.LENGTH_SHORT).show();
+                    String message = "Please select at least one allergy or ingredient";
+                    if (!editMode) {
+                        message += " and your Birthday.";
+                    }
+                    Toast.makeText(Question.this, message, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -146,8 +149,9 @@ public class Question extends AppCompatActivity {
                         peanutCheckBox.isChecked() || seafoodCheckBox.isChecked() || sesameCheckBox.isChecked() ||
                         eggCheckBox.isChecked() || soyCheckBox.isChecked() || mustardCheckBox.isChecked();
             }
+
             private boolean isDateOfBirthValid() {
-                return !date.getText().toString().isEmpty();
+                return editMode || !date.getText().toString().isEmpty();
             }
 
             // Method to save selected ingredients to Firebase
@@ -193,6 +197,7 @@ public class Question extends AppCompatActivity {
                 showDatePickerDialog();
             }
         });
+
         agreeRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
