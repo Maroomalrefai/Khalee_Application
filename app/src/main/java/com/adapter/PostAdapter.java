@@ -76,7 +76,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             public void onClick(View v) {
                 // Update like status when like button is clicked
                 testClick = true;
-                DatabaseReference likeReference = FirebaseDatabase.getInstance().getReference("likes").child(data.getPostKey());
+                DatabaseReference likeReference = FirebaseDatabase.getInstance().getReference("Communities").child(currentCommunityId).child("Posts").child(data.getPostKey()).child("likes");
                 likeReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -158,16 +158,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
 
         public void getLikeButtonStatus(final String postKey, final String userId) {
-            DatabaseReference likeReference = FirebaseDatabase.getInstance().getReference("likes");
+            DatabaseReference likeReference = FirebaseDatabase.getInstance().getReference("Communities").child(currentCommunityId).child("Posts").child(postKey).child("likes");
             likeReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.child(postKey).hasChild(userId)) {
-                        int likeCount = (int) snapshot.child(postKey).getChildrenCount();
+                    if (snapshot.hasChild(userId)) {
+                        int likeCount = (int) snapshot.getChildrenCount();
                         no_Likes.setText(likeCount + " likes");
                         like.setImageResource(R.drawable.favorite);
                     } else {
-                        int likeCount = (int) snapshot.child(postKey).getChildrenCount();
+                        int likeCount = (int) snapshot.getChildrenCount();
                         no_Likes.setText(likeCount + " likes");
                         like.setImageResource(R.drawable.favorite_border);
                     }
