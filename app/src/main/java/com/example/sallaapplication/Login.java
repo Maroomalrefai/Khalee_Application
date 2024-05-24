@@ -77,6 +77,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 Intent signInIntent = googleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
+                finish();
             }
         });
 //        progressBar=findViewById(R.id.progressBar);
@@ -203,6 +204,7 @@ public class Login extends AppCompatActivity {
                         saveLoginStatus(true);
                         Intent intent = new Intent(getApplicationContext(), AdminHome.class);
                         startActivity(intent);
+                        finish();
                         //normal user
                     }
                     else {
@@ -210,13 +212,12 @@ public class Login extends AppCompatActivity {
                         saveLoginStatus(true);
                         Intent intent = new Intent(getApplicationContext(), Home.class);
                         startActivity(intent);
+                        finish();
                     }
                 } else {
                     // Document doesn't exist
                     Toast.makeText(Login.this, "User data not found.", Toast.LENGTH_SHORT).show();
                 }
-                // Finish the Login activity after navigating to the next activity
-                finish();
 
             }
         }).addOnFailureListener(new OnFailureListener() {

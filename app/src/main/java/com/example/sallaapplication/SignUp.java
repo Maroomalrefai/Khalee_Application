@@ -95,6 +95,7 @@ public class SignUp extends AppCompatActivity {
                                             saveUserInfo(user);
                                             Intent intent = new Intent(getApplicationContext(), Question.class);
                                             startActivity(intent);
+                                            finish();
                                         }
                                     } else {
                                         // Google Sign-In failed
@@ -167,6 +168,7 @@ public class SignUp extends AppCompatActivity {
                 // Navigate to login activity
                 Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
+
             }
         });
 

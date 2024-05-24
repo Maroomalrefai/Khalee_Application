@@ -134,6 +134,7 @@ public class Question extends AppCompatActivity {
                     //saving allergies
                     Intent i = new Intent(Question.this, Home.class);
                     startActivity(i);
+                    finish();
                 } else {
                     // Show a toast message if no checkbox or ingredient is selected
                     String message = "Please select at least one allergy or ingredient";
