@@ -38,6 +38,7 @@ public class Home extends AppCompatActivity {
     RecyclerView recentRecycler;
     TextView Name;
     ImageView profileIcon;
+    String profileImageUrl;
     ProductsAdapter productsAdapter;
     RecyclerView communitiesRecycler;
     CommunitiesAdapter communitiesAdapter;
@@ -59,8 +60,10 @@ public class Home extends AppCompatActivity {
 
         // Set profile image and user name if available
         if (user != null) {
-            String profileImageUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
+            // Set profile image
+            profileImageUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
             if (profileImageUrl != null) {
+                // Load profile image using your preferred image loading library, e.g., Picasso, Glide
                 Picasso.get().load(profileImageUrl).placeholder(R.drawable.profileicon).into(profileIcon);
             }
             if (user.getDisplayName() != null) {
