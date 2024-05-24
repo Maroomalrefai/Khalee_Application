@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_orange"
+    android:background="@drawable/adminbg"
     android:layoutDirection="ltr"
     tools:context=".ProfileChange">
 
@@ -48,7 +48,7 @@
                 android:layout_marginTop="40dp"
                 android:fontFamily="@font/tiltneon"
                 android:text="username"
-                android:textColor="#4F7D94"
+                android:textColor="#0E1D25"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
@@ -73,7 +73,7 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/tiltneon"
                 android:text="email"
-                android:textColor="#4F7D94"
+                android:textColor="#0E1D25"
                 android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
