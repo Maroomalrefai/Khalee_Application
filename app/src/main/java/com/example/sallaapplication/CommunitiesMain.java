@@ -34,6 +34,8 @@ public class CommunitiesMain extends AppCompatActivity {
     private List<CommunitiesData> communitiesDataList;
     private FirebaseUser user;
     private ImageView profileIcon;
+    String profileImageUrl;
+
     private ConstraintLayout constraintLayout;
     private boolean isAdmin;
 
@@ -55,6 +57,15 @@ public class CommunitiesMain extends AppCompatActivity {
         // Initialize data list
         communitiesDataList = new ArrayList<>();
 
+        // Set profile image and user name if available
+        if (user != null) {
+            // Set profile image
+            profileImageUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
+            if (profileImageUrl != null) {
+                // Load profile image using your preferred image loading library, e.g., Picasso, Glide
+                Picasso.get().load(profileImageUrl).placeholder(R.drawable.profileicon).into(profileIcon);
+            }
+        }
         // Fetch isAdmin status from Firestore and set up UI
         fetchIsAdminStatus();
 

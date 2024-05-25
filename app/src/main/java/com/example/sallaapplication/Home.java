@@ -72,7 +72,6 @@ public class Home extends AppCompatActivity {
                 Name.setText("User name");
             }
         }
-
         profileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
