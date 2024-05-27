@@ -22,27 +22,25 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 public class AdminProfile extends AppCompatActivity {
-    EditText userName;
-    EditText userEmail;
-    ImageView ImgUserPhoto;
-    static int PReqCode = 1;
-    static int REQUESCODE = 1;
-    Uri pickedImgUri;
-    FirebaseAuth mAuth;
-    Button save, logoutBtn;
-    ProgressBar progressBar;
-    FirebaseUser user;
-    String userId;
+    private EditText userName;
+    private EditText userEmail;
+    private ImageView ImgUserPhoto;
+    private static int PReqCode = 1;
+    private static int REQUESCODE = 1;
+    private Uri pickedImgUri;
+    private FirebaseAuth mAuth;
+    private Button save, logoutBtn;
+    private ProgressBar progressBar;
+    private FirebaseUser user;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_profile);
-
 
         userName = findViewById(R.id.userName);
         userEmail = findViewById(R.id.userEmail);
@@ -94,10 +92,10 @@ public class AdminProfile extends AppCompatActivity {
                 }
             }
         });
+
         // Get user profile picture
         getUserProfilePicture();
     }
-
 
     private void setLoginStatus(boolean isLoggedIn) {
         SharedPreferences preferences = getSharedPreferences("LoginPrefs", Context.MODE_PRIVATE);
@@ -105,6 +103,7 @@ public class AdminProfile extends AppCompatActivity {
         editor.putBoolean("isLoggedIn", isLoggedIn);
         editor.apply();
     }
+
     private void updateUserProfile(final FirebaseUser currentUser, @Nullable final Uri newImageUri, final String newName) {
         UserProfileChangeRequest.Builder profileUpdateBuilder = new UserProfileChangeRequest.Builder()
                 .setDisplayName(newName);
@@ -143,19 +142,15 @@ public class AdminProfile extends AppCompatActivity {
                 });
     }
 
-//    private void getUserInformation() {
-//        userEmail.setText(user.getEmail());
-//        userName.setText(user.getDisplayName());
-//    }
     private void getUserInformation() {
         // Fetch user information from Firebase Authentication
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             userName.setText(currentUser.getDisplayName());
             userEmail.setText(currentUser.getEmail());
+            getUserProfilePicture();
         }
     }
-
 
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -186,15 +181,12 @@ public class AdminProfile extends AppCompatActivity {
             ImgUserPhoto.setImageURI(pickedImgUri);
         }
     }
+
     private void getUserProfilePicture() {
-        if (user.getPhotoUrl() != null) {
+        if (user != null && user.getPhotoUrl() != null) {
             Picasso.get().load(user.getPhotoUrl()).error(R.drawable.profileicon).placeholder(R.drawable.profileicon).into(ImgUserPhoto);
         } else {
-            ImgUserPhoto.setImageResource(R.drawable.cameraiconbright);
+            ImgUserPhoto.setImageResource(R.drawable.profileicon);
         }
     }
-
-
-
-
 }

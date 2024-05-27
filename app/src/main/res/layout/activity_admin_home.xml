@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="ltr"
     tools:context=".MainActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
+        android:layoutDirection="ltr"
         android:layout_width="0dp"
         android:layout_height="180dp"
         android:background="@drawable/adminbar"
@@ -72,6 +74,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
+        android:layoutDirection="ltr"
         android:layout_width="wrap_content"
         android:layout_height="180dp"
         android:layout_marginTop="14dp"
@@ -84,6 +87,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewFeedback"
             android:layout_width="180dp"
+            android:layoutDirection="ltr"
             android:layout_height="150dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -104,7 +108,7 @@
                 android:text="Users\nfeedback"
                 android:textAlignment="center"
                 android:textColor="@color/dark_blue1"
-                android:textSize="24sp" />
+                android:textSize="24sp"/>
 
             <androidx.constraintlayout.utils.widget.ImageFilterView
                 android:id="@+id/imageFilterView3"
@@ -117,6 +121,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/info"
+            android:layoutDirection="ltr"
             android:layout_width="180dp"
             android:layout_height="150dp"
             android:layout_marginStart="8dp"
@@ -151,6 +156,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/posts"
+        android:layoutDirection="ltr"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginStart="16dp"
@@ -180,7 +186,7 @@
             android:id="@+id/imageFilterView1"
             android:layout_width="33dp"
             android:layout_height="32dp"
-            android:layout_marginStart="270dp"
+            android:layout_marginStart="290dp"
             android:layout_marginTop="60dp"
             app:srcCompat="@drawable/logo" />
 
@@ -188,6 +194,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/products"
+        android:layoutDirection="ltr"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginStart="16dp"
@@ -215,7 +222,7 @@
             android:id="@+id/imageFilterView2"
             android:layout_width="33dp"
             android:layout_height="32dp"
-            android:layout_marginStart="290dp"
+            android:layout_marginStart="310dp"
             android:layout_marginTop="60dp"
             app:srcCompat="@drawable/logo" />
 

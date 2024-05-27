@@ -325,6 +325,7 @@ public class ProfileChange extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 Toast.makeText(ProfileChange.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
                                                 progressBar.setVisibility(View.GONE);
+                                                saveProfileImageUrlToDatabase(currentUser.getUid(),pickedImgUri.getLastPathSegment());
                                             } else {
                                                 progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(ProfileChange.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
