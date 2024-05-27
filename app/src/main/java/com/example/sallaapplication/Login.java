@@ -42,7 +42,7 @@ import javax.annotation.Nullable;
 
 public class Login extends AppCompatActivity {
     AppCompatRadioButton rbLeft, rbRight;
-    Button login, signUpNow;
+    Button login;
     EditText editTextEmail, editTextPass;
     FirebaseAuth mAuth;
     FirebaseFirestore fStore;
@@ -64,7 +64,6 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         fStore=FirebaseFirestore.getInstance();
         googleLogin = findViewById(R.id.google);
-
         // Configure Google Sign-In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.client_id))
@@ -77,7 +76,6 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 Intent signInIntent = googleSignInClient.getSignInIntent();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-                finish();
             }
         });
 //        progressBar=findViewById(R.id.progressBar);
@@ -100,7 +98,6 @@ public class Login extends AppCompatActivity {
                 }
                 Intent intent = new Intent(getApplicationContext(), SignUp.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -115,7 +112,6 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                progressBar.setVisibility(View.VISIBLE);
                 String email, password;
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPass.getText());
@@ -145,7 +141,6 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Toast.makeText(Login.this, "Login failed.", Toast.LENGTH_LONG).show();
-
                             }
                         });
             }
