@@ -197,8 +197,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             if (task.isSuccessful()) {
                 if (position >= 0 && position < dataList.size()) {
                     dataList.remove(position);
-                    notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, dataList.size() - position);
+                    notifyDataSetChanged();
                     Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "Invalid position", Toast.LENGTH_SHORT).show();
