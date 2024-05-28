@@ -371,6 +371,8 @@ public class ImageToText extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Uri croppedImageUri = result.getUri();
                 // Do something with the cropped image URI
+                // Update imageUri to the URI of the cropped image
+                imageUri = croppedImageUri;
                 imageIv.setImageURI(croppedImageUri); // Example: Display the cropped image
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
