@@ -66,9 +66,8 @@ public class AdminProfile extends AppCompatActivity {
                 // Sign out user
                 mAuth.signOut();
 
-                Intent intent = new Intent(AdminProfile.this, Login.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                // Redirect to the login activity
+                startActivity(new Intent(AdminProfile.this, Login.class));
                 finish();
             }
         });

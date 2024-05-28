@@ -190,28 +190,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     private void deletePost(String postKey, int position) {
-        if (postKey == null || postKey.isEmpty()) {
-            Toast.makeText(context, "Invalid post key", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (currentCommunityId == null || currentCommunityId.isEmpty()) {
-            Toast.makeText(context, "Invalid community ID", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        DatabaseReference postReference = FirebaseDatabase.getInstance().getReference("Communities")
-                .child(currentCommunityId).child("Posts").child(postKey);
-
+        DatabaseReference postReference = FirebaseDatabase.getInstance().getReference("Communities").child(currentCommunityId).child("Posts").child(postKey);
         postReference.removeValue().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                if (position >= 0 && position < dataList.size()) {
+                if (position < dataList.size()) {
                     dataList.remove(position);
-                    // Use notifyDataSetChanged to ensure the RecyclerView is updated correctly
-                    notifyDataSetChanged();
+                    notifyItemRemoved(position);
+                    // Correct the position range change notification
+                    notifyItemRangeChanged(position, dataList.size() - position);
                     Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Invalid position", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(context, "Failed to delete post", Toast.LENGTH_SHORT).show();
