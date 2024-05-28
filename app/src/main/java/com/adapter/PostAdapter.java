@@ -189,23 +189,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
-    private void deletePost(String postKey, int position) {
-        DatabaseReference postReference = FirebaseDatabase.getInstance().getReference("Communities").child(currentCommunityId).child("Posts").child(postKey);
+    public void deletePost(String postKey, int position) {
+        DatabaseReference postReference = FirebaseDatabase.getInstance().getReference("Communities")
+                .child(currentCommunityId).child("Posts").child(postKey);
+
         postReference.removeValue().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                if (position < dataList.size()) {
+                if (position >= 0 && position < dataList.size()) {
                     dataList.remove(position);
                     notifyItemRemoved(position);
-                    // Correct the position range change notification
                     notifyItemRangeChanged(position, dataList.size() - position);
                     Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Invalid position", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(context, "Failed to delete post", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
     private boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
