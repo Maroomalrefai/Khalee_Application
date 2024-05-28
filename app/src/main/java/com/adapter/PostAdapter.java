@@ -196,7 +196,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 if (position < dataList.size()) {
                     dataList.remove(position);
                     notifyItemRemoved(position);
-                    notifyItemRangeChanged(position, dataList.size());
+                    // Correct the position range change notification
+                    notifyItemRangeChanged(position, dataList.size() - position);
                     Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show();
                 }
             } else {
