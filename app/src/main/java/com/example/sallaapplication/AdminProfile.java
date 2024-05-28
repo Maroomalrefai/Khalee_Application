@@ -108,7 +108,6 @@ public class AdminProfile extends AppCompatActivity {
     private void updateUserProfile(final FirebaseUser currentUser, @Nullable final Uri newImageUri, final String newName) {
         UserProfileChangeRequest.Builder profileUpdateBuilder = new UserProfileChangeRequest.Builder()
                 .setDisplayName(newName);
-
         // If a new image URI is provided, set the photo URI in the profile update
         if (newImageUri != null) {
             profileUpdateBuilder.setPhotoUri(newImageUri);
@@ -152,7 +151,6 @@ public class AdminProfile extends AppCompatActivity {
             getUserProfilePicture();
         }
     }
-
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
         galleryIntent.setType("image/*");

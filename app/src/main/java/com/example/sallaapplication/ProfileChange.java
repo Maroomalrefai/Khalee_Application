@@ -346,7 +346,7 @@ public class ProfileChange extends AppCompatActivity {
     }
 
     private void saveProfileImageUrlToDatabase(String userId, String imageUrl) {
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
         userRef.child("imageUrl").setValue(imageUrl);
     }
 
