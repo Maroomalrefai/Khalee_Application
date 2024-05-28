@@ -57,7 +57,7 @@ public class UserAdapter extends FirebaseRecyclerAdapter<Users, UserAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         ShapeableImageView imageUrl;
         TextView viewUserName, dateOfBirth, userEmail;
-        FloatingActionButton deleteButton;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,7 +65,7 @@ public class UserAdapter extends FirebaseRecyclerAdapter<Users, UserAdapter.View
             viewUserName = itemView.findViewById(R.id.viewusername);
             dateOfBirth = itemView.findViewById(R.id.viewDate);
             userEmail = itemView.findViewById(R.id.viewemail);
-            deleteButton = itemView.findViewById(R.id.delete);
+
         }
     }
 }

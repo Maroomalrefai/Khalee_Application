@@ -325,7 +325,7 @@ public class ProfileChange extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 Toast.makeText(ProfileChange.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
                                                 progressBar.setVisibility(View.GONE);
-                                                saveProfileImageUrlToDatabase(currentUser.getUid(),pickedImgUri.getLastPathSegment());
+                                                saveProfileImageUrlToDatabase(currentUser.getUid(), uri.toString());
                                             } else {
                                                 progressBar.setVisibility(View.GONE);
                                                 Toast.makeText(ProfileChange.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
@@ -345,10 +345,11 @@ public class ProfileChange extends AppCompatActivity {
         }
     }
 
-    private void saveProfileImageUrlToDatabase(String userId, String downloadUrl) {
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
-        userRef.child("imageUrl").setValue(downloadUrl);
+    private void saveProfileImageUrlToDatabase(String userId, String imageUrl) {
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        userRef.child("imageUrl").setValue(imageUrl);
     }
+
 
 
     private void openGallery() {
