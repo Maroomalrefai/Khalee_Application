@@ -242,11 +242,14 @@ public class ImageToText extends AppCompatActivity {
         // Clear the filteredTokens list before adding tokens from the new recognized text
         filteredTokens.clear();
 
-        // Convert the text to lowercase and trim any leading or trailing whitespace
-        String trimmedText = text.toLowerCase().trim();
+        // Convert the text to lowercase
+        String lowercaseText = text.toLowerCase();
 
-        // Tokenization based on non-alphabetical characters
-        String[] tokens = trimmedText.split("[^a-zA-Z]+");
+        // Remove any leading or trailing whitespace
+        String trimmedText = lowercaseText.trim();
+
+        // Tokenization based on hyphens and commas
+        String[] tokens = trimmedText.split("[^a-zA-Z\\s]");
 
         // Remove stopwords
         List<String> stopwords = Arrays.asList("and", "or", "the", "is", "it", "on", "in", "with", "from", "made", "contain");
@@ -256,7 +259,6 @@ public class ImageToText extends AppCompatActivity {
                 filteredTokens.add(trimmedToken); // Using trimmedToken instead of token.trim()
             }
         }
-
         // Join tokens back into a string
         return String.join(" ", filteredTokens);
     }
